@@ -2,9 +2,11 @@
 
 export const Header = () => {
   return (
-    <h2>
-      SplitWise Clone
-    </h2>
+    <img
+      className="photo"
+      src="/splitwise_logo_2.png"
+      alt='Splitwise Clone'
+    />
   )
 }
 
