@@ -1,5 +1,6 @@
-import React, { createContext, useReducer } from 'react';
-import AppReducer from './AppReducer'
+/* eslint-disable react/prop-types */
+import React, { createContext, useReducer } from "react";
+import AppReducer from "./AppReducer";
 
 // Initial State
 
@@ -11,10 +12,11 @@ const initialState = {
         // { id: 4, text: 'Tickets', amount: -150 },
         // { id: 5, text: 'Pay', amount: 150 }
     ]
-}
+};
 
 // Create Context
 export const GlobalContext = createContext(initialState);
+
 
 // Provider component 
 export const GlobalProvider = ({ children }) => {
@@ -23,14 +25,14 @@ export const GlobalProvider = ({ children }) => {
     // Actions
     function deleteExpense(id){
         dispatch({
-            type: 'DELETE_EXPENSE',
+            type: "DELETE_EXPENSE",
             payload: id
     });
     }
 
     function addExpense(expense){
         dispatch({
-            type: 'ADD_EXPENSE',
+            type: "ADD_EXPENSE",
             payload: expense
     });
     }
@@ -41,5 +43,8 @@ export const GlobalProvider = ({ children }) => {
         addExpense
          }}>
         {children}
-        </GlobalContext.Provider>)
-}
+        </GlobalContext.Provider>);
+       
+};
+
+
