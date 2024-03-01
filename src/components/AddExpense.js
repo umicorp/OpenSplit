@@ -1,41 +1,41 @@
-import React, {useState, useContext} from 'react';
-import { GlobalContext } from '../context/GlobalState';
-import DatePickerValue from './Date';
-import dayjs from 'dayjs';
+import React, {useState, useContext} from "react";
+import { GlobalContext } from "../context/GlobalState";
+import DatePickerValue from "./Date";
+import dayjs, { Dayjs } from "dayjs";
 
 export const AddExpense = () => {
-    const [text, setText] = useState('');
+    const [text, setText] = useState("");
     const [amount, setAmount] = useState(0);
-    const [date, setDate] = useState(null);
-    const [person, setPerson] = useState('');
+    const [date, setDate] = useState(dayjs());
+    const [person, setPerson] = useState("");
     const {addExpense} = useContext(GlobalContext);
 
 
     const onSubmit = e => {
       e.preventDefault();
       const newExpense = {
-        id: Math.floor(Math.random() * 100000000),
+        id: crypto.randomUUID({disableEntropyCache : true}),
         text,
         amount: +amount,
         date: date,
         person: person
-      }
-      addExpense(newExpense)
-      clearForm()
-    }
+      };
+      addExpense(newExpense);
+      clearForm();
+    };
     
     const clearForm = () =>{
-      setText('');
+      setText("");
       setAmount(0);
-      setDate(null);
-      setPerson('');
-    }
+      setDate(dayjs());
+      setPerson("");
+    };
 
 
     const handleDate = (date) => {
-      let d = dayjs(date)
-      setDate(d)
-    }
+      let d = dayjs(date);
+      setDate(d);
+    };
 
   return (
     <>
@@ -59,6 +59,6 @@ export const AddExpense = () => {
         <button className="btn">Add transaction</button>
       </form>
     </>
-  )
-} 
+  );
+}; 
 

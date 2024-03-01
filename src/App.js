@@ -1,14 +1,13 @@
-import React from 'react';
-import { Header } from './components/Header';
-import { Balance } from './components/Balance';
-import { Expense } from './components/Expense';
-import { ExpenseList } from './components/ExpenseList';
-import { AddExpense } from './components/AddExpense';
-import { GlobalProvider } from './context/GlobalState';
+import React from "react";
+import { Header } from "./components/Header";
+import { Balance } from "./components/Balance";
+import { ExpenseList } from "./components/ExpenseList";
+import { AddExpense } from "./components/AddExpense";
+import { GlobalProvider } from "./context/GlobalState";
 
 
 
-import './App.css';
+import "./App.css";
 function App() {
   return (
     <GlobalProvider >
@@ -20,6 +19,6 @@ function App() {
         </div>
     </GlobalProvider>
   );
-}
+} 
 
 export default App;
