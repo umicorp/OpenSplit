@@ -6,7 +6,6 @@ import { AddExpense } from "./components/AddExpense";
 import { GlobalProvider } from "./context/GlobalState";
 
 
-
 import "./App.css";
 function App() {
   return (
@@ -19,6 +18,6 @@ function App() {
         </div>
     </GlobalProvider>
   );
-} 
+}
 
 export default App;
