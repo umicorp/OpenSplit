@@ -13,10 +13,12 @@ const port = process.env.PORT || 3001;
 app.use(express.json());
 // Load routes for users
 require("./routes/user.routes")(app);
+require("./routes/group.routes")(app);
+require("./routes/user.group.routes")(app);
 
-
+// Load Database
 (async () => {
-    await sequelize.sync({alter:true});
+    await sequelize.sync();
 })();
 
 app.get("/", (req: Request, res: Response) => {

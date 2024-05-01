@@ -8,14 +8,14 @@ export const User = sequelize.define("User", {
         unique: true,
     },});
 
-const Group = sequelize.define("Group", {
+export const Group = sequelize.define("Group", {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
     },});
 
-const Expense = sequelize.define("Expense", {
+export const Expense = sequelize.define("Expense", {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -29,10 +29,12 @@ const Expense = sequelize.define("Expense", {
         allowNull: false,
     },});
 
+
 // Associations
-Group.hasMany(User);
+// Group.hasMany(User);
 Group.belongsToMany(User, { through: "UserGroup" });
 
-User.hasMany(Group);
+// User.hasMany(Group);
 User.belongsToMany(Group, { through: "UserGroup" });
-User.hasMany(Expense);
+// User.hasMany(Expense);
+
