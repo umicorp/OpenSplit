@@ -1,6 +1,10 @@
 import {User} from "../models/Model";
 import {Group} from "../models/Model";
 import {user} from "./user.controller";
+import {UserGroup} from "../models/Model";
+import {Expense} from "../models/Model";
+import {ChildExpense} from "../models/Model";
+
 
 
 // Add a user to a group
@@ -57,8 +61,45 @@ const getUsersFromGroup = async (req, res) => {
 
 };
 
+const addExpense = async (req, res) => {
+    const useramounts = req.body.expense.useramounts; // [{'userid': '10'},{..}]
+    const groupid = req.body.expense.groupid;
+    const name = req.body.expense.name;
+    const totalamount = req.body.expense.totalamount;
+
+    // Create a Expense
+    const expenseCreation = {
+        name: name,
+        totalAmount: totalamount,
+    };
+    const createdExpense = await Expense.create(expenseCreation);
+
+    for (const useramount of useramounts) {
+        // Create a child expense
+        const childExpense = {
+            name: name,
+            amount: useramount.amount,
+        };
+        const createdChildExpense = await ChildExpense.create(childExpense);
+        await createdChildExpense.setExpense(createdExpense);
+        const userGroup= await UserGroup.findOne({where: {GroupId: groupid, UserId: useramount.userid}});
+        const linkExpenseUserGroup = await createdExpense.addUserGroup(userGroup);
+    }
+    res.send({message:"Expense Created"});
+};
+
+const deleteExpense = async (req, res) => {
+    const expenseId = req.body.expenseid;
+    const expenseFound = await Expense.findByPk(expenseId);
+    await expenseFound.destroy();
+    res.send({message:"Expense Deleted"});
+
+};
+
 export const userGroup ={
     addGroup,
     removeGroup,
-    getUsersFromGroup
+    getUsersFromGroup,
+    addExpense,
+    deleteExpense
 };

@@ -1,11 +1,10 @@
-import {User} from "../models/Model";
-import {Group} from "../models/Model";
+import {Expense, Group, User} from "../models/Model";
 import {sequelize} from "../models/Database";
 
 // Load Database
 (async () => {
     await sequelize.sync({force: true});
-     await User.bulkCreate([
+    await User.bulkCreate([
         {
             name: "umaid",
         },

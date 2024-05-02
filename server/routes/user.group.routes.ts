@@ -2,7 +2,6 @@ import {userGroup} from "../controllers/user.group";
 import Router from 'express';
 
 module.exports = app => {
-    const user = userGroup;
 
     const router = Router();
 
