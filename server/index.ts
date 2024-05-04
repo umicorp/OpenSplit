@@ -15,6 +15,7 @@ app.use(express.json());
 require("./routes/user.routes")(app);
 require("./routes/group.routes")(app);
 require("./routes/user.group.routes")(app);
+require("./routes/expenseRoutes")(app);
 
 // Load Database
 (async () => {

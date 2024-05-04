@@ -113,6 +113,4 @@ export const group ={
     deleteGroup,
     // update,
     deleteAll
-
-
 };
