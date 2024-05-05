@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.16",
     "@mui/material": "^5.15.1",
     "@mui/x-date-pickers": "^6.18.6",
     "@testing-library/jest-dom": "^5.17.0",
@@ -13,6 +14,7 @@
     "@types/jest": "^29.5.11",
     "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
+    "axios": "^1.6.8",
     "dayjs": "^1.11.10",
     "express": "^4.19.2",
     "pg": "^8.11.5",
@@ -20,6 +22,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.0",
     "react-scripts": "^4.0.0",
     "sequelize": "^6.37.3",
     "sqlite3": "^5.1.7",

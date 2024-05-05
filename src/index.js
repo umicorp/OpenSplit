@@ -1,13 +1,34 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 import App from "./App";
+import Groups from "./routes/groups";
+import Group from "./routes/group";
 import reportWebVitals from "./reportWebVitals";
+import {createBrowserRouter, RouterProvider,} from "react-router-dom";
+import ErrorPage from "./error-page";
+
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <App />,
+        errorElement: <ErrorPage />
+
+    },
+    {
+        path: "groups",
+        element: <Groups />,
+    },
+    {
+        path: "groups/:groupId",
+        element: <Group />,
+    },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+      <RouterProvider router={router} />
   </React.StrictMode>
 );
 
