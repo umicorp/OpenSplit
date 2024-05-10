@@ -66,11 +66,13 @@ const addExpense = async (req, res) => {
     const groupid = req.body.expense.groupid;
     const name = req.body.expense.name;
     const totalamount = req.body.expense.totalamount;
+    const paidby = req.body.expense.paidby;
 
     // Create a Expense
     const expenseCreation = {
         name: name,
         totalAmount: totalamount,
+        paidBy: paidby
     };
     const createdExpense = await Expense.create(expenseCreation);
 
@@ -79,6 +81,7 @@ const addExpense = async (req, res) => {
         const childExpense = {
             name: name,
             amount: useramount.amount,
+            userId: useramount.userid
         };
         const createdChildExpense = await ChildExpense.create(childExpense);
         await createdChildExpense.setExpense(createdExpense);
@@ -87,6 +90,35 @@ const addExpense = async (req, res) => {
     }
     res.send({message:"Expense Created"});
 };
+
+// Get all expenses in a group
+const getAllExpenses = async (req, res) => {
+
+    const usergroup = await UserGroup.findOne({where: {GroupId: req.query.groupid, UserId: req.query.userid}});
+    if (usergroup === null) return res.send([]);
+
+    const expenses = await usergroup.getExpenses();
+    const expensesForGroup = []
+    for (const expense of expenses){
+        let childexpenses = await expense.getChildExpenses();
+        let expenseToSend = {"id": expense.id,
+                        "name": expense.name,
+                        "totalamount": expense.totalAmount,
+                        "paidby": await User.findByPk(expense.paidBy),
+                        "owed": 0,
+
+        }
+        for (const childExpense of childexpenses) {
+            if (childExpense.userId === expense.paidBy) {
+                expenseToSend["owed"] = expense.totalAmount - childExpense.amount;
+            } else {
+            }
+        }
+        expensesForGroup.push(expenseToSend)
+    }
+
+    res.send(expensesForGroup)
+}
 
 const deleteExpense = async (req, res) => {
     const expenseId = req.body.expenseid;
@@ -100,6 +132,8 @@ export const userGroup ={
     addGroup,
     removeGroup,
     getUsersFromGroup,
+
+    getAllExpenses,
     addExpense,
     deleteExpense
 };

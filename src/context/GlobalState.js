@@ -5,7 +5,7 @@ import AppReducer from "./AppReducer";
 // Initial State
 
 const initialState = {
-    expenses: [
+        expenses: [
         // { id: 1, text: 'Internet', amount: -20 },
         // { id: 2, text: 'Uber Eats', amount: -300 },
         // { id: 3, text: 'Dog Food', amount: -10 },

@@ -6,6 +6,7 @@ import {Expense} from "../components/Expense";
 import {useContext, useEffect, useState} from "react";
 import {GlobalContext} from "../context/GlobalState";
 import axios from "axios";
+import {Typography} from "@mui/material";
 
 export default function Groups() {
     const [groups, setGroups] = useState([]);
@@ -22,15 +23,17 @@ export default function Groups() {
 
     return (
         <div className='container'>
+            <Typography variant="h2">
+                Groups
+            </Typography>
             <>
-                <h3>Groups</h3>
                 <ul className="list">
                     {groups.map(group => (
                         <li key={group.id} ><a href={`/groups/${group.id}`}>{group.name}</a></li>
                     ))}
                 </ul>
             </>
-            <SimpleBottomNavigation/>
+            {/*<SimpleBottomNavigation/>*/}
         </div>
 
     );

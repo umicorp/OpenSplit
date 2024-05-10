@@ -3,9 +3,12 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import Groups from "./routes/groups";
 import Group from "./routes/group";
+import Accounts from "./routes/account";
+import Learn from "./routes/learn";
 import reportWebVitals from "./reportWebVitals";
 import {createBrowserRouter, RouterProvider,} from "react-router-dom";
 import ErrorPage from "./error-page";
+import {SimpleBottomNavigation} from "./components/BottomNavigation";
 
 
 const router = createBrowserRouter([
@@ -23,12 +26,25 @@ const router = createBrowserRouter([
         path: "groups/:groupId",
         element: <Group />,
     },
+    {
+        path: "account",
+        element: <Accounts />,
+    },
+    {
+        path: "debug",
+        element: <Learn />,
+    },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-      <RouterProvider router={router} />
+      <>
+          <div style={{height: "90vh"}}>
+              <RouterProvider router={router} />
+          </div>
+          <SimpleBottomNavigation/>
+      </>
   </React.StrictMode>
 );
 

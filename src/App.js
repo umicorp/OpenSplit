@@ -16,7 +16,7 @@ function App() {
         <Balance />
         <ExpenseList />
         <AddExpense/>
-        <SimpleBottomNavigation/>
+        {/*<SimpleBottomNavigation/>*/}
         </div>
 
     </GlobalProvider>
