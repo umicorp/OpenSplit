@@ -1,11 +1,7 @@
-import * as React from 'react';
-import "../App.css"
-import {SimpleBottomNavigation} from "../components/BottomNavigation";
-import {Expense} from "../components/Expense";
+import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
-import {GlobalContext} from "../context/GlobalState";
 
 
 export default function Expenses() {

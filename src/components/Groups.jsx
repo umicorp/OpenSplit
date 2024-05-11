@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import "../App.css"
-import {SimpleBottomNavigation} from "../components/BottomNavigation";
-import {Expense} from "../components/Expense";
-import {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "../context/GlobalState";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {Typography} from "@mui/material";
+import {observer} from "mobx-react";
 
-export default function Groups() {
+export const Groups = observer((props) =>  {
     const [groups, setGroups] = useState([]);
 
     useEffect(() => {
@@ -33,9 +29,7 @@ export default function Groups() {
                     ))}
                 </ul>
             </>
-            {/*<SimpleBottomNavigation/>*/}
         </div>
 
     );
-
-}
+})

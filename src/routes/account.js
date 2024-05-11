@@ -1,14 +1,11 @@
 import * as React from 'react';
-import "../App.css"
-import {SimpleBottomNavigation} from "../components/BottomNavigation";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
-import {useParams} from "react-router-dom";
-import {GlobalContext} from "../context/GlobalState";
-import {FormControl, InputLabel, MenuItem, Select, Typography} from "@mui/material";
+import {Button, FormControl, InputLabel, MenuItem, Select, Typography} from "@mui/material";
 import './account.css'
+import {observer} from "mobx-react";
 
-export default function Accounts() {
+export const Account = observer((props) =>  {
     const [accounts, setAccounts] = useState([]);
     const AccountUrl = `http://localhost:3001/api/users/`
     const [selectedValue, setSelectedValue] = useState("");
@@ -17,6 +14,7 @@ export default function Accounts() {
         axios.get(AccountUrl)
             .then(response => {
                 setAccounts(response.data);
+                props.userStore.setUsers(response.data)
             })
             .catch(error => {
                 console.error(error);
@@ -43,11 +41,26 @@ export default function Accounts() {
                     ))}
                 </Select>
             </FormControl>
+
+            <Typography variant="h2">
+                MobX
+            </Typography>
+            <Button onClick={()=> console.log(props)}>TEST</Button>
+            <FormControl fullWidth>
+                <InputLabel id="user-label">Current User</InputLabel>
+                <Select
+                    labelId="user-label"
+                    value={props.userStore.currentUser}
+                    label="Current User"
+                    onChange={(e) => props.userStore.setCurrentUser(e.target.value)}
+                >
+                    {props.userStore.users.map((account) => (
+                        <MenuItem key={account.id} value={account.name}>
+                            {account.name[0].toUpperCase() + account.name.substr(1).toLowerCase()}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
         </div>
-
-
     );
-
-
-
-}
+})

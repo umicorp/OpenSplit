@@ -53,22 +53,23 @@ function deleteGroup(id) {
     // }, groups);
 }
 
-// function getGroups() {
-//     useEffect(() => {
-//         axios.get("http://localhost:3001/api/groups")
-//             .then(response => {
-//                 setGroups(response.data);
-//             })
-//             .catch(error => {
-//                 console.error(error);
-//             });
-//     }, []);
-// }
+async function getGroups() {
+    try {
+        const response = await axios.get("http://localhost:3001/api/groups")
+        console.log(response.data)
+        return response.data
+
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 export default function Learn() {
+
     const [dense, setDense] = React.useState(false);
     const [secondary, setSecondary] = React.useState(false);
-    const [groups, setGroups] = useState(groupsTest);
+    // const [groups, setGroups] = useState( getGroups());
+    const groups = getGroups();
 
 
     return (
