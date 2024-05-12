@@ -8,6 +8,8 @@ module.exports = app => {
     router.post("/", userGroup.addExpense);
     // remove a expense from a user
     router.delete("/", userGroup.deleteExpense);
+    // get all expenses from group
+    router.get("/", userGroup.getAllExpenses);
 
-    app.use("/api/usergroup/expense", router);
+    app.use("/api/expense", router);
 };

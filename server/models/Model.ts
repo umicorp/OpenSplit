@@ -23,7 +23,11 @@ export const Expense = sequelize.define("Expense", {
     totalAmount: {
         type: DataTypes.INTEGER,
         allowNull: false,
-    },});
+    },
+    paidBy: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    }});
 
 export const ChildExpense = sequelize.define("ChildExpense", {
     name: {
@@ -34,6 +38,9 @@ export const ChildExpense = sequelize.define("ChildExpense", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,}
     },
     {
     timestamps: false,
@@ -49,7 +56,6 @@ export const UserGroup = sequelize.define("UserGroup", {
 });
 
 // Associations
-
 Group.belongsToMany(User, { through: UserGroup });
 
 User.belongsToMany(Group, { through: UserGroup });

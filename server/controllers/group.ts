@@ -72,11 +72,12 @@ const deleteGroup = (req, res) => {
     })
         .then(num => {
             if (num == 1) {
-                res.send({
-                    message: "Group was deleted successfully!"
-                });
+                Group.findAll()
+                    .then(groups => {
+                        res.send(groups)
+                    });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot delete Group with id=${id}. Maybe Group was not found!`
                 });
             }
