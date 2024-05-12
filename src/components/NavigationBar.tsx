@@ -19,11 +19,10 @@ export class NavigationBar extends React.Component<any, any> {
 
     render(): ReactNode {
         return (
-            <Paper sx={{ position: "fixed", bottom: 0, left: 0, right: 0, height: "10vh" }} elevation={3} >
                 <BottomNavigation
                     showLabels
                     value={this.props.location.pathname}
-                    sx={{height: "100%"}}
+                    sx={{margin: "0.5rem"}}
                 >
                     <BottomNavigationAction
                         label="Home"
@@ -48,7 +47,6 @@ export class NavigationBar extends React.Component<any, any> {
                         value={"/account"}
                     />
                 </BottomNavigation>
-            </Paper>
         );
     }
 }

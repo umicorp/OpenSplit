@@ -4,6 +4,7 @@ import {inject, observer} from "mobx-react";
 import {Paper} from "@mui/material";
 import {ReactNode} from "react";
 import {RootStoreProps} from "../store/RootStore";
+import Box from "@mui/material/Box";
 
 @inject("rootStore")
 @observer
@@ -23,12 +24,19 @@ export class ContainerPage extends React.Component<any, any> {
         };
 
         return (
-            <>
-                <Paper sx={styles}>
+            <Box
+                height={"100vh"}
+                width={"100vw"}
+                display={"flex"}
+                flexDirection={"column"}
+            >
+                <Box flexGrow={10} m={2}>
                     {this.props.children}
+                </Box>
+                <Paper elevation={3}>
+                    <NavigationBar {...this.props} />
                 </Paper>
-                <NavigationBar {...this.props} />
-            </>
+            </Box>
         );
     }
 }

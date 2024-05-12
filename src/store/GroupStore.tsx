@@ -70,6 +70,8 @@ export default class GroupStore {
             .then(({ data }: {data: ExpenseType[]}) => {
                 this.groupExpenses = data;
                 this.setCurrentGroup(groupId)
+                console.log(data)
+                console.log(this.rootStore.userStore?.currentUser)
             })
             .catch(error => {
                 console.error(error);
