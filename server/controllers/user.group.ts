@@ -103,8 +103,8 @@ const getAllExpenses = async (req, res) => {
         let childexpenses = await expense.getChildExpenses();
         let expenseToSend = {"id": expense.id,
                         "name": expense.name,
-                        "totalamount": expense.totalAmount,
-                        "paidby": await User.findByPk(expense.paidBy),
+                        "totalAmount": expense.totalAmount,
+                        "paidBy": await User.findByPk(expense.paidBy),
                         "owed": 0,
 
         }

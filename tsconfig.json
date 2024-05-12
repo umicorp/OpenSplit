@@ -23,6 +23,7 @@
   },
   "include": [
     "src",
-    "server"
+    "server",
+    "node_modules/eslint-plugin-react/lib/types.d.ts"
   ]
 }
