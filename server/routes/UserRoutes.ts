@@ -1,4 +1,4 @@
-import {user} from "../controllers/user.controller";
+import {user} from "../controllers/UserController";
 import Router from 'express';
 
 module.exports = app => {

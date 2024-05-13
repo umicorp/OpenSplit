@@ -1,6 +1,7 @@
 import {create} from "mobx-persist";
 import GroupStore from "./GroupStore";
 import {UserStore} from "./UserStore";
+import {action} from "mobx";
 
 const hydrate = create({storage: localStorage, jsonify: true});
 
@@ -8,7 +9,7 @@ export class RootStore {
     public static Instance: RootStore | null = null;
     public groupStore: GroupStore | null = null;
     public userStore: UserStore | null =  null;
-
+    public isExpenseModalOpen= false;
 
     constructor() {
         // Create the other stores
@@ -27,6 +28,18 @@ export class RootStore {
             return RootStore.Instance;
         }
         return Promise.resolve(RootStore.Instance);
+    }
+
+    @action
+    openExpenseModel = () => {
+        this.isExpenseModalOpen = true;
+        console.log("OPENED", this.isExpenseModalOpen)
+    }
+
+    @action
+    closeExpenseModel = () => {
+        this.isExpenseModalOpen = false;
+        console.log("CLOSED", this.isExpenseModalOpen)
     }
 }
 

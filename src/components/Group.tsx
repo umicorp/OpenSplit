@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Typography} from "@mui/material";
+import {Button, Divider, Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import {ExpenseType} from "../store/Types";
@@ -18,30 +18,39 @@ import {Theme} from "../theme/Theme";
 export class Group extends React.Component<any, any> {
     constructor(props: RootStoreProps) {
         super(props);
-        const { groupId } = this.props.match.params;
-        const { getGroupExpenses } = this.props.rootStore.groupStore;
-        const { currentUser } = this.props.rootStore.userStore;
-        getGroupExpenses(currentUser.id, groupId);
+        const {groupId} = this.props.match.params;
+        const {getGroupExpenses} = this.props.rootStore.groupStore;
+        const {currentUser} = this.props.rootStore.userStore;
+        getGroupExpenses(currentUser.id, groupId)
     }
 
     render(): ReactNode {
-        const { groupStore, userStore } = this.props.rootStore;
+        const {groupStore, userStore} = this.props.rootStore;
 
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
-                <Box sx={{flexGrow: 1, display: "flex", flexDirection: "row", justifyContent:"space-between"}}>
-                    <Avatar variant="square" src="/splitwise_logo_2.png" />
+                <Box sx={{flexGrow: 1, display: "flex", flexDirection: "row", justifyContent: "space-between", paddingBottom: "0.5rem"}}>
+                    <Avatar variant="square" src="/splitwise_logo_2.png"/>
                     {groupStore.currentGroup
                         && <Typography variant="h2"> {groupStore.currentGroup.name}</Typography>
                     }
-                    $$$$
+                    {groupStore.userGroupBalance > 0
+                        ? (<Typography variant="h6" color={Theme.palette.success.main}>
+                            You are owed ${Math.abs(groupStore.userGroupBalance).toFixed(2)}
+                        </Typography>)
+                        : (<Typography variant="h6" color={Theme.palette.error.main}>
+                            You owe ${Math.abs(groupStore.userGroupBalance).toFixed(2)}
+                        </Typography>)
+                    }
                 </Box>
+                <Divider />
                 <List>
                     {groupStore.groupExpenses.map((expense: ExpenseType) => (
-                        <ListItem key={expense.id} sx={{display:"flex", flexDirection: "row", justifyContent: "space-between"}}>
+                        <ListItem key={expense.id}
+                                  sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <ListItemAvatar sx={{flexGrow: 1}}>
                                 <Avatar>
-                                    <FolderIcon />
+                                    <FolderIcon/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
@@ -49,7 +58,8 @@ export class Group extends React.Component<any, any> {
                                 primary={<Typography variant={"h4"}>{expense.name}</Typography>}
                                 secondary={
                                     <Typography variant={"body1"}>
-                                        {expense.paidBy.name[0].toUpperCase() + expense.paidBy.name.substr(1).toLowerCase()} paid ${expense.totalAmount.toFixed(2)}
+                                        {expense.paidBy.name[0].toUpperCase() + expense.paidBy.name.substr(1).toLowerCase()} paid
+                                        ${expense.totalAmount.toFixed(2)}
                                     </Typography>
                                 }
                                 sx={{flexGrow: 10}}
@@ -60,12 +70,12 @@ export class Group extends React.Component<any, any> {
                                     <Typography
                                         variant={"body2"}
                                         textAlign={"right"}
-                                        color={ expense.paidBy.id == userStore.currentUser.id
+                                        color={expense.paidBy.id == userStore.currentUser.id
                                             ? Theme.palette.success.main
                                             : Theme.palette.error.main
                                         }
                                     >
-                                        { expense.paidBy.id == userStore.currentUser.id
+                                        {expense.paidBy.id == userStore.currentUser.id
                                             ? "you are owed"
                                             : "you borrowed"
                                         }
@@ -75,32 +85,19 @@ export class Group extends React.Component<any, any> {
                                     <Typography
                                         variant={"h5"}
                                         textAlign={"right"}
-                                        color={ expense.paidBy.id == userStore.currentUser.id
+                                        color={expense.paidBy.id == userStore.currentUser.id
                                             ? Theme.palette.success.main
                                             : Theme.palette.error.main
                                         }
                                     >
-                                        $ { expense.owed.toFixed(2) }
+                                        $ {expense.owed.toFixed(2)}
                                     </Typography>
                                 }
                             />
                         </ListItem>
-
-                        // <ListItem
-                        //     key={expense.id}
-                        //     secondaryAction={
-                        //       <IconButton
-                        //           edge="end"
-                        //           aria-label="delete"
-                        //           component="a"
-                        //           onClick={() => alert(group.id)}>
-                        //           <DeleteIcon/>
-                        //
-                        //     }>
-                        //     {expense.paidBy.name} is owed {expense.owed} {expense.name}
-                        // </ListItem>
                     ))}
                 </List>
+                <Button onClick={() => console.log(this.props.rootStore)}>TEST</Button>
             </Box>
 
         );

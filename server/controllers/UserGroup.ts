@@ -1,9 +1,10 @@
 import {User} from "../models/Model";
 import {Group} from "../models/Model";
-import {user} from "./user.controller";
+import {user} from "./UserController";
 import {UserGroup} from "../models/Model";
 import {Expense} from "../models/Model";
 import {ChildExpense} from "../models/Model";
+import {array} from "prop-types";
 
 
 
@@ -100,18 +101,21 @@ const getAllExpenses = async (req, res) => {
     const expenses = await usergroup.getExpenses();
     const expensesForGroup = []
     for (const expense of expenses){
-        let childexpenses = await expense.getChildExpenses();
+        let childExpenses  = await expense.getChildExpenses();
+        let participants = []
         let expenseToSend = {"id": expense.id,
                         "name": expense.name,
                         "totalAmount": expense.totalAmount,
                         "paidBy": await User.findByPk(expense.paidBy),
                         "owed": 0,
-
+                        "participants": participants
         }
-        for (const childExpense of childexpenses) {
+        for (const childExpense of childExpenses) {
             if (childExpense.userId === expense.paidBy) {
                 expenseToSend["owed"] = expense.totalAmount - childExpense.amount;
-            } else {
+            } else if (childExpense.userId != expense.paidBy) {
+                participants.push({[childExpense.userId]: childExpense.amount })
+                expenseToSend["participants"] = participants
             }
         }
         expensesForGroup.push(expenseToSend)

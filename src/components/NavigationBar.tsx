@@ -1,14 +1,15 @@
 import * as React from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import {Paper, Typography} from "@mui/material";
+import {Button, Paper, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {inject, observer} from "mobx-react";
 import {ReactNode} from "react";
 import {RootStoreProps} from "../store/RootStore";
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import PersonIcon from '@mui/icons-material/Person';
 
 @inject("rootStore")
 @observer
@@ -39,7 +40,10 @@ export class NavigationBar extends React.Component<any, any> {
                         to={"/groups"}
                         value={"/groups"}
                     />
-                    {/*<BottomNavigationAction label="Activity" icon={<ShowChartIcon />} href={"/debug"} />*/}
+                    <BottomNavigationAction
+                        icon={<AddBoxIcon color="primary" fontSize={"large"}/>}
+                        onClick={() => this.props.onModalOpen()}
+                    />
                     <BottomNavigationAction
                         label="Account"
                         icon={ userStore.currentUser ? <Typography variant={"h4"}>{userStore.currentUser.name[0].toUpperCase()}</Typography> : <AccountCircleIcon /> }

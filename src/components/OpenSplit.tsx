@@ -4,6 +4,7 @@ import {AppRouter} from "../router/AppRouter";
 import {RootStore} from "../store/RootStore";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {Theme} from "../theme/Theme";
+import {ExpenseModal} from "./ExpenseModal";
 
 interface OpenSplitProps {
     rootStore: RootStore

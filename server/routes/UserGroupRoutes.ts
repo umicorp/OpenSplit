@@ -1,4 +1,4 @@
-import {userGroup} from "../controllers/user.group";
+import {userGroup} from "../controllers/UserGroup";
 import Router from 'express';
 
 module.exports = app => {
