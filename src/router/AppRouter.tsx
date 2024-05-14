@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {Account} from "../components/Account";
 import {Home} from "../components/Home";
 import {inject, observer} from "mobx-react";
-import {ContainerPage} from "../components/ContainerPage";
+import {ContainerPage} from "../components/Container";
 import {RootStoreProps} from "../store/RootStore";
 import {Groups} from "../components/Groups";
 import {Group} from "../components/Group";

@@ -23,14 +23,15 @@ export class Groups extends React.Component<any, any> {
         super(props);
     }
 
+    componentDidMount() {
+        const { uiStore } = this.props.rootStore
+        uiStore.setHeader("Groups")
+    }
+
     render(): ReactNode {
         const { groupStore } = this.props.rootStore
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
-                <Typography variant="h2" component="div">
-                    Groups
-                </Typography>
-
                 <List>
                     {groupStore.allGroups.map((group: GroupType) => (
                         <ListItem

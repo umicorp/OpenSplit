@@ -22,10 +22,10 @@ app.use(function(req, res, next) {
         next();
     }});
 // Load routes for users
-require("./routes/user.routes")(app);
-require("./routes/group.routes")(app);
-require("./routes/user.group.routes")(app);
-require("./routes/expenseRoutes")(app);
+require("./routes/UserRoutes")(app);
+require("./routes/GroupRoutes")(app);
+require("./routes/UserGroupRoutes")(app);
+require("./routes/ExpenseRoutes")(app);
 
 // Load Database
 (async () => {

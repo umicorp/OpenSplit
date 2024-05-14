@@ -6,11 +6,12 @@ export type UserType = {
 }
 
 export type ExpenseType = {
-    id: number
-    name: string
-    totalAmount: number
-    paidBy: UserType
-    owed: number
+    id: number,
+    name: string,
+    totalAmount: number,
+    paidBy: UserType,
+    owed: number,
+    participants: [{number: number}]
 }
 
 export type GroupType = {

@@ -1,4 +1,4 @@
-import {group} from "../controllers/group";
+import {group} from "../controllers/Group";
 import Router from 'express';
 
 module.exports = app => {
