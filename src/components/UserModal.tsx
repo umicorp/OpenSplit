@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 
 @inject("rootStore")
 @observer
-export class ExpenseModal extends React.Component<any, any> {
+export class UserModal extends React.Component<any, any> {
     constructor(props: RootStoreProps) {
         super(props);
     }
@@ -25,16 +25,16 @@ export class ExpenseModal extends React.Component<any, any> {
         };
         const { uiStore } = this.props.rootStore
         return (
-                <Modal
-                    open={uiStore.isExpenseModalOpen}
-                    onClose={uiStore.closeExpenseModal}
-                >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Expense
-                        </Typography>
-                    </Box>
-                </Modal>
+            <Modal
+                open={uiStore.isUserModalOpen}
+                onClose={uiStore.closeUserModal}
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        User
+                    </Typography>
+                </Box>
+            </Modal>
         );
     }
 }

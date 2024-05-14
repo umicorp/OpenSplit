@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Button, Divider, Typography} from "@mui/material";
+import {Button,Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import {ExpenseType} from "../store/Types";
@@ -18,10 +18,14 @@ import {Theme} from "../theme/Theme";
 export class Group extends React.Component<any, any> {
     constructor(props: RootStoreProps) {
         super(props);
-        const {groupId} = this.props.match.params;
-        const {getGroupExpenses} = this.props.rootStore.groupStore;
-        const {currentUser} = this.props.rootStore.userStore;
-        getGroupExpenses(currentUser.id, groupId)
+        const { groupId } = this.props.match.params;
+        const { groupStore, userStore } = this.props.rootStore
+        groupStore.getGroupExpenses(userStore.currentUser.id, groupId)
+    }
+
+    componentDidMount() {
+        const { uiStore, groupStore } = this.props.rootStore
+        uiStore.setHeader(groupStore.currentGroup.name)
     }
 
     render(): ReactNode {
@@ -29,11 +33,8 @@ export class Group extends React.Component<any, any> {
 
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
-                <Box sx={{flexGrow: 1, display: "flex", flexDirection: "row", justifyContent: "space-between", paddingBottom: "0.5rem"}}>
+                <Box sx={{flexGrow: 1, display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                     <Avatar variant="square" src="/splitwise_logo_2.png"/>
-                    {groupStore.currentGroup
-                        && <Typography variant="h2"> {groupStore.currentGroup.name}</Typography>
-                    }
                     {groupStore.userGroupBalance > 0
                         ? (<Typography variant="h6" color={Theme.palette.success.main}>
                             You are owed ${Math.abs(groupStore.userGroupBalance).toFixed(2)}
@@ -43,7 +44,6 @@ export class Group extends React.Component<any, any> {
                         </Typography>)
                     }
                 </Box>
-                <Divider />
                 <List>
                     {groupStore.groupExpenses.map((expense: ExpenseType) => (
                         <ListItem key={expense.id}

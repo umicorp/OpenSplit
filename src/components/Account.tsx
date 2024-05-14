@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button, FormControl, InputLabel, MenuItem, Select, Typography} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {ReactNode} from "react";
 import {RootStoreProps} from "../store/RootStore";
@@ -15,13 +15,15 @@ export class Account extends React.Component<any, any> {
         super(props);
     }
 
+    componentDidMount() {
+        const { uiStore } = this.props.rootStore
+        uiStore.setHeader("Account")
+    }
+
     render(): ReactNode {
         const { userStore } = this.props.rootStore;
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
-                <Typography variant="h2">
-                    Account
-                </Typography>
                 <FormControl fullWidth>
                     <InputLabel id="user-label">Current User</InputLabel>
                     <Select
