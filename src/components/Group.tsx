@@ -18,9 +18,9 @@ import {Theme} from "../theme/Theme";
 export class Group extends React.Component<any, any> {
     constructor(props: RootStoreProps) {
         super(props);
-        const { groupId } = this.props.match.params;
-        const { groupStore, userStore } = this.props.rootStore
-        groupStore.getGroupExpenses(userStore.currentUser.id, groupId)
+        const {groupStore} = this.props.rootStore;
+        groupStore.getUsersCurrentGroup(groupStore.currentGroup.id)
+
     }
 
     componentDidMount() {

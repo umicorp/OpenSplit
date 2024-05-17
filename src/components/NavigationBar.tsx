@@ -82,6 +82,7 @@ export class NavigationBar extends React.Component<any, any> {
                 <BottomNavigationAction
                     icon={<AddBoxIcon color="primary" fontSize={"large"}/>}
                     onClick={this.handleMenuOpen}
+                    label=" "
                 />
                 <BottomNavigationAction
                     label="Account"
@@ -107,15 +108,15 @@ export class NavigationBar extends React.Component<any, any> {
                     }}
                 >
                     <MenuItem onClick={this.handleExpenseModalOpen}>
-                        <AttachMoneyIcon sx={{marginRight: "1rem"}}/>
+                        <AttachMoneyIcon sx={{marginRight: "1rem"}} />
                         Add Expense
                     </MenuItem>
                     <MenuItem onClick={this.handleGroupModalOpen}>
-                        <GroupAddIcon sx={{marginRight: "1rem"}}/>
+                        <GroupAddIcon sx={{marginRight: "1rem"}} />
                         Add Group
                     </MenuItem>
                     <MenuItem onClick={this.handleUserModalOpen}>
-                        <PersonAddIcon sx={{marginRight: "1rem"}}/>
+                        <PersonAddIcon sx={{marginRight: "1rem"}} />
                         Add User
                     </MenuItem>
                 </Menu>

@@ -15,6 +15,10 @@ export default class GroupStore {
     @observable
     public allGroups: GroupType[] = []
 
+    @persist("list")
+    @observable
+    public usersInCurrentGroup: UserType[] = []
+
     @persist("object")
     @observable
     public currentGroup: GroupType | null = null
@@ -66,6 +70,18 @@ export default class GroupStore {
     }
 
     @action
+    public getUsersCurrentGroup = (groupId: number): void =>{
+        axios.get(`http://localhost:3001/api/usergroup/${groupId}`)
+            .then(({ data }:  {data: UserType[] }) => {
+                this.usersInCurrentGroup = data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+
+    @action
     getGroupExpenses = (userId: number, groupId: number): void => {
         axios.get("http://localhost:3001/api/expense/",{
             params: {
@@ -97,4 +113,5 @@ export default class GroupStore {
         }
         this.userGroupBalance = userGroupBalance
 }
+
 }

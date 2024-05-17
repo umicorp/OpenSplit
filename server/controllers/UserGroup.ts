@@ -46,7 +46,7 @@ const removeGroup = async (req, res) => {
 
 };
 
-// Get a user from a group
+
 const getUsersFromGroup = async (req, res) => {
     const groupid = req.params.id;
     const group = await Group.findByPk(groupid);
@@ -54,20 +54,18 @@ const getUsersFromGroup = async (req, res) => {
     if (group === null) {
         res.send({message: `Cannot find Group with id=${groupid}. Maybe Group was not found or req.body is empty!`});
     }
-    const usersInGroup = await group.getUsers();
-    console.log(group);
-    console.log(usersInGroup);
+    const usersInGroup = await group.getUsers({joinTableAttributes: [], attributes: ['id', "name"] });
     res.send(usersInGroup);
 
 
 };
 
 const addExpense = async (req, res) => {
-    const useramounts = req.body.expense.useramounts; // [{'userid': '10'},{..}]
-    const groupid = req.body.expense.groupid;
-    const name = req.body.expense.name;
-    const totalamount = req.body.expense.totalamount;
-    const paidby = req.body.expense.paidby;
+    const useramounts = req.body.useramounts; // [{'userid': '10'},{..}]
+    const groupid = req.body.groupid;
+    const name = req.body.name;
+    const totalamount = req.body.totalamount;
+    const paidby = req.body.paidby;
 
     // Create a Expense
     const expenseCreation = {
@@ -79,17 +77,18 @@ const addExpense = async (req, res) => {
 
     for (const useramount of useramounts) {
         // Create a child expense
-        const childExpense = {
-            name: name,
-            amount: useramount.amount,
-            userId: useramount.userid
-        };
-        const createdChildExpense = await ChildExpense.create(childExpense);
-        await createdChildExpense.setExpense(createdExpense);
-        const userGroup= await UserGroup.findOne({where: {GroupId: groupid, UserId: useramount.userid}});
-        const linkExpenseUserGroup = await createdExpense.addUserGroup(userGroup);
+            const childExpense = {
+                name: name,
+                amount: useramount.amount,
+                userId: useramount.userid
+            };
+            const createdChildExpense = await ChildExpense.create(childExpense);
+            await createdChildExpense.setExpense(createdExpense);
+            const userGroup = await UserGroup.findOne({where: {GroupId: groupid, UserId: useramount.userid}});
+            const linkExpenseUserGroup = await createdExpense.addUserGroup(userGroup);
     }
-    res.send({message:"Expense Created"});
+    res.send({message: "Expense Created"});
+
 };
 
 // Get all expenses in a group
@@ -136,7 +135,6 @@ export const userGroup ={
     addGroup,
     removeGroup,
     getUsersFromGroup,
-
     getAllExpenses,
     addExpense,
     deleteExpense
