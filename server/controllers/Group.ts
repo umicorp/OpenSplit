@@ -1,6 +1,6 @@
 import {Group} from "../models/Model";
 
-// Create and Save a new User
+// Create and Save a new Group
 const create = (req, res) => {
     // Validate request
     if (!req.body.name) {

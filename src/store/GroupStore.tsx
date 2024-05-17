@@ -57,6 +57,17 @@ export default class GroupStore {
     }
 
     @action
+    public createGroup = (name: string): void => {
+        axios.post("http://localhost:3001/api/groups",{"name": name})
+            .then(({ data }) => {
+                this.allGroups.push(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    @action
     public setCurrentGroup = (groupId: number): void => {
         axios.get(`http://localhost:3001/api/groups/${groupId}`)
             .then(({ data }:  {data: GroupType }) => {
