@@ -16,8 +16,8 @@ export class Account extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        const { uiStore } = this.props.rootStore
-        uiStore.setHeader("Account")
+        const { uiStore } = this.props.rootStore;
+        uiStore.setHeader("Account");
     }
 
     render(): ReactNode {

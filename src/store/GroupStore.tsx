@@ -3,13 +3,11 @@ import axios from "axios";
 import {RootStore} from "./RootStore";
 import {persist} from "mobx-persist";
 import {ExpenseType, GroupType, UserType} from "./Types";
-import {UserStore} from "./UserStore";
-import {number} from "prop-types";
-import {User} from "../../server/models/Model";
+
 
 export default class GroupStore {
     private rootStore: RootStore;
-    static Instance: GroupStore
+    static Instance: GroupStore;
 
     @persist("list")
     @observable
@@ -91,8 +89,8 @@ export default class GroupStore {
         })
             .then(({ data }: {data: ExpenseType[]}) => {
                 this.groupExpenses = data;
-                this.setCurrentGroup(groupId)
-                this.calculateCurrentUserBalance(this.groupExpenses, userId)
+                this.setCurrentGroup(groupId);
+                this.calculateCurrentUserBalance(this.groupExpenses, userId);
             })
             .catch(error => {
                 console.error(error);
@@ -101,17 +99,17 @@ export default class GroupStore {
 
     @action
     calculateCurrentUserBalance = (groupExpenses: ExpenseType[], currentUser: number): void => {
-        let userGroupBalance = 0
+        let userGroupBalance = 0;
         for (const expense of groupExpenses) {
             for ( const participant of expense.participants){
                 if (currentUser === expense.paidBy.id) {
-                    userGroupBalance += expense.owed
+                    userGroupBalance += expense.owed;
                 } else{
-                    userGroupBalance-= Number(Object.values(participant)[0])
+                    userGroupBalance-= Number(Object.values(participant)[0]);
                 }
             }
         }
-        this.userGroupBalance = userGroupBalance
+        this.userGroupBalance = userGroupBalance;
 }
 
 }

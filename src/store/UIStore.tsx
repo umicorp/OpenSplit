@@ -1,5 +1,4 @@
-import {action, autorun, makeAutoObservable, observable} from "mobx";
-import axios from "axios";
+import {action, makeAutoObservable, observable} from "mobx";
 import {persist} from "mobx-persist";
 import {RootStore} from "./RootStore";
 
@@ -38,7 +37,7 @@ export class UIStore {
 
     @action
     openExpenseModal = (): void => {
-        this.isExpenseModalOpen = true
+        this.isExpenseModalOpen = true;
     }
 
     @action

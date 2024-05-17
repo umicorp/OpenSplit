@@ -15,7 +15,7 @@ export class RootStore {
         // Create the other stores
         this.groupStore = new GroupStore(this);
         this.userStore = new UserStore(this);
-        this.uiStore = new UIStore(this)
+        this.uiStore = new UIStore(this);
 
         // Persistence
         hydrate("UserStore", this.userStore);
