@@ -47,4 +47,15 @@ export class UserStore {
                 console.error(error);
             });
     }
+
+    @action
+    public createUser = (user: string): void => {
+        axios.post("http://localhost:3001/api/users/",{"username": user})
+            .then(({ data }: { data: UserType }) => {
+                this.users.push(data)})
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
 }

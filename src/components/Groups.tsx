@@ -28,6 +28,11 @@ export class Groups extends React.Component<any, any> {
         uiStore.setHeader("Groups")
     }
 
+    loadGroupExpenses = (id: number) => {
+        const { groupStore, userStore } = this.props.rootStore
+        groupStore.getGroupExpenses(userStore.currentUser.id, id)
+    }
+
     render(): ReactNode {
         const { groupStore } = this.props.rootStore
         return (
@@ -46,7 +51,7 @@ export class Groups extends React.Component<any, any> {
                                 </IconButton>
                             }
                         >
-                            <ListItemButton component={Link} to={`/groups/${group.id}`}>
+                            <ListItemButton onClick={() => this.loadGroupExpenses(group.id)} component={Link} to={`/groups/${group.id}`}>
                                 <ListItemAvatar>
                                     <Avatar>
                                         <FolderIcon />
@@ -55,27 +60,6 @@ export class Groups extends React.Component<any, any> {
                                 <ListItemText primary={group.name} />
                             </ListItemButton>
                         </ListItem>
-                        // <ListItem
-                        //     secondaryAction={
-                        //         <IconButton
-                        //             edge="end"
-                        //             aria-label="delete"
-                        //             component="a"
-                        //             onClick={() => alert(group.id)}>
-                        //             <DeleteIcon/>
-                        //         </IconButton>
-                        //     }
-                        //     key={group.id}
-                        // >
-                        //     <ListItemAvatar>
-                        //         <Avatar component={Link} to={`/groups/${group.id}`}>
-                        //             <FolderIcon/>
-                        //         </Avatar>
-                        //     </ListItemAvatar>
-                        //     <ListItemText
-                        //         primary={group.name}
-                        //     />
-                        // </ListItem>
                     ))}
                 </List>
                 <Button onClick={() => console.log(this.props)}>TEST</Button>
