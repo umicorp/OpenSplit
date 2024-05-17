@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 import {ReactNode} from "react";
-import {Button, Typography} from "@mui/material";
+import {Button} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import Box from "@mui/material/Box";
@@ -24,17 +24,17 @@ export class Groups extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        const { uiStore } = this.props.rootStore
-        uiStore.setHeader("Groups")
+        const { uiStore } = this.props.rootStore;
+        uiStore.setHeader("Groups");
     }
 
     loadGroupExpenses = (id: number) => {
-        const { groupStore, userStore } = this.props.rootStore
-        groupStore.getGroupExpenses(userStore.currentUser.id, id)
+        const { groupStore, userStore } = this.props.rootStore;
+        groupStore.getGroupExpenses(userStore.currentUser.id, id);
     }
 
     render(): ReactNode {
-        const { groupStore } = this.props.rootStore
+        const { groupStore } = this.props.rootStore;
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
                 <List>

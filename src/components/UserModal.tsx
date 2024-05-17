@@ -12,15 +12,15 @@ export class UserModal extends React.Component<any, any> {
         super(props);
         this.state = {
             userToAdd: "",
-        }
+        };
     }
 
     handleSubmit = (event: any): void => {
-        const { uiStore, userStore } = this.props.rootStore
+        const { uiStore, userStore } = this.props.rootStore;
         event.preventDefault(); // Prevents the default form submission behaviour
-        userStore.createUser(this.state.userToAdd)
-        console.log('Form data submitted:', this.state.userToAdd);
-        uiStore.closeUserModal()
+        userStore.createUser(this.state.userToAdd);
+        console.log("Form data submitted:", this.state.userToAdd);
+        uiStore.closeUserModal();
     }
 
     handleChange = (event:any): void => {
@@ -32,16 +32,16 @@ export class UserModal extends React.Component<any, any> {
 
     render(): ReactNode {
         const style = {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             width: 400,
-            bgcolor: 'background.paper',
+            bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
         };
-        const { uiStore } = this.props.rootStore
+        const { uiStore } = this.props.rootStore;
 
         return (
             <Modal

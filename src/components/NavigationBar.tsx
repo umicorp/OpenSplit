@@ -4,15 +4,14 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import GroupIcon from "@mui/icons-material/Group";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import {Divider, Menu, MenuItem, Typography} from "@mui/material";
+import {Menu, MenuItem, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import PersonIcon from '@mui/icons-material/Person';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoneyRounded';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoneyRounded";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 @inject("rootStore")
 @observer
@@ -22,18 +21,18 @@ export class NavigationBar extends React.Component<any, any> {
         this.state = {
             isMenuOpen: false,
             anchorElement: null
-        }
+        };
     }
 
     handleMenuOpen = (event: any): void => {
-        this.setState((state: any) => ({
+        this.setState(() => ({
             isMenuOpen: true,
             anchorElement: event.target
         }));
     }
 
     handleMenuClose = (): void => {
-        this.setState((state: any) => ({
+        this.setState(() => ({
             isMenuOpen: false,
             anchorElement: null
         }));
@@ -65,13 +64,6 @@ export class NavigationBar extends React.Component<any, any> {
                 value={this.props.location.pathname}
                 sx={{margin: "0.5rem"}}
             >
-                {/*<BottomNavigationAction*/}
-                {/*    label="Home"*/}
-                {/*    icon={<PersonIcon />}*/}
-                {/*    component={Link}*/}
-                {/*    to={"/"}*/}
-                {/*    value={"/"}*/}
-                {/*/>*/}
                 <BottomNavigationAction
                     label="Groups"
                     icon={<GroupIcon />}
@@ -99,12 +91,12 @@ export class NavigationBar extends React.Component<any, any> {
                     onClose={this.handleMenuClose}
                     anchorEl={this.state.anchorElement}
                     anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
+                        vertical: "top",
+                        horizontal: "right",
                     }}
                     transformOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
+                        vertical: "bottom",
+                        horizontal: "right",
                     }}
                 >
                     <MenuItem onClick={this.handleExpenseModalOpen}>

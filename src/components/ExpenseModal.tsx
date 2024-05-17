@@ -7,14 +7,11 @@ import {
     FormControl,
     FormLabel,
     InputAdornment,
-    InputLabel,
     Modal,
     Box,
-    OutlinedInput,
-    TextField, createTheme
+    TextField
 } from "@mui/material";
 import axios from "axios";
-import GroupStore from "../store/GroupStore";
 
 type UserAmountsType = {
     userid: number
@@ -41,13 +38,13 @@ export class ExpenseModal extends React.Component<any, any> {
             useramounts: [],
             groupid: 0,
             totalamount: 0
-        }
+        };
     }
 
     handleSubmit = (event: any): void => {
-        const { uiStore, userStore, groupStore } = this.props.rootStore
+        const { uiStore } = this.props.rootStore;
         event.preventDefault(); // Prevents the default form submission behaviour
-        const expenseToCreate = this.buildExpense()
+        const expenseToCreate = this.buildExpense();
         this.createExpense(expenseToCreate);
         uiStore.closeExpenseModal();
     }
@@ -62,9 +59,9 @@ export class ExpenseModal extends React.Component<any, any> {
     createExpense = (expense:any): void => {
         const { userStore ,groupStore } = this.props.rootStore;
 
-        axios.post('http://localhost:3001/api/expense', expense)
-            .then(function (response) {
-                groupStore.getGroupExpenses(userStore.currentUser.id, groupStore.currentGroup.id)
+        axios.post("http://localhost:3001/api/expense", expense)
+            .then(function () {
+                groupStore.getGroupExpenses(userStore.currentUser.id, groupStore.currentGroup.id);
             })
             .catch(function (error) {
                 console.log(error);
@@ -81,30 +78,30 @@ export class ExpenseModal extends React.Component<any, any> {
             useramounts:[],
             groupid: groupStore.currentGroup.id,
             totalamount: this.state.totalamount
-        }
-        const divideBy = groupStore.usersInCurrentGroup.length
-        const usersInGroup = groupStore.usersInCurrentGroup
+        };
+        const divideBy = groupStore.usersInCurrentGroup.length;
+        const usersInGroup = groupStore.usersInCurrentGroup;
         for (const user of usersInGroup) {
-            expense.useramounts.push({userid: user.id, amount: this.state.totalamount/divideBy})
+            expense.useramounts.push({userid: user.id, amount: this.state.totalamount/divideBy});
         }
-        console.log("Expense data submitted:", expense)
-        return expense
+        console.log("Expense data submitted:", expense);
+        return expense;
 
     }
 
     render(): ReactNode {
         const style = {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             width: 400,
-            bgcolor: 'background.paper',
+            bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
             spacing: 10
         };
-        const { uiStore } = this.props.rootStore
+        const { uiStore } = this.props.rootStore;
         return (
                 <Modal
                     open={uiStore.isExpenseModalOpen}

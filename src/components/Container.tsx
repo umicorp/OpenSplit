@@ -17,7 +17,7 @@ export class ContainerPage extends React.Component<any, any> {
     }
 
     render(): ReactNode {
-        const { uiStore } = this.props.rootStore
+        const { uiStore } = this.props.rootStore;
         return (
             <Box
                 height={"100vh"}

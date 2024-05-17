@@ -19,13 +19,13 @@ export class Group extends React.Component<any, any> {
     constructor(props: RootStoreProps) {
         super(props);
         const {groupStore} = this.props.rootStore;
-        groupStore.getUsersCurrentGroup(groupStore.currentGroup.id)
+        groupStore.getUsersCurrentGroup(groupStore.currentGroup.id);
 
     }
 
     componentDidMount() {
-        const { uiStore, groupStore } = this.props.rootStore
-        uiStore.setHeader(groupStore.currentGroup.name)
+        const { uiStore, groupStore } = this.props.rootStore;
+        uiStore.setHeader(groupStore.currentGroup.name);
     }
 
     render(): ReactNode {

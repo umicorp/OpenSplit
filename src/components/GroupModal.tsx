@@ -24,7 +24,7 @@ export class GroupModal extends React.Component<any, any> {
             boxShadow: 24,
             p: 4,
         };
-        const { uiStore } = this.props.rootStore
+        const { uiStore } = this.props.rootStore;
         return (
             <Modal
                 open={uiStore.isGroupModalOpen}

@@ -7,7 +7,7 @@ export class ErrorPage extends React.Component<any, any> {
         super(props);
     }
 
-    render() {
+    render():JSX.Element {
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
                 <h1>Oops!</h1>
