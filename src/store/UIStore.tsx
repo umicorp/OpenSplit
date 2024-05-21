@@ -20,6 +20,10 @@ export class UIStore {
 
     @persist
     @observable
+    public isUserGroupModalOpen = false
+
+    @persist
+    @observable
     public header = ""
 
 
@@ -68,5 +72,15 @@ export class UIStore {
     @action
     setHeader = (header: string): void => {
         this.header = header;
+    }
+
+    @action
+    openUserGroupModal = (): void => {
+        this.isUserGroupModalOpen = true;
+    }
+
+    @action
+    closeUserGroupModal = (): void => {
+        this.isUserGroupModalOpen = false;
     }
 }

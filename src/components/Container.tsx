@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import {ExpenseModal} from "./ExpenseModal";
 import {GroupModal} from "./GroupModal";
 import {UserModal} from "./UserModal";
+import {UserGroupModal} from "./UserGroupModal";
 
 @inject("rootStore")
 @observer
@@ -35,6 +36,7 @@ export class ContainerPage extends React.Component<any, any> {
                 <ExpenseModal />
                 <GroupModal />
                 <UserModal />
+                <UserGroupModal/>
                 <Box flexGrow={10} m={2}>
                     {this.props.children}
                 </Box>

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Button,Typography} from "@mui/material";
+import {Button, Modal, Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import {ExpenseType} from "../store/Types";
@@ -28,14 +28,20 @@ export class Group extends React.Component<any, any> {
         uiStore.setHeader(groupStore.currentGroup.name);
     }
 
+    settleUp() {
+        console.log("Settle up")
+    }
+
     render(): ReactNode {
         const {groupStore, userStore} = this.props.rootStore;
 
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
                 <Box sx={{flexGrow: 1, display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                    <Avatar variant="square" src="/splitwise_logo_2.png"/>
-                    {groupStore.userGroupBalance > 0
+                <Button variant="contained" href="#contained-buttons" onClick={this.settleUp}>
+                    Settle up
+                </Button>
+                {groupStore.userGroupBalance > 0
                         ? (<Typography variant="h6" color={Theme.palette.success.main}>
                             You are owed ${Math.abs(groupStore.userGroupBalance).toFixed(2)}
                         </Typography>)

@@ -23,11 +23,6 @@ export class Groups extends React.Component<any, any> {
         super(props);
     }
 
-    componentDidMount() {
-        const { uiStore } = this.props.rootStore;
-        uiStore.setHeader("Groups");
-    }
-
     loadGroupExpenses = (id: number) => {
         const { groupStore, userStore } = this.props.rootStore;
         groupStore.setCurrentGroup(id);
