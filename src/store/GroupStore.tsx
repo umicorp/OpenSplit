@@ -34,7 +34,7 @@ export default class GroupStore {
         this.rootStore = rootStore;
 
         autorun(() => {
-            this.getGroups();
+            this.getGroupsAPI();
         });
     }
 
@@ -46,10 +46,15 @@ export default class GroupStore {
     }
 
     @action
-    public getGroups = (): void => {
+    public getGroupsAction = (groups: GroupType[]) => {
+        this.allGroups = groups
+    }
+
+    @action
+    public getGroupsAPI = (): void => {
         axios.get("http://localhost:3001/api/groups")
             .then(({ data }: { data: GroupType[] }) => {
-                this.allGroups = data;
+                this.getGroupsAction(data)
             })
             .catch(error => {
                 console.error(error);
