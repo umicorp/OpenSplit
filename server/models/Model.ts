@@ -56,13 +56,13 @@ export const UserGroup = sequelize.define("UserGroup", {
 });
 
 // Associations
-Group.belongsToMany(User, { through: UserGroup });
+Group.belongsToMany(User, { through: UserGroup , onDelete: "CASCADE"});
 
 User.belongsToMany(Group, { through: UserGroup });
 
 Expense.belongsToMany(UserGroup, { through: "UserGroupExpense", onDelete: "CASCADE" });
 
-UserGroup.belongsToMany(Expense, { through: "UserGroupExpense" });
+UserGroup.belongsToMany(Expense, { through: "UserGroupExpense", onDelete: "CASCADE" });
 
-Expense.hasMany(ChildExpense, {onDelete: "CASCADE"});
+Expense.hasMany(ChildExpense, {onDelete: "CASCADE" });
 ChildExpense.belongsTo(Expense, {onDelete: "CASCADE"});

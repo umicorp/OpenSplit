@@ -1,4 +1,4 @@
-import {Group} from "../models/Model";
+import {Expense, Group, UserGroup} from "../models/Model";
 
 // Create and Save a new Group
 const create = (req, res) => {
@@ -64,9 +64,16 @@ const findOne = (req, res) => {
 };
 
 // Delete a Group with the specified id in the request
-const deleteGroup = (req, res) => {
+// Deletes all expenses in the group as well
+const deleteGroup = async (req, res) => {
     const id = req.params.id;
 
+    const usergroup = await UserGroup.findOne({where: {GroupId: id}});
+    if (usergroup === null) return res.send([]);
+
+    const expenses = await usergroup.getExpenses();
+    const expenseIDs= expenses.map(expense => expense.id);
+    await Expense.destroy({ where: { id: expenseIDs }})
     Group.destroy({
         where: { id: id }
     })
