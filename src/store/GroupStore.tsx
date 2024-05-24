@@ -2,7 +2,7 @@ import {action, autorun, makeAutoObservable, observable} from "mobx";
 import axios from "axios";
 import {RootStore} from "./RootStore";
 import {persist} from "mobx-persist";
-import {ExpenseType, GroupType, UserType} from "./Types";
+import {ExpenseType, GroupType, UserGroupType, UserType} from "./Types";
 
 
 export default class GroupStore {
@@ -11,7 +11,7 @@ export default class GroupStore {
 
     @persist("list")
     @observable
-    public allGroups: GroupType[] = []
+    public allGroups: UserGroupType[] = []
 
     @persist("list")
     @observable
@@ -46,14 +46,14 @@ export default class GroupStore {
     }
 
     @action
-    public getGroupsAction = (groups: GroupType[]) => {
+    public getGroupsAction = (groups: UserGroupType[]) => {
         this.allGroups = groups
     }
 
     @action
     public getGroupsAPI = (): void => {
         axios.get("http://localhost:3001/api/groups")
-            .then(({ data }: { data: GroupType[] }) => {
+            .then(({ data }: { data: UserGroupType[] }) => {
                 this.getGroupsAction(data)
             })
             .catch(error => {
@@ -65,7 +65,7 @@ export default class GroupStore {
     public createGroup = (name: string): void => {
         axios.post("http://localhost:3001/api/groups",{"name": name})
             .then(({ data }) => {
-                this.allGroups.push(data);
+                this.allGroups = data;
             })
             .catch(error => {
                 console.error(error);

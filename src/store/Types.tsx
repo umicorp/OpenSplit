@@ -1,8 +1,6 @@
 export type UserType = {
     id: number,
     name: string,
-    createdAt: string,
-    updatedAt: string
 }
 
 export type ExpenseType = {
@@ -12,6 +10,11 @@ export type ExpenseType = {
     paidBy: UserType,
     owed: number,
     participants: [{number: number}]
+}
+
+export type UserGroupType = {
+    group: GroupType,
+    users: UserType,
 }
 
 export type GroupType = {

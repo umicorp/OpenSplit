@@ -13,7 +13,7 @@ import {Link} from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import {GroupType} from "../store/Types";
+import {GroupType, UserGroupType, UserType} from "../store/Types";
 import ListItemButton from "@mui/material/ListItemButton";
 
 @inject("rootStore")
@@ -31,11 +31,12 @@ export class Groups extends React.Component<any, any> {
         }
     }
 
-    displayUsers = (id:number) => {
+    displayUsers = (id: number, users: UserType) => {
         const { userStore } = this.props.rootStore;
         if (userStore.currentUser === null) {
             return "Please select a current user"
         }
+        console.log(users)
     }
 
 
@@ -44,26 +45,27 @@ export class Groups extends React.Component<any, any> {
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
                 <List>
-                    {groupStore.allGroups.map((group: GroupType) => (
+                    {groupStore.allGroups.map((group: UserGroupType, index: number) => (
                         <ListItem
-                            key={group.id}
+                            key={index}
                             secondaryAction={
                                 <IconButton
                                     edge="end"
                                     aria-label="delete"
                                     component="a"
-                                    onClick={() => groupStore.deleteGroup(group.id)}>
-                                    <DeleteIcon/>
+                                    onClick={() => groupStore.deleteGroup(group["group"].id)}>
+
+                                <DeleteIcon/>
                                 </IconButton>
                             }
                         >
-                            <ListItemButton onClick={() => this.loadGroupExpenses(group.id)} component={Link} to={`/groups/${group.id}`}>
+                            <ListItemButton onClick={() => this.loadGroupExpenses(group["group"].id)} component={Link} to={`/groups/${group["group"].id}`}>
                                 <ListItemAvatar>
                                     <Avatar>
                                         <FolderIcon />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={group.name} secondary={this.displayUsers(group.id)} />
+                                <ListItemText primary={group["group"].name} secondary={this.displayUsers(group["group"].id, group["users"])} />
                             </ListItemButton>
                         </ListItem>
                     ))}

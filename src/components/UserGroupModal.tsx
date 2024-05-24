@@ -6,6 +6,7 @@ import {Button, FormControl, FormLabel, MenuItem, Modal, NativeSelect, Select} f
 import Box from "@mui/material/Box";
 import {ExpenseType, UserType} from "../store/Types";
 import axios from "axios";
+import {group} from "../../server/controllers/Group";
 
 @inject("rootStore")
 @observer
@@ -45,6 +46,7 @@ export class UserGroupModal extends React.Component<any, any> {
         "groupid": this.state.groupToAdd})
             .then(({ data }: { data: UserType }) => {
                 groupStore.getUsersCurrentGroup(this.state.groupToAdd);})
+            .then(groupStore.getGroupsAction)
             .catch(error => {
                 console.error(error);
             });
