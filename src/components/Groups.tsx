@@ -26,8 +26,18 @@ export class Groups extends React.Component<any, any> {
     loadGroupExpenses = (id: number) => {
         const { groupStore, userStore } = this.props.rootStore;
         groupStore.setCurrentGroup(id);
-        groupStore.getGroupExpenses(userStore.currentUser.id, id);
+        if (userStore.currentUser != null) {
+            groupStore.getGroupExpenses(userStore.currentUser.id, id);
+        }
     }
+
+    displayUsers = (id:number) => {
+        const { userStore } = this.props.rootStore;
+        if (userStore.currentUser === null) {
+            return "Please select a current user"
+        }
+    }
+
 
     render(): ReactNode {
         const { groupStore } = this.props.rootStore;
@@ -42,7 +52,7 @@ export class Groups extends React.Component<any, any> {
                                     edge="end"
                                     aria-label="delete"
                                     component="a"
-                                    onClick={() => alert(group.id)}>
+                                    onClick={() => groupStore.deleteGroup(group.id)}>
                                     <DeleteIcon/>
                                 </IconButton>
                             }
@@ -53,7 +63,7 @@ export class Groups extends React.Component<any, any> {
                                         <FolderIcon />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={group.name} />
+                                <ListItemText primary={group.name} secondary={this.displayUsers(group.id)} />
                             </ListItemButton>
                         </ListItem>
                     ))}

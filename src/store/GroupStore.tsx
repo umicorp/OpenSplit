@@ -73,6 +73,17 @@ export default class GroupStore {
     }
 
     @action
+    public deleteGroup = (id: number): void => {
+        axios.delete(`http://localhost:3001/api/groups/${id}`)
+            .then(({ data }) => {
+                this.allGroups = data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    @action
     public setCurrentGroup = (groupId: number): void => {
         axios.get(`http://localhost:3001/api/groups/${groupId}`)
             .then(({ data }:  {data: GroupType }) => {
@@ -93,7 +104,6 @@ export default class GroupStore {
                 console.error(error);
             });
     }
-
 
     @action
     getGroupExpenses = (userId: number, groupId: number): void => {

@@ -30,6 +30,7 @@ const create = (req, res) => {
 
 // Retrieve all Groups from the database.
 const findAll = (req, res) => {
+
     Group.findAll()
         .then(data => {
             res.send(data);
@@ -69,11 +70,11 @@ const deleteGroup = async (req, res) => {
     const id = req.params.id;
 
     const usergroup = await UserGroup.findOne({where: {GroupId: id}});
-    if (usergroup === null) return res.send([]);
-
-    const expenses = await usergroup.getExpenses();
-    const expenseIDs= expenses.map(expense => expense.id);
-    await Expense.destroy({ where: { id: expenseIDs }})
+    if (usergroup != null) {
+        const expenses = await usergroup.getExpenses();
+        const expenseIDs = expenses.map(expense => expense.id);
+        await Expense.destroy({ where: { id: expenseIDs }})
+    }
     Group.destroy({
         where: { id: id }
     })
