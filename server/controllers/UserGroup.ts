@@ -54,6 +54,9 @@ const getUsersFromGroup = async (req, res) => {
     if (group === null) {
         res.send({message: `Cannot find Group with id=${groupid}. Maybe Group was not found or req.body is empty!`});
     }
+    const usergroup = await UserGroup.findOne({where: {GroupId: groupid}});
+    if (usergroup === null) return res.send([]);
+
     const usersInGroup = await group.getUsers({joinTableAttributes: [], attributes: ['id', "name"] });
     res.send(usersInGroup);
 

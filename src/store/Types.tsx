@@ -17,6 +17,4 @@ export type ExpenseType = {
 export type GroupType = {
     id: number,
     name: string,
-    createdAt: string,
-    updatedAt: string
 }

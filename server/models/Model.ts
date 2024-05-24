@@ -13,7 +13,10 @@ export const Group = sequelize.define("Group", {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-    },});
+    },},
+{
+    timestamps: false,
+    },);
 
 export const Expense = sequelize.define("Expense", {
     name: {
