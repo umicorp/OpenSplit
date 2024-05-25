@@ -34,7 +34,7 @@ export class Account extends React.Component<any, any> {
                     >
                         {userStore.users.map((user: UserType) => (
                             <MenuItem key={user.id} value={user.name}>
-                                {user.name[0].toUpperCase() + user.name.substr(1).toLowerCase()}
+                                {user.name[0].toUpperCase() + user.name.slice(1).toLowerCase()}
                             </MenuItem>
                         ))}
                     </Select>

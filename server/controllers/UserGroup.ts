@@ -64,33 +64,33 @@ const getUsersFromGroup = async (req, res) => {
 };
 
 const addExpense = async (req, res) => {
-    const useramounts = req.body.useramounts; // [{'userid': '10'},{..}]
-    const groupid = req.body.groupid;
+    const participants = req.body.participants; // [{'userid': '10'},{..}]
+    const groupId = req.body.groupId;
     const name = req.body.name;
-    const totalamount = req.body.totalamount;
-    const paidby = req.body.paidby;
+    const totalAmount = req.body.totalAmount;
+    const paidBy = req.body.paidBy.id;
 
     // Create a Expense
     const expenseCreation = {
         name: name,
-        totalAmount: totalamount,
-        paidBy: paidby
+        totalAmount: totalAmount,
+        paidBy: paidBy
     };
     const createdExpense = await Expense.create(expenseCreation);
 
-    for (const useramount of useramounts) {
+    for (const participant of participants) {
         // Create a child expense
             const childExpense = {
                 name: name,
-                amount: useramount.amount,
-                userId: useramount.userid
+                amount: participant.amount,
+                userId: participant.userId
             };
             const createdChildExpense = await ChildExpense.create(childExpense);
             await createdChildExpense.setExpense(createdExpense);
-            const userGroup = await UserGroup.findOne({where: {GroupId: groupid, UserId: useramount.userid}});
+            const userGroup = await UserGroup.findOne({where: {GroupId: groupId, UserId: participant.userId}});
             const linkExpenseUserGroup = await createdExpense.addUserGroup(userGroup);
     }
-    res.send({message: "Expense Created"});
+    res.send(req.body);
 
 };
 
@@ -115,10 +115,11 @@ const getAllExpenses = async (req, res) => {
         for (const childExpense of childExpenses) {
             if (childExpense.userId === expense.paidBy) {
                 expenseToSend["owed"] = expense.totalAmount - childExpense.amount;
+                // participants.push({userId: childExpense.userId, amount: childExpense.amount })
             } else if (childExpense.userId != expense.paidBy) {
-                participants.push({[childExpense.userId]: childExpense.amount })
-                expenseToSend["participants"] = participants
+                participants.push({userId: childExpense.userId, amount: childExpense.amount })
             }
+            expenseToSend["participants"] = participants
         }
         expensesForGroup.push(expenseToSend)
     }

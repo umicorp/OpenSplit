@@ -1,25 +1,12 @@
 import {inject, observer} from "mobx-react";
 import * as React from "react";
-import {RootStoreProps} from "../store/RootStore";
 import {ReactNode} from "react";
-import {
-    Button,
-    FormControl,
-    FormLabel,
-    InputAdornment,
-    Modal,
-    Box,
-    TextField
-} from "@mui/material";
-import axios from "axios";
+import {RootStoreProps} from "../store/RootStore";
+import {Box, Button, FormControl, FormLabel, InputAdornment, Modal, TextField} from "@mui/material";
+import {ExpenseType, UserAmountsType} from "../store/Types";
 
-type UserAmountsType = {
-    userid: number
-    amount: number
-}
-
-type ExpenseType = {
-    name:string
+type ExpenseAPIType = {
+    name: string
     paidby: number
     useramounts: UserAmountsType []
     groupid: number
@@ -42,47 +29,38 @@ export class ExpenseModal extends React.Component<any, any> {
     }
 
     handleSubmit = (event: any): void => {
-        const { uiStore } = this.props.rootStore;
+        const {uiStore, groupStore} = this.props.rootStore;
         event.preventDefault(); // Prevents the default form submission behaviour
         const expenseToCreate = this.buildExpense();
-        this.createExpense(expenseToCreate);
+        groupStore.addExpenseAPI(expenseToCreate);
         uiStore.closeExpenseModal();
     }
 
-    handleChange = (event:any): void => {
-        const { name, value } = event.target;
+    handleChange = (event: any): void => {
+        const {name, value} = event.target;
         this.setState((state: any) => ({
-           ...this.state, [name]: value
+            ...this.state, [name]: value
         }));
     }
 
-    createExpense = (expense:any): void => {
-        const { userStore ,groupStore } = this.props.rootStore;
-
-        axios.post("http://localhost:3001/api/expense", expense)
-            .then(function () {
-                groupStore.getGroupExpenses(userStore.currentUser.id, groupStore.currentGroup.id);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-    }
-
-    buildExpense = ():any => {
-        const { userStore, groupStore } = this.props.rootStore;
+    buildExpense = (): any => {
+        const {userStore, groupStore} = this.props.rootStore;
+        const divideBy = groupStore.currentGroupUsers.length;
+        console.log("number of users to divide by", divideBy)
+        const usersInGroup = groupStore.currentGroupUsers;
 
         const expense: ExpenseType = {
+            id: 0,
+            // Need to add logic here when you can split different ways
+            owed: parseFloat(this.state.totalamount) / divideBy,
             name: this.state.name,
-            paidby: userStore.currentUser.id,
-            useramounts:[],
-            groupid: groupStore.currentGroup.id,
-            totalamount: this.state.totalamount
+            paidBy: userStore.currentUser,
+            participants: [],
+            groupId: groupStore.currentGroup.id,
+            totalAmount: parseFloat(this.state.totalamount)
         };
-        const divideBy = groupStore.usersInCurrentGroup.length;
-        const usersInGroup = groupStore.usersInCurrentGroup;
         for (const user of usersInGroup) {
-            expense.useramounts.push({userid: user.id, amount: this.state.totalamount/divideBy});
+            expense.participants.push({userId: user.id, amount: this.state.totalamount / divideBy});
         }
         console.log("Expense data submitted:", expense);
         return expense;
@@ -101,44 +79,45 @@ export class ExpenseModal extends React.Component<any, any> {
             p: 4,
             spacing: 10
         };
-        const { uiStore } = this.props.rootStore;
+        const {uiStore} = this.props.rootStore;
         return (
-                <Modal
-                    open={uiStore.isExpenseModalOpen}
-                    onClose={uiStore.closeExpenseModal}
-                >
-                    <Box sx={style}>
-                        <form onSubmit={this.handleSubmit}>
-                            <FormControl sx={style}>
-                                <FormLabel id="modal-modal-title" component="h2">Add a Expense</FormLabel>
-                                <TextField
-                                    required
-                                    type="text"
-                                    id="outlined-basic"
-                                    label="Name"
-                                    name="name"
-                                    variant="outlined"
-                                    onChange={this.handleChange}
-                                    margin="normal">
-                                </TextField>
-                                <TextField
-                                    name="totalamount"
-                                    required
-                                    label="You Paid"
-                                    type="number"
-                                    id="outlined-basic"
-                                    variant="outlined"
-                                    margin="normal"
-                                    onChange={this.handleChange}
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                                    }}
-                                />
-                                <Button type="submit">Submit</Button>
-                            </FormControl>
-                        </form>
-                    </Box>
-                </Modal>
+            <Modal
+                open={uiStore.isExpenseModalOpen}
+                onClose={uiStore.closeExpenseModal}
+            >
+                <Box sx={style}>
+                    <form onSubmit={this.handleSubmit}>
+                        <FormControl sx={style}>
+                            <FormLabel id="modal-modal-title" component="h2">Add a Expense</FormLabel>
+                            <TextField
+                                required
+                                type="text"
+                                id="outlined-basic"
+                                label="Name"
+                                name="name"
+                                variant="outlined"
+                                onChange={this.handleChange}
+                                margin="normal">
+                            </TextField>
+                            <TextField
+                                name="totalamount"
+                                required
+                                label="You Paid"
+                                type="number"
+                                id="outlined-basic"
+                                variant="outlined"
+                                margin="normal"
+                                onChange={this.handleChange}
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                    inputMode: 'numeric',
+                                }}
+                            />
+                            <Button type="submit">Submit</Button>
+                        </FormControl>
+                    </form>
+                </Box>
+            </Modal>
         );
     }
 }

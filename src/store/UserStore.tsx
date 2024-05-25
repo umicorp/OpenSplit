@@ -20,7 +20,7 @@ export class UserStore {
         makeAutoObservable(this);
         this.rootStore = rootStore;
         autorun(() => {
-            this.getUsers();
+            this.getUsersAPI();
         });
     }
 
@@ -38,10 +38,15 @@ export class UserStore {
     }
 
     @action
-    public getUsers = (): void => {
+    public getUsersAction = (data: UserType[]): void => {
+        this.users = data;
+    }
+
+    @action
+    public getUsersAPI = (): void => {
         axios.get("http://localhost:3001/api/users/")
             .then(({ data }:{ data: UserType[] }) => {
-                this.users = data;
+                this.getUsersAction(data)
             })
             .catch(error => {
                 console.error(error);
@@ -49,10 +54,16 @@ export class UserStore {
     }
 
     @action
-    public createUser = (user: string): void => {
+    public createUserAction = (data: UserType): void => {
+        this.users.push(data)
+    }
+
+    @action
+    public createUserAPI = (user: string): void => {
         axios.post("http://localhost:3001/api/users/",{"username": user})
             .then(({ data }: { data: UserType }) => {
-                this.users.push(data);})
+                this.createUserAction(data)
+            })
             .catch(error => {
                 console.error(error);
             });

@@ -23,20 +23,21 @@ export class Groups extends React.Component<any, any> {
         super(props);
     }
 
-    loadGroupExpenses = (id: number) => {
-        const { groupStore, userStore } = this.props.rootStore;
-        groupStore.setCurrentGroup(id);
-        if (userStore.currentUser != null) {
-            groupStore.getGroupExpenses(userStore.currentUser.id, id);
-        }
+    componentDidMount() {
+        const { uiStore, groupStore } = this.props.rootStore;
+        uiStore.setHeader("Groups");
     }
 
-    displayUsers = (id: number, users: UserType) => {
-        const { userStore } = this.props.rootStore;
-        if (userStore.currentUser === null) {
-            return "Please select a current user"
-        }
-        console.log(users)
+    loadGroupExpenses = (groupId: number) => {
+        const { groupStore, userStore, uiStore } = this.props.rootStore;
+        groupStore.setCurrentGroup(groupId, userStore.currentUser.id);
+    }
+
+    displayUsers = (groupId: number) => {
+        const { groupStore } = this.props.rootStore;
+        const group = groupStore.allGroups.filter((userGroup: UserGroupType) => userGroup.group.id == groupId)
+        const users = group[0].users.map((user: UserType) => user.name.toUpperCase()[0] + user.name.slice(1))
+        return users.join(" / ")
     }
 
 
@@ -59,13 +60,20 @@ export class Groups extends React.Component<any, any> {
                                 </IconButton>
                             }
                         >
-                            <ListItemButton onClick={() => this.loadGroupExpenses(group["group"].id)} component={Link} to={`/groups/${group["group"].id}`}>
+                            <ListItemButton
+                                onClick={() => this.loadGroupExpenses(group["group"].id)}
+                                component={Link}
+                                to={`/groups/${group["group"].id}`}
+                            >
                                 <ListItemAvatar>
                                     <Avatar>
                                         <FolderIcon />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={group["group"].name} secondary={this.displayUsers(group["group"].id, group["users"])} />
+                                <ListItemText
+                                    primary={group["group"].name}
+                                    secondary={this.displayUsers(group["group"].id)}
+                                />
                             </ListItemButton>
                         </ListItem>
                     ))}

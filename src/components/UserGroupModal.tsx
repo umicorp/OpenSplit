@@ -42,14 +42,7 @@ export class UserGroupModal extends React.Component<any, any> {
 
     addUserToGroup = (): void => {
         const { groupStore } = this.props.rootStore;
-        axios.post("http://localhost:3001/api/usergroup",{"userid": this.state.userToAdd,
-        "groupid": this.state.groupToAdd})
-            .then(({ data }: { data: UserType }) => {
-                groupStore.getUsersCurrentGroup(this.state.groupToAdd);})
-            .then(groupStore.getGroupsAction)
-            .catch(error => {
-                console.error(error);
-            });
+        groupStore.addUserToGroupAPI(this.state.userToAdd, this.state.groupToAdd)
     }
 
     render(): ReactNode {
