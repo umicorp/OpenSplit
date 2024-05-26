@@ -18,14 +18,8 @@ import {Theme} from "../theme/Theme";
 export class Group extends React.Component<any, any> {
     constructor(props: RootStoreProps) {
         super(props);
-        const {groupStore} = this.props.rootStore;
-        groupStore.getUsersCurrentGroup(groupStore.currentGroup.id);
-
-    }
-
-    componentDidMount() {
-        const { uiStore, groupStore } = this.props.rootStore;
-        uiStore.setHeader(groupStore.currentGroup.name);
+        // const {groupStore} = this.props.rootStore;
+        // groupStore.getCurrentGroupUsers(groupStore.currentGroup.id);
     }
 
     settleUp() {
@@ -65,7 +59,7 @@ export class Group extends React.Component<any, any> {
                                 secondary={
                                     <Typography variant={"body1"}>
                                         {expense.paidBy.name[0].toUpperCase() + expense.paidBy.name.substr(1).toLowerCase()} paid
-                                        ${expense.totalAmount.toFixed(2)}
+                                        ${expense.totalAmount}
                                     </Typography>
                                 }
                                 sx={{flexGrow: 10}}

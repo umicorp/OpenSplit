@@ -10,6 +10,11 @@ export class Home extends React.Component<any,any> {
         super(props);
     }
 
+    componentDidMount() {
+        const { uiStore, groupStore } = this.props.rootStore;
+        uiStore.setHeader("OpenSplit");
+    }
+
     render(): ReactNode {
         return (
             <div>

@@ -13,7 +13,7 @@ import {Link} from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import {GroupType} from "../store/Types";
+import {GroupType, UserGroupType, UserType} from "../store/Types";
 import ListItemButton from "@mui/material/ListItemButton";
 
 @inject("rootStore")
@@ -23,19 +23,21 @@ export class Groups extends React.Component<any, any> {
         super(props);
     }
 
-    loadGroupExpenses = (id: number) => {
-        const { groupStore, userStore } = this.props.rootStore;
-        groupStore.setCurrentGroup(id);
-        if (userStore.currentUser != null) {
-            groupStore.getGroupExpenses(userStore.currentUser.id, id);
-        }
+    componentDidMount() {
+        const { uiStore, groupStore } = this.props.rootStore;
+        uiStore.setHeader("Groups");
     }
 
-    displayUsers = (id:number) => {
-        const { userStore } = this.props.rootStore;
-        if (userStore.currentUser === null) {
-            return "Please select a current user"
-        }
+    loadGroupExpenses = (groupId: number) => {
+        const { groupStore, userStore, uiStore } = this.props.rootStore;
+        groupStore.setCurrentGroup(groupId, userStore.currentUser.id);
+    }
+
+    displayUsers = (groupId: number) => {
+        const { groupStore } = this.props.rootStore;
+        const group = groupStore.allGroups.filter((userGroup: UserGroupType) => userGroup.group.id == groupId)
+        const users = group[0].users.map((user: UserType) => user.name.toUpperCase()[0] + user.name.slice(1))
+        return users.join(" / ")
     }
 
 
@@ -44,26 +46,34 @@ export class Groups extends React.Component<any, any> {
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
                 <List>
-                    {groupStore.allGroups.map((group: GroupType) => (
+                    {groupStore.allGroups.map((group: UserGroupType, index: number) => (
                         <ListItem
-                            key={group.id}
+                            key={index}
                             secondaryAction={
                                 <IconButton
                                     edge="end"
                                     aria-label="delete"
                                     component="a"
-                                    onClick={() => groupStore.deleteGroup(group.id)}>
-                                    <DeleteIcon/>
+                                    onClick={() => groupStore.deleteGroup(group["group"].id)}>
+
+                                <DeleteIcon/>
                                 </IconButton>
                             }
                         >
-                            <ListItemButton onClick={() => this.loadGroupExpenses(group.id)} component={Link} to={`/groups/${group.id}`}>
+                            <ListItemButton
+                                onClick={() => this.loadGroupExpenses(group["group"].id)}
+                                component={Link}
+                                to={`/groups/${group["group"].id}`}
+                            >
                                 <ListItemAvatar>
                                     <Avatar>
                                         <FolderIcon />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={group.name} secondary={this.displayUsers(group.id)} />
+                                <ListItemText
+                                    primary={group["group"].name}
+                                    secondary={this.displayUsers(group["group"].id)}
+                                />
                             </ListItemButton>
                         </ListItem>
                     ))}
