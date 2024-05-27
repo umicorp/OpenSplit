@@ -1,5 +1,6 @@
 import {Expense, Group, UserGroup} from "../models/Model";
 import exp from "node:constants";
+import {getUsersinGroups} from "../helpers/common";
 
 // Create and Save a new Group
 const create = async (req, res) => {
@@ -84,15 +85,7 @@ const deleteGroup = async (req, res) => {
         await Expense.destroy({ where: { id: expenseIDs }})
     }
     await Group.destroy({where: {id:id}})
-    const allGroups = await Group.findAll();
-
-    const AllUsersAndGroups = []
-    for (let group of allGroups){
-        let usergroup = await group.getUsers({joinTableAttributes: [], attributes: ['id', "name"] })
-        if (usergroup === null) usergroup = [];
-        let UsersAndGroups = {group: group, users:usergroup }
-        AllUsersAndGroups.push(UsersAndGroups)
-    }
+    const AllUsersAndGroups= await getUsersinGroups()
     res.send(AllUsersAndGroups)
 };
 

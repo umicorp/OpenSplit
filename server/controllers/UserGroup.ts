@@ -5,6 +5,7 @@ import {UserGroup} from "../models/Model";
 import {Expense} from "../models/Model";
 import {ChildExpense} from "../models/Model";
 import {array} from "prop-types";
+import {getUsersinGroups} from "../helpers/common";
 
 
 
@@ -22,7 +23,8 @@ import {array} from "prop-types";
         res.status(400).send({message: `Cannot find Group with id=${groupid}. Maybe Group was not found or req.body is empty!`});
     }
     const userGroups = await user.addGroup(group);
-    res.send(userGroups);
+    const allUsersinGroup = await getUsersinGroups()
+    res.send(allUsersinGroup);
 
 };
 
