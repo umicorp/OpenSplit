@@ -19,7 +19,6 @@ const create = async (req, res) => {
     // Save Group in the database
     Group.create(group)
         .then(data => {
-            console.log(data)
         })
         .catch(err => {
             res.status(500).send({
@@ -95,27 +94,6 @@ const deleteGroup = async (req, res) => {
         AllUsersAndGroups.push(UsersAndGroups)
     }
     res.send(AllUsersAndGroups)
-    // Group.destroy({
-    //     where: { id: id }
-    // })
-    //     .then(num => {
-    //         if (num == 1) {
-    //
-    //             Group.findAll()
-    //                 .then(groups => {
-    //                     res.send(groups)
-    //                 });
-    //         } else {
-    //             res.status(404).send({
-    //                 message: `Cannot delete Group with id=${id}. Maybe Group was not found!`
-    //             });
-    //         }
-    //     })
-    //     .catch(err => {
-    //         res.status(500).send({
-    //             message: "Could not delete Group with id=" + id
-    //         });
-    //     });
 };
 
 

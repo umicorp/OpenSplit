@@ -122,7 +122,6 @@ export default class GroupStore {
             }
         })
             .then(({ data }: {data: ExpenseType[]}) => {
-                console.log(data)
                 this.getGroupExpensesAction(data)
                 this.calculateCurrentUserBalance(userId);
             })
@@ -146,13 +145,17 @@ export default class GroupStore {
 
     @action
     private addUserToGroupAction = (user: UserType, groupId: number): void => {
-        const group: UserGroupType | undefined = this.allGroups.find((userGroup: UserGroupType) => userGroup.group.id === groupId)
-        const groups: UserGroupType[] = this.allGroups.map((userGroup: UserGroupType): { users: UserType[]; group: GroupType } =>
-            (userGroup.group.id == group?.group.id
-                ? { ...userGroup, users: [...group.users, user] }
-                : userGroup)
-        )
-        this.allGroups = groups
+        // const group: UserGroupType | undefined = this.allGroups.find((userGroup: UserGroupType) => userGroup.group.id === groupId)
+        // const groups: UserGroupType[] = this.allGroups.map((userGroup: UserGroupType): { users: UserType[]; group: GroupType } =>
+        //     (userGroup.group.id == group?.group.id
+        //         ? { ...userGroup, users: [...group.users, user] }
+        //         : userGroup)
+        // )
+        // this.allGroups = groups
+        // TODO: the caller function passes in user and group.
+        //  The backend api is actually returning a a userID and a Group ID. Not the full types.
+        //  This is a temp solution
+        this.getGroupsAPI()
     }
 
     @action

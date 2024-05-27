@@ -4,9 +4,7 @@ import {RootStoreProps} from "../store/RootStore";
 import {ReactNode} from "react";
 import {Button, FormControl, FormLabel, MenuItem, Modal, NativeSelect, Select} from "@mui/material";
 import Box from "@mui/material/Box";
-import {ExpenseType, UserType} from "../store/Types";
-import axios from "axios";
-import {group} from "../../server/controllers/Group";
+import {UserType} from "../store/Types";
 
 @inject("rootStore")
 @observer

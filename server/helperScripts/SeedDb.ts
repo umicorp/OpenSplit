@@ -6,7 +6,6 @@ async function  addUsersToGroup(user: User, group: Group): Promise<UserGroup> {
     const groupObject = await Group.findOne({where: { name: group }})
 
     const userGroups = await userObject.addGroup(groupObject);
-    console.log(userGroups);
 }
 
 // Load Database
