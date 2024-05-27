@@ -68,13 +68,17 @@ const addExpense = async (req, res) => {
     const groupId = req.body.groupId;
     const name = req.body.name;
     const totalAmount = req.body.totalAmount;
+    const settleUp = req.body.settleUp;
+    const owed = req.body.owed;
     const paidBy = req.body.paidBy.id;
 
-    // Create a Expense
+    // Create an Expense
     const expenseCreation = {
         name: name,
         totalAmount: totalAmount,
-        paidBy: paidBy
+        paidBy: paidBy,
+        owed: owed,
+        settleUp: settleUp
     };
     const createdExpense = await Expense.create(expenseCreation);
 
@@ -109,16 +113,13 @@ const getAllExpenses = async (req, res) => {
                         "name": expense.name,
                         "totalAmount": expense.totalAmount,
                         "paidBy": await User.findByPk(expense.paidBy),
-                        "owed": 0,
+                        "owed": expense.owed,
+                        "settleUp": expense.settleUp,
                         "participants": participants
         }
         for (const childExpense of childExpenses) {
-            if (childExpense.userId === expense.paidBy) {
-                expenseToSend["owed"] = expense.totalAmount - childExpense.amount;
-                // participants.push({userId: childExpense.userId, amount: childExpense.amount })
-            } else if (childExpense.userId != expense.paidBy) {
-                participants.push({userId: childExpense.userId, amount: childExpense.amount })
-            }
+            participants.push({userId: childExpense.userId, amount: childExpense.amount })
+
             expenseToSend["participants"] = participants
         }
         expensesForGroup.push(expenseToSend)

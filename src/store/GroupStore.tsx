@@ -2,8 +2,7 @@ import {action, autorun, makeAutoObservable, observable} from "mobx";
 import axios from "axios";
 import {RootStore} from "./RootStore";
 import {persist} from "mobx-persist";
-import {ExpenseParticipant, ExpenseType, GroupType, UserGroupType, UserType} from "./Types";
-import {userGroup} from "../../server/controllers/UserGroup";
+import {ExpenseType, GroupType, UserGroupType, UserType} from "./Types";
 
 
 export default class GroupStore {
@@ -136,15 +135,11 @@ export default class GroupStore {
     public calculateCurrentUserBalance = ( userId: number): void => {
         let userGroupBalance = 0;
         this.groupExpenses.forEach((expense: ExpenseType) => {
-            expense.participants.forEach((participant: ExpenseParticipant) => {
-                console.log(participant)
-                if (userId === expense.paidBy.id) {
-                    userGroupBalance += expense.owed;
-                } else {
-                    userGroupBalance-= participant.amount;
-
-                }
-            })
+            if (userId === expense.paidBy.id) {
+                userGroupBalance += expense.owed;
+            } else if (userId != expense.paidBy.id ){
+                userGroupBalance -= expense.owed
+            }
         })
         this.userGroupBalance = userGroupBalance;
     }
@@ -174,8 +169,7 @@ export default class GroupStore {
     @action
     private addExpenseAction = (expense: ExpenseType): void => {
         this.groupExpenses.push(expense)
-
-
+        console.log("Expense data submitted:", expense);
         if (this.rootStore.userStore) {
             if(this.rootStore.userStore?.currentUser && this.rootStore.groupStore?.currentGroup) {
                 this.calculateCurrentUserBalance(this.rootStore.userStore.currentUser.id)

@@ -46,7 +46,6 @@ export class ExpenseModal extends React.Component<any, any> {
     buildExpense = (): any => {
         const {userStore, groupStore} = this.props.rootStore;
         const divideBy = groupStore.currentGroupUsers.length;
-        console.log("number of users to divide by", divideBy)
         const usersInGroup = groupStore.currentGroupUsers;
 
         const expense: ExpenseType = {
@@ -57,12 +56,12 @@ export class ExpenseModal extends React.Component<any, any> {
             paidBy: userStore.currentUser,
             participants: [],
             groupId: groupStore.currentGroup.id,
+            settleUp: false,
             totalAmount: parseFloat(this.state.totalamount)
         };
         for (const user of usersInGroup) {
             expense.participants.push({userId: user.id, amount: this.state.totalamount / divideBy});
         }
-        console.log("Expense data submitted:", expense);
         return expense;
 
     }
