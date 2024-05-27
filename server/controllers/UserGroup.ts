@@ -22,7 +22,6 @@ import {array} from "prop-types";
         res.status(400).send({message: `Cannot find Group with id=${groupid}. Maybe Group was not found or req.body is empty!`});
     }
     const userGroups = await user.addGroup(group);
-    console.log(userGroups);
     res.send(userGroups);
 
 };

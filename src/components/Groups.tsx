@@ -13,7 +13,7 @@ import {Link} from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import {GroupType, UserGroupType, UserType} from "../store/Types";
+import {UserGroupType, UserType} from "../store/Types";
 import ListItemButton from "@mui/material/ListItemButton";
 
 @inject("rootStore")
@@ -36,6 +36,7 @@ export class Groups extends React.Component<any, any> {
     displayUsers = (groupId: number) => {
         const { groupStore } = this.props.rootStore;
         const group = groupStore.allGroups.filter((userGroup: UserGroupType) => userGroup.group.id == groupId)
+        console.log(group)
         const users = group[0].users.map((user: UserType) => user?.name.toUpperCase()[0] + user?.name.slice(1))
         return users.join(" / ")
     }
