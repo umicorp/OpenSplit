@@ -30,6 +30,14 @@ export const Expense = sequelize.define("Expense", {
     paidBy: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    settleUp: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+    },
+    owed: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     }});
 
 export const ChildExpense = sequelize.define("ChildExpense", {

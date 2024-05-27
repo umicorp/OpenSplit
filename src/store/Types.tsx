@@ -10,6 +10,7 @@ export type ExpenseType = {
     totalAmount: number,
     paidBy: UserType,
     owed: number,
+    settleUp: boolean,
     participants: ExpenseParticipant[]
 }
 

@@ -3,7 +3,7 @@ import {ReactNode} from "react";
 import {Button, Modal, Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
-import {ExpenseType} from "../store/Types";
+import {ExpenseType, UserType} from "../store/Types";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import ListItem from "@mui/material/ListItem";
@@ -12,18 +12,80 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import FolderIcon from "@mui/icons-material/Folder";
 import {Theme} from "../theme/Theme";
+import {uppercaseName} from "../helpers/Common";
+import {group} from "../../server/controllers/Group";
 
 @inject("rootStore")
 @observer
 export class Group extends React.Component<any, any> {
     constructor(props: RootStoreProps) {
         super(props);
-        // const {groupStore} = this.props.rootStore;
-        // groupStore.getCurrentGroupUsers(groupStore.currentGroup.id);
     }
 
-    settleUp() {
+    settleUp = () => {
         console.log("Settle up")
+        const {groupStore} = this.props.rootStore;
+        if (groupStore.userGroupBalance >= 0) {
+            console.log("You do not owe a balance")
+        } else{
+            const settleUpToCreate = this.buildSettleUp()
+            groupStore.addExpenseAPI(settleUpToCreate);
+
+        }
+    }
+
+    buildSettleUp = () => {
+        const {userStore, groupStore} = this.props.rootStore;
+        const divideBy = groupStore.currentGroupUsers.length;
+        const usersInGroup = groupStore.currentGroupUsers;
+
+        const settleExpense: ExpenseType = {
+            id: 0,
+            owed: Number(Math.abs(groupStore.userGroupBalance).toFixed(2)),
+            name: "Settled Up",
+            paidBy: userStore.currentUser,
+            participants: [],
+            groupId: groupStore.currentGroup.id,
+            settleUp: true,
+            totalAmount: Number(Math.abs(groupStore.userGroupBalance).toFixed(2))
+        };
+        for (const user of usersInGroup) {
+            settleExpense.participants.push({userId: user.id, amount: Number(Math.abs(groupStore.userGroupBalance).toFixed(2)) / divideBy});
+        }
+        console.log("Settle up data submitted:", settleExpense);
+        return settleExpense;
+
+    }
+
+    displaySecondaryText = (expense: ExpenseType) : string => {
+        if (expense.settleUp){
+            const {userStore, groupStore} = this.props.rootStore;
+            const usersInGroup = groupStore.currentGroupUsers;
+            const usersToBePaid: string[] = []
+            for (const user of usersInGroup) {
+                if (expense.paidBy.id != user.id ){
+                    usersToBePaid.push(uppercaseName(user.name))
+                }
+            }
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n ${usersToBePaid}`
+            return display
+        } else {
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n ${expense.totalAmount}`
+            return display
+
+        }
+    }
+    displayAction = (expense: ExpenseType) => {
+        const {userStore} = this.props.rootStore;
+        if (expense.settleUp) {
+            return ""
+        }
+        else if (expense.paidBy.id == userStore.currentUser.id){
+            return "you are owed"
+
+        } else {
+            return "you borrowed"
+        }
     }
 
     render(): ReactNode {
@@ -58,8 +120,7 @@ export class Group extends React.Component<any, any> {
                                 primary={<Typography variant={"h4"}>{expense.name}</Typography>}
                                 secondary={
                                     <Typography variant={"body1"}>
-                                        {expense.paidBy.name[0].toUpperCase() + expense.paidBy.name.substr(1).toLowerCase()} paid
-                                        ${expense.totalAmount}
+                                        {this.displaySecondaryText(expense)}
                                     </Typography>
                                 }
                                 sx={{flexGrow: 10}}
@@ -75,10 +136,7 @@ export class Group extends React.Component<any, any> {
                                             : Theme.palette.error.main
                                         }
                                     >
-                                        {expense.paidBy.id == userStore.currentUser.id
-                                            ? "you are owed"
-                                            : "you borrowed"
-                                        }
+                                        {this.displayAction(expense)}
                                     </Typography>
                                 }
                                 secondary={
