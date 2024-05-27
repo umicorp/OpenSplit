@@ -144,25 +144,15 @@ export default class GroupStore {
     }
 
     @action
-    private addUserToGroupAction = (user: UserType, groupId: number): void => {
-        // const group: UserGroupType | undefined = this.allGroups.find((userGroup: UserGroupType) => userGroup.group.id === groupId)
-        // const groups: UserGroupType[] = this.allGroups.map((userGroup: UserGroupType): { users: UserType[]; group: GroupType } =>
-        //     (userGroup.group.id == group?.group.id
-        //         ? { ...userGroup, users: [...group.users, user] }
-        //         : userGroup)
-        // )
-        // this.allGroups = groups
-        // TODO: the caller function passes in user and group.
-        //  The backend api is actually returning a a userID and a Group ID. Not the full types.
-        //  This is a temp solution
-        this.getGroupsAPI()
+    private addUserToGroupAction = (userGroups:UserGroupType[]): void => {
+        this.allGroups = userGroups
     }
 
     @action
     public addUserToGroupAPI = (userId: number, groupId: number): void => {
         axios.post("http://localhost:3001/api/usergroup",{"userid": userId, "groupid": groupId})
-            .then(({ data }: { data: UserType }) => {
-                this.addUserToGroupAction(data, groupId)
+            .then(({ data }: { data: UserGroupType[] }) => {
+                this.addUserToGroupAction(data)
             })
             .catch(error => {
                 console.error(error);

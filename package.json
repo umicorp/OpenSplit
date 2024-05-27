@@ -92,7 +92,7 @@
     "start": "NODE_OPTIONS=--openssl-legacy-provider node scripts/start.js",
     "start_server": "npx tsx server/index.ts",
     "dev_server": "nodemon",
-    "seeddb": "npx tsx server/helperScripts/seedDB.ts",
+    "seeddb": "npx tsx server/helper/seedDB.ts",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
