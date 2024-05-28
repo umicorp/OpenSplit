@@ -66,6 +66,8 @@ export default class GroupStore {
         axios.post("http://localhost:3001/api/groups",{"name": name})
             .then(({ data }) => {
                 this.allGroups = data;
+                this.rootStore.uiStore?.openGenericSnackbar(`Created`);
+
             })
             .catch(error => {
                 console.error(error);
@@ -77,6 +79,7 @@ export default class GroupStore {
         axios.delete(`http://localhost:3001/api/groups/${id}`)
             .then(({ data }) => {
                 this.allGroups = data;
+                this.rootStore.uiStore?.openGenericSnackbar(`Deleted`);
             })
             .catch(error => {
                 console.error(error);
@@ -146,6 +149,7 @@ export default class GroupStore {
     @action
     private addUserToGroupAction = (userGroups:UserGroupType[]): void => {
         this.allGroups = userGroups
+        this.rootStore.uiStore?.openGenericSnackbar(`User Added`);
     }
 
     @action
@@ -163,11 +167,12 @@ export default class GroupStore {
     private addExpenseAction = (expense: ExpenseType): void => {
         this.groupExpenses.push(expense)
         console.log("Expense data submitted:", expense);
+        this.rootStore.uiStore?.openGenericSnackbar(`Expense Created`);
         if (this.rootStore.userStore) {
             if(this.rootStore.userStore?.currentUser && this.rootStore.groupStore?.currentGroup) {
                 this.calculateCurrentUserBalance(this.rootStore.userStore.currentUser.id)
                 // TODO: Ask sheena why this line fixes the "you are owed" when adding a expense
-                // When line is not there the full expense amount gets added to "you are owed". When its there only the actual amount owed is added to "you are owed"
+                //  When line is not there the full expense amount gets added to "you are owed". When its there only the actual amount owed is added to "you are owed"
                 this.getGroupExpensesAPI(this.rootStore.userStore.currentUser.id, this.rootStore.groupStore.currentGroup.id)
 
             }

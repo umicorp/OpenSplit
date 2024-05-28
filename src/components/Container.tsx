@@ -9,6 +9,7 @@ import {ExpenseModal} from "./ExpenseModal";
 import {GroupModal} from "./GroupModal";
 import {UserModal} from "./UserModal";
 import {UserGroupModal} from "./UserGroupModal";
+import {GenericSnackbar} from "./SnackBar";
 
 @inject("rootStore")
 @observer
@@ -37,6 +38,7 @@ export class ContainerPage extends React.Component<any, any> {
                 <GroupModal />
                 <UserModal />
                 <UserGroupModal/>
+                <GenericSnackbar/>
                 <Box flexGrow={10} m={2}>
                     {this.props.children}
                 </Box>

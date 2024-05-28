@@ -23,10 +23,10 @@ export class Group extends React.Component<any, any> {
     }
 
     settleUp = () => {
-        console.log("Settle up")
-        const {groupStore} = this.props.rootStore;
+        const {groupStore, uiStore} = this.props.rootStore;
         if (groupStore.userGroupBalance >= 0) {
-            console.log("You do not owe a balance")
+            uiStore.openGenericSnackbar(`You do not owe a balance`);
+
         } else{
             const settleUpToCreate = this.buildSettleUp()
             groupStore.addExpenseAPI(settleUpToCreate);

@@ -1,6 +1,7 @@
 import {action, makeAutoObservable, observable} from "mobx";
 import {persist} from "mobx-persist";
 import {RootStore} from "./RootStore";
+import {GenericSnackbar} from "../components/SnackBar";
 
 export class UIStore {
     private rootStore: RootStore;
@@ -13,6 +14,14 @@ export class UIStore {
     @persist
     @observable
     public isGroupModalOpen = false
+
+    @persist
+    @observable
+    public isGenericSnackbarOpen = false
+
+    @persist
+    @observable
+    public isGenericSnackbarMessage = ""
 
     @persist
     @observable
@@ -47,6 +56,16 @@ export class UIStore {
     @action
     closeExpenseModal = (): void => {
         this.isExpenseModalOpen = false;
+    }
+    @action
+    openGenericSnackbar = (message:string): void => {
+        this.isGenericSnackbarOpen = true;
+        this.isGenericSnackbarMessage = message
+    }
+
+    @action
+    closeGenericSnackbar = (): void => {
+        this.isGenericSnackbarOpen = false;
     }
 
     @action
