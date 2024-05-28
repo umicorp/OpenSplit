@@ -21,7 +21,7 @@ export class UIStore {
 
     @persist
     @observable
-    public isGenericSnackbarMessage = ""
+    public GenericSnackbarMessage = ""
 
     @persist
     @observable
@@ -60,7 +60,7 @@ export class UIStore {
     @action
     openGenericSnackbar = (message:string): void => {
         this.isGenericSnackbarOpen = true;
-        this.isGenericSnackbarMessage = message
+        this.GenericSnackbarMessage = message
     }
 
     @action
