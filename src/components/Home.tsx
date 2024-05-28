@@ -18,7 +18,7 @@ export class Home extends React.Component<any,any> {
     render(): ReactNode {
         return (
             <div>
-                TEST
+                Welcome. To get started create some Users, select a active user and create a Group.
             </div>
         );
     }

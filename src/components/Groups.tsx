@@ -36,7 +36,6 @@ export class Groups extends React.Component<any, any> {
     displayUsers = (groupId: number) => {
         const { groupStore } = this.props.rootStore;
         const group = groupStore.allGroups.filter((userGroup: UserGroupType) => userGroup.group.id == groupId)
-        console.log(group)
         const users = group[0].users.map((user: UserType) => user?.name.toUpperCase()[0] + user?.name.slice(1))
         return users.join(" / ")
     }

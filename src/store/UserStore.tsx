@@ -3,6 +3,7 @@ import axios from "axios";
 import {persist} from "mobx-persist";
 import {RootStore} from "./RootStore";
 import {UserType} from "./Types";
+import {uppercaseName} from "../helpers/Common";
 
 export class UserStore {
     private rootStore: RootStore;
@@ -35,6 +36,8 @@ export class UserStore {
     public setCurrentUser = (username: string): void =>  {
         const user: UserType[] = this.users.filter((user: UserType): boolean => user.name === username);
         this.currentUser = user[0];
+        this.rootStore.uiStore?.openGenericSnackbar(`Logged in as ${uppercaseName(user[0].name)}`);
+
     }
 
     @action
@@ -56,6 +59,7 @@ export class UserStore {
     @action
     public createUserAction = (data: UserType): void => {
         this.users.push(data)
+        this.rootStore.uiStore?.openGenericSnackbar(`User Created`);
     }
 
     @action
