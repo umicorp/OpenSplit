@@ -2,6 +2,7 @@ import {action, makeAutoObservable, observable} from "mobx";
 import {persist} from "mobx-persist";
 import {RootStore} from "./RootStore";
 import {GenericSnackbar} from "../components/SnackBar";
+import * as buffer from "node:buffer";
 
 export class UIStore {
     private rootStore: RootStore;
@@ -22,6 +23,9 @@ export class UIStore {
     @persist
     @observable
     public isGenericSnackbarMessage = ""
+    @persist
+    @observable
+    public isGenericSnackbarDuration = 1000
 
     @persist
     @observable
@@ -58,9 +62,10 @@ export class UIStore {
         this.isExpenseModalOpen = false;
     }
     @action
-    openGenericSnackbar = (message:string): void => {
+    openGenericSnackbar = (message:string, duration = 1000): void => {
         this.isGenericSnackbarOpen = true;
         this.isGenericSnackbarMessage = message
+        this.isGenericSnackbarDuration = duration
     }
 
     @action

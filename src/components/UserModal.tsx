@@ -18,7 +18,7 @@ export class UserModal extends React.Component<any, any> {
     handleSubmit = (event: any): void => {
         const { uiStore, userStore } = this.props.rootStore;
         event.preventDefault(); // Prevents the default form submission behaviour
-        userStore.createUser(this.state.userToAdd);
+        userStore.createUserAPI(this.state.userToAdd);
         console.log("Form data submitted:", this.state.userToAdd);
         uiStore.closeUserModal();
     }
