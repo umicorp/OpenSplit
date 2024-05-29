@@ -24,7 +24,8 @@ export class ExpenseModal extends React.Component<any, any> {
             paidby: 0,
             useramounts: [],
             groupid: 0,
-            totalamount: 0
+            totalamount: 0,
+            amountError: false
         };
     }
 
@@ -41,6 +42,26 @@ export class ExpenseModal extends React.Component<any, any> {
         this.setState((state: any) => ({
             ...this.state, [name]: value
         }));
+    }
+
+    handleChangeAmount = (event: any): void => {
+        const {name, value} = event.target;
+        const decimalNumber = /^\d*\.?\d{1,2}$/;
+        const validateValue = value.match(decimalNumber)
+
+        if (validateValue){
+            // clear error message
+            this.setState((state: any) => ({
+                ...this.state, ["amountError"]: false,
+                [name]: value
+            }));
+
+        } else if (validateValue === null){
+            console.log(this.state.amountError)
+            this.setState((state: any) => ({
+                ...this.state, ["amountError"]: true
+            }));
+        }
     }
 
     buildExpense = (): any => {
@@ -102,17 +123,14 @@ export class ExpenseModal extends React.Component<any, any> {
                                 name="totalamount"
                                 required
                                 label="You Paid"
-                                type="number"
+                                error={this.state.amountError}
+                                helperText={this.state.amountError ? "Please Enter a Number" : ""}
                                 id="outlined-basic"
                                 variant="outlined"
                                 margin="normal"
-                                onChange={this.handleChange}
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                                    inputMode: 'numeric',
-                                }}
+                                onChange={this.handleChangeAmount}
                             />
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit" disabled={this.state.amountError} >Submit</Button>
                         </FormControl>
                     </form>
                 </Box>
