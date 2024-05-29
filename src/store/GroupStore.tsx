@@ -147,8 +147,9 @@ export default class GroupStore {
     }
 
     @action
-    private addUserToGroupAction = (userGroups:UserGroupType[]): void => {
+    private addUserToGroupAction = (userGroups:UserGroupType[], groupId: number): void => {
         this.allGroups = userGroups
+        this.getCurrentGroupUsersAPI(groupId)
         this.rootStore.uiStore?.openGenericSnackbar(`User Added`);
     }
 
@@ -156,7 +157,7 @@ export default class GroupStore {
     public addUserToGroupAPI = (userId: number, groupId: number): void => {
         axios.post("http://localhost:3001/api/usergroup",{"userid": userId, "groupid": groupId})
             .then(({ data }: { data: UserGroupType[] }) => {
-                this.addUserToGroupAction(data)
+                this.addUserToGroupAction(data, groupId)
             })
             .catch(error => {
                 console.error(error);
