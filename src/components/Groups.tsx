@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import Box from "@mui/material/Box";
@@ -30,7 +30,11 @@ export class Groups extends React.Component<any, any> {
 
     loadGroupExpenses = (groupId: number) => {
         const { groupStore, userStore, uiStore } = this.props.rootStore;
-        groupStore.setCurrentGroup(groupId, userStore.currentUser.id);
+        if (userStore.currentUser == null) {
+            uiStore.openGenericSnackbar(`Select a current User via Account icon`);
+        } else {
+            groupStore.setCurrentGroup(groupId, userStore.currentUser.id);
+        }
     }
 
     displayUsers = (groupId: number) => {
@@ -42,10 +46,13 @@ export class Groups extends React.Component<any, any> {
 
 
     render(): ReactNode {
-        const { groupStore } = this.props.rootStore;
+        const { groupStore, userStore } = this.props.rootStore;
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
-                <List>
+                { groupStore.allGroups.length == 0
+                    ? <Typography variant="h6">You have no groups. Create some using the + button.</Typography>
+                    :
+                    <List>
                     {groupStore.allGroups.map((group: UserGroupType, index: number) => (
                         <ListItem
                             key={index}
@@ -63,7 +70,7 @@ export class Groups extends React.Component<any, any> {
                             <ListItemButton
                                 onClick={() => this.loadGroupExpenses(group["group"].id)}
                                 component={Link}
-                                to={`/groups/${group["group"].id}`}
+                                to={ userStore.currentUser == null ? "/groups" :`/groups/${group["group"].id}`}
                             >
                                 <ListItemAvatar>
                                     <Avatar>
@@ -78,6 +85,7 @@ export class Groups extends React.Component<any, any> {
                         </ListItem>
                     ))}
                 </List>
+                }
                 <Button onClick={() => console.log(this.props)}>TEST</Button>
             </Box>
         );

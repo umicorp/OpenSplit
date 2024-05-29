@@ -23,7 +23,7 @@ export class GenericSnackbar extends React.Component<any, any> {
         <div>
             <Snackbar
                 open={uiStore.isGenericSnackbarOpen}
-                autoHideDuration={1500}
+                autoHideDuration={uiStore.isGenericSnackbarDuration}
                 onClose={uiStore.closeGenericSnackbar}
                 message={uiStore.isGenericSnackbarMessage}
             />
