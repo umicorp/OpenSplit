@@ -4,6 +4,9 @@ import {ReactNode} from "react";
 import {RootStoreProps} from "../store/RootStore";
 import {Box, Button, FormControl, FormLabel, InputAdornment, Modal, TextField} from "@mui/material";
 import {ExpenseType, UserAmountsType} from "../store/Types";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 type ExpenseAPIType = {
     name: string
@@ -25,6 +28,7 @@ export class ExpenseModal extends React.Component<any, any> {
             useramounts: [],
             groupid: 0,
             totalamount: 0,
+            date: "",
             amountError: false
         };
     }
@@ -43,6 +47,12 @@ export class ExpenseModal extends React.Component<any, any> {
             ...this.state, [name]: value
         }));
     }
+    handleDateChange = (event: any): void => {
+        const date = event.$d.toISOString().split('T', 1)[0]
+        this.setState((state: any) => ({
+            ...this.state, ["date"]: date
+        }));
+    }
 
     handleChangeAmount = (event: any): void => {
         const {name, value} = event.target;
@@ -57,7 +67,6 @@ export class ExpenseModal extends React.Component<any, any> {
             }));
 
         } else if (validateValue === null){
-            console.log(this.state.amountError)
             this.setState((state: any) => ({
                 ...this.state, ["amountError"]: true
             }));
@@ -75,6 +84,7 @@ export class ExpenseModal extends React.Component<any, any> {
             owed: parseFloat(this.state.totalamount) / divideBy,
             name: this.state.name,
             paidBy: userStore.currentUser,
+            date: this.state.date,
             participants: [],
             groupId: groupStore.currentGroup.id,
             settleUp: false,
@@ -130,6 +140,9 @@ export class ExpenseModal extends React.Component<any, any> {
                                 margin="normal"
                                 onChange={this.handleChangeAmount}
                             />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker name="date" maxDate={dayjs()} onChange={this.handleDateChange} />
+                            </LocalizationProvider>
                             <Button type="submit" disabled={this.state.amountError} >Submit</Button>
                         </FormControl>
                     </form>

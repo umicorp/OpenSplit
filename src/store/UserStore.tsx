@@ -36,7 +36,7 @@ export class UserStore {
     public setCurrentUser = (username: string): void =>  {
         const user: UserType[] = this.users.filter((user: UserType): boolean => user.name === username);
         this.currentUser = user[0];
-        this.rootStore.uiStore?.openGenericSnackbar(`Logged in as ${uppercaseName(user[0].name)}`);
+        this.rootStore.uiStore?.openGenericSnackbar(`Logged in as ${uppercaseName(user[0].name)}`, 500);
 
     }
 

@@ -65,9 +65,9 @@ export class UserGroupModal extends React.Component<any, any> {
                     <form onSubmit={this.handleSubmit}>
                         <FormControl sx={style}>
                             <FormLabel>Add User to { groupStore.currentGroup ? groupStore.currentGroup.name: "umi" }</FormLabel>
-                            <Select label="Users" defaultValue="" onChange={this.handleChange}>
+                            <Select  required label="Users" defaultValue="" onChange={this.handleChange}>
                                 {userStore.users.map((user: UserType) => (
-                                <MenuItem key={user.id} value={user.id}>{user.name[0].toUpperCase() + user.name.substr(1).toLowerCase()}</MenuItem>
+                                <MenuItem  key={user.id} value={user.id}>{user.name[0].toUpperCase() + user.name.substr(1).toLowerCase()}</MenuItem>
                             ))}
                             </Select>
                             <Button type="submit">Submit</Button>

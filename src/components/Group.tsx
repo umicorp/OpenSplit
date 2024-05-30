@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Button, Modal, Typography} from "@mui/material";
+import {Button, Chip, Modal, Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import {ExpenseType, UserType} from "../store/Types";
@@ -14,6 +14,8 @@ import FolderIcon from "@mui/icons-material/Folder";
 import {Theme} from "../theme/Theme";
 import {uppercaseName} from "../helpers/Common";
 import {group} from "../../server/controllers/Group";
+import dayjs from "dayjs";
+import updateLocale from "dayjs/plugin/updateLocale";
 
 @inject("rootStore")
 @observer
@@ -24,6 +26,7 @@ export class Group extends React.Component<any, any> {
 
     settleUp = () => {
         const {groupStore, uiStore} = this.props.rootStore;
+        console.log(groupStore.userGroupBalance)
         if (groupStore.userGroupBalance >= 0) {
             uiStore.openGenericSnackbar(`You do not owe a balance`);
 
@@ -38,11 +41,14 @@ export class Group extends React.Component<any, any> {
         const {userStore, groupStore} = this.props.rootStore;
         const divideBy = groupStore.currentGroupUsers.length;
         const usersInGroup = groupStore.currentGroupUsers;
+        const currentDate = dayjs();
+        const today = currentDate.toISOString().split('T', 1)[0]
 
         const settleExpense: ExpenseType = {
             id: 0,
             owed: Number(Math.abs(groupStore.userGroupBalance).toFixed(2)),
             name: "Settled Up",
+            date: today,
             paidBy: userStore.currentUser,
             participants: [],
             groupId: groupStore.currentGroup.id,
@@ -77,8 +83,11 @@ export class Group extends React.Component<any, any> {
     }
     displayAction = (expense: ExpenseType) => {
         const {userStore} = this.props.rootStore;
-        if (expense.settleUp) {
-            return ""
+        if (expense.settleUp && expense.paidBy.id == userStore.currentUser.id ) {
+            return  "you paid"
+        }
+        else if (expense.settleUp){
+            return  uppercaseName(expense.paidBy.name) + " paid"
         }
         else if (expense.paidBy.id == userStore.currentUser.id){
             return "you are owed"
@@ -86,6 +95,17 @@ export class Group extends React.Component<any, any> {
         } else {
             return "you borrowed"
         }
+    }
+
+    displayDate = (date:string) => {
+
+        const monthsShort = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ]
+        const dateObject = dayjs(date, 'YYYY-MM-DD')
+        return monthsShort[dateObject.month()] + " " + dateObject.format("D")
+
     }
 
     render(): ReactNode {
@@ -112,7 +132,18 @@ export class Group extends React.Component<any, any> {
                                   sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <ListItemAvatar sx={{flexGrow: 1}}>
                                 <Avatar>
-                                    <FolderIcon/>
+                                    {/*<FolderIcon/>*/}
+                                    <Chip
+                                        sx={{
+                                            height: 'auto',
+                                            '& .MuiChip-label': {
+                                                display: 'block',
+                                                whiteSpace: 'normal',
+                                            },
+                                        }}
+                                        variant="outlined"
+                                        label={this.displayDate(expense.date)}
+                                    />
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText

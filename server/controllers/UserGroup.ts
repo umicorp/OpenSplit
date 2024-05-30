@@ -72,6 +72,7 @@ const addExpense = async (req, res) => {
     const settleUp = req.body.settleUp;
     const owed = req.body.owed;
     const paidBy = req.body.paidBy.id;
+    const date = req.body.date
 
     // Create an Expense
     const expenseCreation = {
@@ -79,7 +80,8 @@ const addExpense = async (req, res) => {
         totalAmount: totalAmount,
         paidBy: paidBy,
         owed: owed,
-        settleUp: settleUp
+        settleUp: settleUp,
+        date: date
     };
     const createdExpense = await Expense.create(expenseCreation);
 
@@ -115,6 +117,7 @@ const getAllExpenses = async (req, res) => {
                         "totalAmount": expense.totalAmount,
                         "paidBy": await User.findByPk(expense.paidBy),
                         "owed": expense.owed,
+                        "date": expense.date,
                         "settleUp": expense.settleUp,
                         "participants": participants
         }

@@ -3,6 +3,7 @@ import axios from "axios";
 import {RootStore} from "./RootStore";
 import {persist} from "mobx-persist";
 import {ExpenseType, GroupType, UserGroupType, UserType} from "./Types";
+import dayjs from "dayjs";
 
 
 export default class GroupStore {
@@ -113,7 +114,10 @@ export default class GroupStore {
 
     @action
     public getGroupExpensesAction = (data: ExpenseType[]): void => {
-        this.groupExpenses = data
+        // sort in expenses from latest
+
+        this.groupExpenses = data.sort((a,b) => dayjs(b.date).format("D") == dayjs(a.date).format("D") ? b.id - a.id : dayjs(b.date).unix() - dayjs(a.date).unix() );
+        console.log(this.groupExpenses)
     }
 
     @action
