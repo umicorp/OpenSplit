@@ -30,16 +30,5 @@ export const Theme = createTheme({
             fontSize: "1rem",
         },
     },
-    components: {
-        // Name of the component
-        // MuiBottomNavigation: {
-        //     styleOverrides: {
-        //         // Name of the slot
-        //         root: {
-        //             // Some CSS
-        //             backgroundColor: '#b2dfdb'
-        //         },
-        //     },
-        // },
-    },
+    components: {},
 });

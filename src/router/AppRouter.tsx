@@ -20,58 +20,30 @@ export class AppRouter extends React.Component<RootStoreProps> {
                     <Route
                         exact
                         path="/"
-                        render={(props) => <ContainerPage {...props} ><Home {...props} /></ContainerPage>}
+                        render={(props) => <ContainerPage {...props}><Home {...props} /></ContainerPage>}
                     />
                     <Route
                         exact
                         path={["account", "/account"]}
-                        render={(props) => <ContainerPage {...props} ><Account {...props} /></ContainerPage>}
+                        render={(props) => <ContainerPage {...props}><Account {...props} /></ContainerPage>}
                     />
                     <Route
                         exact
                         path={["groups", "/groups"]}
-                        render={(props) => <ContainerPage {...props} ><Groups {...props} /></ContainerPage>}
+                        render={(props) => <ContainerPage {...props}><Groups {...props} /></ContainerPage>}
                     />
                     <Route
                         exact
                         path={["groups/:groupId", "/groups/:groupId"]}
-                        render={(props) => <ContainerPage {...props} ><Group {...props} /></ContainerPage>}
+                        render={(props) => <ContainerPage {...props}><Group {...props} /></ContainerPage>}
                     />
                     <Route
                         exact
                         path={["*"]}
-                        render={(props) => <ContainerPage {...props} ><ErrorPage {...props} /></ContainerPage>}
+                        render={(props) => <ContainerPage {...props}><ErrorPage {...props} /></ContainerPage>}
                     />
                 </Switch>
             </BrowserRouter>
         );
     }
 }
-// export const AppRouter =  createBrowserRouter([
-//         {
-//             path: "/",
-//             element: <Home />,
-//             errorElement: <ErrorPage />
-//         },
-//         {
-//             path: "groups",
-//             element: <Groups  />,
-//             errorElement: <ErrorPage />
-//         },
-//         {
-//             path: "groups/:groupId",
-//             element: <Group />,
-//             errorElement: <ErrorPage />
-//         },
-//         {
-//             path: "account",
-//             element: <Account />,
-//             errorElement: <ErrorPage />
-//         },
-//         {
-//             path: "learn",
-//             element: <Learn />,
-//             errorElement: <ErrorPage />
-//         },
-//     ]);
-
