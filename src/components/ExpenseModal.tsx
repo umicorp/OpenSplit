@@ -46,7 +46,6 @@ export class ExpenseModal extends React.Component<any, any> {
             ...this.state, [name]: value
         }));
     }
-
     handleDateChange = (event: any): void => {
         const date = event.$d.toISOString().split('T', 1)[0]
         this.setState((state: any) => ({

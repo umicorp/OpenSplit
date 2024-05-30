@@ -42,7 +42,7 @@ export class Group extends React.Component<any, any> {
         const divideBy = groupStore.currentGroupUsers.length;
         const usersInGroup = groupStore.currentGroupUsers;
         const currentDate = dayjs();
-        const today = currentDate.format("YYYY-MM-DD");
+        const today = currentDate.toISOString().split('T', 1)[0]
 
         const settleExpense: ExpenseType = {
             id: 0,
