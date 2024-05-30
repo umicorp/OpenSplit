@@ -83,8 +83,11 @@ export class Group extends React.Component<any, any> {
     }
     displayAction = (expense: ExpenseType) => {
         const {userStore} = this.props.rootStore;
-        if (expense.settleUp) {
-            return ""
+        if (expense.settleUp && expense.paidBy.id == userStore.currentUser.id ) {
+            return  "you paid"
+        }
+        else if (expense.settleUp){
+            return  uppercaseName(expense.paidBy.name) + " paid"
         }
         else if (expense.paidBy.id == userStore.currentUser.id){
             return "you are owed"
