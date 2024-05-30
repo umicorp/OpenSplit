@@ -115,7 +115,8 @@ export default class GroupStore {
     @action
     public getGroupExpensesAction = (data: ExpenseType[]): void => {
         // sort in expenses from latest
-        this.groupExpenses = data.sort((a,b) => dayjs(b.date).unix() - dayjs(a.date).unix() );
+
+        this.groupExpenses = data.sort((a,b) => dayjs(b.date).format("D") == dayjs(a.date).format("D") ? b.id -a.id : dayjs(b.date).unix() - dayjs(a.date).unix() );
         // this.groupExpenses = data
         console.log(this.groupExpenses)
     }
