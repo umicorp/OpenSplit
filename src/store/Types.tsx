@@ -7,6 +7,7 @@ export type ExpenseType = {
     id: number,
     groupId: number,
     name: string,
+    date: string,
     totalAmount: number,
     paidBy: UserType,
     owed: number,

@@ -38,7 +38,13 @@ export const Expense = sequelize.define("Expense", {
     owed: {
         type: DataTypes.INTEGER,
         allowNull: false,
-    }});
+    },
+    date: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+    }},    {
+    timestamps: false },
+);
 
 export const ChildExpense = sequelize.define("ChildExpense", {
     name: {
