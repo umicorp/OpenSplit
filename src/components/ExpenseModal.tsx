@@ -6,6 +6,7 @@ import {Box, Button, FormControl, FormLabel, InputAdornment, Modal, TextField} f
 import {ExpenseType, UserAmountsType} from "../store/Types";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 type ExpenseAPIType = {
     name: string
@@ -140,7 +141,7 @@ export class ExpenseModal extends React.Component<any, any> {
                                 onChange={this.handleChangeAmount}
                             />
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker name="date" onChange={this.handleDateChange} />
+                                <DatePicker name="date" maxDate={dayjs()} onChange={this.handleDateChange} />
                             </LocalizationProvider>
                             <Button type="submit" disabled={this.state.amountError} >Submit</Button>
                         </FormControl>
