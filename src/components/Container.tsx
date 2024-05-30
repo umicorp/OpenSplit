@@ -39,7 +39,7 @@ export class ContainerPage extends React.Component<any, any> {
                 <UserModal />
                 <UserGroupModal/>
                 <GenericSnackbar/>
-                <Box flexGrow={10} m={2}>
+                <Box flexGrow={10} m={2} sx={{overflowY:"scroll"}}>
                     {this.props.children}
                 </Box>
                 <Paper elevation={3}>
