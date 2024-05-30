@@ -12,7 +12,6 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoneyRounded";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { useLocation } from 'react-router-dom';
 
 @inject("rootStore")
 @observer
@@ -40,8 +39,8 @@ export class NavigationBar extends React.Component<any, any> {
     }
 
     handleExpenseModalOpen = (): void => {
-        const { uiStore, groupStore } = this.props.rootStore;
-        if  ( groupStore.currentGroupUsers.length < 2) {
+        const {uiStore, groupStore} = this.props.rootStore;
+        if (groupStore.currentGroupUsers.length < 2) {
             uiStore.openGenericSnackbar("A Group must have at least 2 users to add an Expense", 2500)
         } else {
             uiStore.openExpenseModal();
@@ -50,50 +49,50 @@ export class NavigationBar extends React.Component<any, any> {
     }
 
     handleGroupModalOpen = (): void => {
-        const { uiStore } = this.props.rootStore;
+        const {uiStore} = this.props.rootStore;
         uiStore.openGroupModal();
         this.handleMenuClose();
     }
 
     handleUserModalOpen = (): void => {
-        const { uiStore } = this.props.rootStore;
+        const {uiStore} = this.props.rootStore;
         uiStore.openUserModal();
         this.handleMenuClose();
     }
 
     handleUserGroupModalOpen = (): void => {
-        const { uiStore } = this.props.rootStore;
+        const {uiStore} = this.props.rootStore;
         uiStore.openUserGroupModal();
         this.handleMenuClose();
     }
-
 
     renderExpense = (): any => {
         const location = window.location.href
         const inGroup = location.includes("groups/")
         if (inGroup) {
-            return (<Menu
-                open={this.state.isMenuOpen}
-                onClose={this.handleMenuClose}
-                anchorEl={this.state.anchorElement}
-                anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                }}
-                transformOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                }}
-            >
+            return (
+                <Menu
+                    open={this.state.isMenuOpen}
+                    onClose={this.handleMenuClose}
+                    anchorEl={this.state.anchorElement}
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                    }}
+                    transformOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right",
+                    }}
+                >
                     <MenuItem onClick={this.handleUserGroupModalOpen}>
-                        <GroupAddIcon sx={{marginRight: "1rem"}} />
-                    Add User
+                        <GroupAddIcon sx={{marginRight: "1rem"}}/>
+                        Add User
                     </MenuItem>
                     <MenuItem onClick={this.handleExpenseModalOpen}>
                         <AttachMoneyIcon sx={{marginRight: "1rem"}}/>
                         Add Expense
                     </MenuItem>
-            </Menu>
+                </Menu>
             )
         }
     }
@@ -102,69 +101,68 @@ export class NavigationBar extends React.Component<any, any> {
         const location = window.location.href
         const inGroup = location.includes("groups/")
         if (!inGroup) {
-        return( <Menu
-            open={this.state.isMenuOpen}
-            onClose={this.handleMenuClose}
-            anchorEl={this.state.anchorElement}
-            anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-            }}
-            transformOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-            }}
-        >
-            <MenuItem onClick={this.handleGroupModalOpen}>
-                <GroupAddIcon sx={{marginRight: "1rem"}} />
-                Create Group
-            </MenuItem>
-            <MenuItem onClick={this.handleUserModalOpen}>
-                <PersonAddIcon sx={{marginRight: "1rem"}} />
-                Create User
-            </MenuItem>
-        </Menu>)
-            }
+            return (
+                <Menu
+                    open={this.state.isMenuOpen}
+                    onClose={this.handleMenuClose}
+                    anchorEl={this.state.anchorElement}
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                    }}
+                    transformOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right",
+                    }}
+                >
+                    <MenuItem onClick={this.handleGroupModalOpen}>
+                        <GroupAddIcon sx={{marginRight: "1rem"}}/>
+                        Create Group
+                    </MenuItem>
+                    <MenuItem onClick={this.handleUserModalOpen}>
+                        <PersonAddIcon sx={{marginRight: "1rem"}}/>
+                        Create User
+                    </MenuItem>
+                </Menu>
+            )
+        }
     }
 
     render(): ReactNode {
-        const { userStore } = this.props.rootStore;
+        const {userStore} = this.props.rootStore;
         return (
-            <BottomNavigation
-                showLabels
-                value={this.props.location.pathname}
-                sx={{margin: "0.5rem"}}
-            >
-                <BottomNavigationAction
-                    label="Groups"
-                    icon={<GroupIcon />}
-                    component={Link}
-                    to={"/groups"}
-                    value={"/groups"}
-                />
-                <BottomNavigationAction
-                    icon={<AddBoxIcon color="primary" fontSize={"large"}/>}
-                    onClick={this.handleMenuOpen}
-                    label=" "
-                />
-                <BottomNavigationAction
-                    label="Account"
-                    icon={ userStore.currentUser
-                        ? <Typography variant={"h4"}>{userStore.currentUser.name[0].toUpperCase()}</Typography>
-                        : <AccountCircleIcon />
-                    }
-                    component={Link}
-                    to={"/account"}
-                    value={"/account"}
-                />
-                    {
-                        this.renderExpense()
-                    }
-                    {
-                        this.renderDefaultMenu()
-                    }
-
-            </BottomNavigation>
+            <>
+                <BottomNavigation
+                    showLabels
+                    value={this.props.location.pathname}
+                    sx={{margin: "0.5rem"}}
+                >
+                    <BottomNavigationAction
+                        label="Groups"
+                        icon={<GroupIcon/>}
+                        component={Link}
+                        to={"/groups"}
+                        value={"/groups"}
+                    />
+                    <BottomNavigationAction
+                        icon={<AddBoxIcon color="primary" fontSize={"large"}/>}
+                        onClick={this.handleMenuOpen}
+                        label=" "
+                    />
+                    <BottomNavigationAction
+                        label="Account"
+                        icon={userStore.currentUser
+                            ? <Typography variant={"h4"}>{userStore.currentUser.name[0].toUpperCase()}</Typography>
+                            : <AccountCircleIcon/>
+                        }
+                        component={Link}
+                        to={"/account"}
+                        value={"/account"}
+                    />
+                </BottomNavigation>
+                {this.renderExpense()}
+                {this.renderDefaultMenu()}
+            </>
         );
     }
 }

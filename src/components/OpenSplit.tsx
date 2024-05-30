@@ -18,7 +18,6 @@ export class OpenSplit extends React.Component<OpenSplitProps> {
                     <AppRouter />
                 </Provider>
             </ThemeProvider>
-
         );
     }
 }
