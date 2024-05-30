@@ -26,6 +26,7 @@ export class Group extends React.Component<any, any> {
 
     settleUp = () => {
         const {groupStore, uiStore} = this.props.rootStore;
+        console.log(groupStore.userGroupBalance)
         if (groupStore.userGroupBalance >= 0) {
             uiStore.openGenericSnackbar(`You do not owe a balance`);
 
@@ -40,13 +41,14 @@ export class Group extends React.Component<any, any> {
         const {userStore, groupStore} = this.props.rootStore;
         const divideBy = groupStore.currentGroupUsers.length;
         const usersInGroup = groupStore.currentGroupUsers;
-        const today = new Date(Date.now());
+        const currentDate = dayjs();
+        const today = currentDate.format("YYYY-MM-DD");
 
         const settleExpense: ExpenseType = {
             id: 0,
             owed: Number(Math.abs(groupStore.userGroupBalance).toFixed(2)),
             name: "Settled Up",
-            date: today.toISOString().split('T', 1)[0],
+            date: today,
             paidBy: userStore.currentUser,
             participants: [],
             groupId: groupStore.currentGroup.id,
