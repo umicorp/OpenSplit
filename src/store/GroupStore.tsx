@@ -53,7 +53,7 @@ export default class GroupStore {
 
     @action
     public getGroupsAPI = (): void => {
-        axios.get("http://localhost:3001/api/groups")
+        axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/groups`)
             .then(({ data }: { data: UserGroupType[] }) => {
                 this.getGroupsAction(data)
             })
@@ -64,7 +64,7 @@ export default class GroupStore {
 
     @action
     public createGroup = (name: string): void => {
-        axios.post("http://localhost:3001/api/groups",{"name": name})
+        axios.post(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/groups`,{"name": name})
             .then(({ data }) => {
                 this.allGroups = data;
                 this.rootStore.uiStore?.openGenericSnackbar(`Created`);
@@ -77,7 +77,7 @@ export default class GroupStore {
 
     @action
     public deleteGroup = (id: number): void => {
-        axios.delete(`http://localhost:3001/api/groups/${id}`)
+        axios.delete(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/groups/${id}`)
             .then(({ data }) => {
                 this.allGroups = data;
                 this.rootStore.uiStore?.openGenericSnackbar(`Deleted`);
@@ -103,7 +103,7 @@ export default class GroupStore {
 
     @action
     public getCurrentGroupUsersAPI = (groupId: number): void =>{
-        axios.get(`http://localhost:3001/api/usergroup/${groupId}`)
+        axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/usergroup/${groupId}`)
             .then(({ data }:  {data: UserType[]}) => {
                 this.getCurrentGroupUsersAction(data)
             })
@@ -122,7 +122,7 @@ export default class GroupStore {
 
     @action
     public getGroupExpensesAPI = (userId: number, groupId: number): void => {
-        axios.get("http://localhost:3001/api/expense/",{
+        axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/expense/`,{
             params: {
                 userid: userId.toString(),
                 groupid: groupId.toString(),
@@ -159,7 +159,7 @@ export default class GroupStore {
 
     @action
     public addUserToGroupAPI = (userId: number, groupId: number): void => {
-        axios.post("http://localhost:3001/api/usergroup",{"userid": userId, "groupid": groupId})
+        axios.post(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/usergroup`,{"userid": userId, "groupid": groupId})
             .then(({ data }: { data: UserGroupType[] }) => {
                 this.addUserToGroupAction(data, groupId)
             })
@@ -186,7 +186,7 @@ export default class GroupStore {
 
     @action
     public addExpenseAPI = (expense: ExpenseType): void => {
-        axios.post("http://localhost:3001/api/expense", expense)
+        axios.post(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/expense`, expense)
             .then(() => this.addExpenseAction(expense))
             .catch((error) => console.log(error));
     }

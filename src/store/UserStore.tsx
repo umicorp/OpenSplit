@@ -47,7 +47,7 @@ export class UserStore {
 
     @action
     public getUsersAPI = (): void => {
-        axios.get("http://localhost:3001/api/users/")
+        axios.get(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/users/`)
             .then(({ data }:{ data: UserType[] }) => {
                 this.getUsersAction(data)
             })
@@ -64,7 +64,7 @@ export class UserStore {
 
     @action
     public createUserAPI = (user: string): void => {
-        axios.post("http://localhost:3001/api/users/",{"username": user})
+        axios.post(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/users/`,{"username": user})
             .then(({ data }: { data: UserType }) => {
                 this.createUserAction(data)
             })
