@@ -1,10 +1,11 @@
 import {Expense, Group, User, UserGroup} from "../models/Model";
 import {sequelize} from "../models/Database";
 
+// @ts-ignore;
 async function  addUsersToGroup(user: User, group: Group): Promise<UserGroup> {
     const userObject = await User.findOne({where: { name: user }})
     const groupObject = await Group.findOne({where: { name: group }})
-
+    // @ts-ignore;
     const userGroups = await userObject.addGroup(groupObject);
 }
 

@@ -1,6 +1,7 @@
 import {userGroup} from "../controllers/UserGroup";
 import Router from 'express';
 
+// @ts-ignore;
 module.exports = app => {
     const router = Router();
 

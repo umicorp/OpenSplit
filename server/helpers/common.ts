@@ -5,6 +5,7 @@ export const getUsersinGroups = async()=> {
 
     const AllUsersAndGroups = []
     for (let group of allGroups){
+        // @ts-ignore;
         let usergroup = await group.getUsers({joinTableAttributes: [], attributes: ['id', "name"] })
         if (usergroup === null) usergroup = [];
         let UsersAndGroups = {group: group, users:usergroup }

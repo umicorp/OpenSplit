@@ -1,6 +1,7 @@
 import {user} from "../controllers/UserController";
 import Router from 'express';
 
+// @ts-ignore;
 module.exports = app => {
     const users = user;
 

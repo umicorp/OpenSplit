@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start the backend
-npm run dev_server  &
+npm run prod_server  &
 
 ## Start the frontend
 npm run run_build &

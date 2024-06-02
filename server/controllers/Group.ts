@@ -1,8 +1,9 @@
 import {Expense, Group, UserGroup} from "../models/Model";
-import exp from "node:constants";
 import {getUsersinGroups} from "../helpers/common";
+import {ExpenseType} from "../types/Types";
 
 // Create and Save a new Group
+// @ts-ignore
 const create = async (req, res) => {
     // Validate request
     if (!req.body.name) {
@@ -31,6 +32,7 @@ const create = async (req, res) => {
     const allGroups = await Group.findAll();
     const AllUsersAndGroups = []
     for (let group of allGroups){
+        // @ts-ignore
         let usergroup = await group.getUsers({joinTableAttributes: [], attributes: ['id', "name"] })
         if (usergroup === null) usergroup = [];
         let UsersAndGroups = {group: group, users:usergroup }
@@ -40,11 +42,13 @@ const create = async (req, res) => {
 };
 
 // Retrieve all Groups from the database.
+// @ts-ignore
 const findAll = async (req, res) => {
     const allGroups = await Group.findAll();
 
     const AllUsersAndGroups = []
     for (let group of allGroups){
+        // @ts-ignore
         let usergroup = await group.getUsers({joinTableAttributes: [], attributes: ['id', "name"] })
         if (usergroup === null) usergroup = [];
         let UsersAndGroups = {group: group, users:usergroup }
@@ -54,6 +58,7 @@ const findAll = async (req, res) => {
 };
 
 // Find a single Group with an id
+// @ts-ignore
 const findOne = (req, res) => {
     const id = req.params.id;
 
@@ -76,11 +81,13 @@ const findOne = (req, res) => {
 
 // Delete a Group with the specified id in the request
 // Deletes all expenses in the group as well
+// @ts-ignore
 const deleteGroup = async (req, res) => {
     const id = req.params.id;
     const usergroup = await UserGroup.findOne({where: {GroupId: id}});
     if (usergroup != null) {
-        const expenses = await usergroup.getExpenses();
+        // @ts-ignore
+        const expenses: ExpenseType[] = await usergroup.getExpenses();
         const expenseIDs = expenses.map(expense => expense.id);
         await Expense.destroy({ where: { id: expenseIDs }})
     }
@@ -91,6 +98,7 @@ const deleteGroup = async (req, res) => {
 
 
 // Delete all groups from the database.
+// @ts-ignore
 const deleteAll = (req, res) => {
     Group.destroy({
         where: {},
