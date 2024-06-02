@@ -1,6 +1,7 @@
 import {User} from "../models/Model";
 
 // Create and Save a new User
+// @ts-ignore
 const create = (req, res) => {
     // Validate request
     if (!req.body.username) {
@@ -30,6 +31,7 @@ const create = (req, res) => {
 
 
 // Retrieve all Users from the database.
+// @ts-ignore
 const findAll = (req, res) => {
     User.findAll()
         .then(data => {
@@ -44,6 +46,7 @@ const findAll = (req, res) => {
 };
 
 // Find a single User with an id
+// @ts-ignore
 const findOne = (req, res) => {
     const id = req.params.id;
 
@@ -66,6 +69,7 @@ const findOne = (req, res) => {
 
 
 // Update a User by the id in the request
+// @ts-ignore
  const update = (req, res) => {
     const id = req.params.id;
 
@@ -73,7 +77,7 @@ const findOne = (req, res) => {
         where: { id: id }
     })
         .then(num => {
-            if (num == 1) {
+            if (num.length == 1) {
                 res.send({
                     message: "User was updated successfully."
                 });
@@ -91,6 +95,7 @@ const findOne = (req, res) => {
 };
 
 // Delete a User with the specified id in the request
+// @ts-ignore
 const deleteUser = (req, res) => {
     const id = req.params.id;
 
@@ -117,6 +122,7 @@ const deleteUser = (req, res) => {
 
 
 // Delete all Users from the database.
+// @ts-ignore
 const deleteAll = (req, res) => {
     User.destroy({
         where: {},

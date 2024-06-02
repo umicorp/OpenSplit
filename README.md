@@ -53,9 +53,12 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 ### Docker image
 
-#### Compose step
+#### Building for release
 
-``docker compose up -d``
+```
+./release.sh                      
+```
+
 
 #### Debugging 
 

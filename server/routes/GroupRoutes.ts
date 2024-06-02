@@ -1,6 +1,7 @@
 import {group} from "../controllers/Group";
 import Router from 'express';
 
+// @ts-ignore;
 module.exports = app => {
     const groups = group;
 
