@@ -59,6 +59,6 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 #### Debugging 
 
-`` docker run -i -t opensplit bash``
+`` docker run -i -t open_split-1 bash``
 
 ``Docker logs``

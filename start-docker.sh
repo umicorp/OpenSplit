@@ -1,10 +1,9 @@
 #!/bin/bash
 
-
 # Start the backend
 npm run dev_server  &
 
-# Start the frontend
+## Start the frontend
 npm run run_build &
 
 # Wait for any process to exit
