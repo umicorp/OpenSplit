@@ -10,7 +10,7 @@ RootStore.new().then((rootStore) => {
     const root = ReactDOM.createRoot(document.getElementById("root"));
     root.render(
         <React.StrictMode>
-            <OpenSplit rootStore={rootStore} />
+            <OpenSplit rootStore={rootStore}/>
         </React.StrictMode>
     );
 });

@@ -77,6 +77,7 @@
     "sass-loader": "^10.0.5",
     "semver": "7.3.2",
     "sequelize": "^6.37.3",
+    "serve": "^14.2.3",
     "sqlite3": "^5.1.7",
     "style-loader": "1.3.0",
     "terser-webpack-plugin": "4.2.3",
@@ -92,6 +93,7 @@
     "start": "NODE_OPTIONS=--openssl-legacy-provider node scripts/start.js",
     "start_server": "npx tsx server/index.ts",
     "dev_server": "nodemon",
+    "run_build": "serve -s -n build",
     "seeddb": "npx tsx server/helper/seedDB.ts",
     "build": "NODE_OPTIONS=--openssl-legacy-provider node scripts/build.js",
     "test": "node scripts/test.js"
