@@ -56,11 +56,7 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 #### Building for release
 
 ```
-// builds frontend
-npm run build
-// builds backend
-tsc server/*
-docker-compose build                                              
+./release.sh                      
 ```
 
 

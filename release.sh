@@ -7,5 +7,5 @@ tsc
 cd ../ || exit
 docker-compose build
 
-#rm -rf build
-#rm -rf server/serverBuild
+rm -rf build
+rm -rf server/serverBuild
