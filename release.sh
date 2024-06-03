@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 npm run build
 cd server || exit
 tsc
