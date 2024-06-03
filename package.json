@@ -90,7 +90,7 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
-    "start": "NODE_OPTIONS=--openssl-legacy-provider node scripts/start.js",
+    "start": "chmod +x ./scripts/set_env.sh && ./scripts/set_env.sh && cp env-config.js ./public/ && NODE_OPTIONS=--openssl-legacy-provider node scripts/start.js",
     "start_server": "npx tsx server/index.ts",
     "dev_server": "nodemon",
     "prod_server": "node server/index.js",

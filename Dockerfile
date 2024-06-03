@@ -6,8 +6,9 @@ WORKDIR /app
 COPY package*.json ./
 COPY nodemon.json ./
 COPY build ./build
+COPY scripts ./scripts
+COPY ./.env ./
 COPY start-docker.sh ./
-COPY .env-docker ./.env
 COPY server/serverBuild ./server
 RUN apk update && apk add bash
 

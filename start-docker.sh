@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Set env vars at runtime
+source ./scripts/set_env.sh
+cp env-config.js ./build/env-config.js
+
 # Start the backend
 npm run prod_server  &
 

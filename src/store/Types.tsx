@@ -34,3 +34,9 @@ export type UserAmountsType = {
     userid: number
     amount: number
 }
+
+declare global {
+    interface Window {
+        _env_:any;
+    }
+}
