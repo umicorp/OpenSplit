@@ -70,10 +70,10 @@ export class Group extends React.Component<any, any> {
                     usersToBePaid.push(uppercaseName(user.name))
                 }
             }
-            const display = `${uppercaseName(expense.paidBy.name)} paid \n ${usersToBePaid}`
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n $${usersToBePaid}`
             return display
         } else {
-            const display = `${uppercaseName(expense.paidBy.name)} paid \n ${expense.totalAmount}`
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n $${expense.totalAmount}`
             return display
 
         }
@@ -101,7 +101,7 @@ export class Group extends React.Component<any, any> {
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
         ]
         const dateObject = dayjs(date, 'YYYY-MM-DD')
-        return monthsShort[dateObject.month()] + " " + dateObject.format("D")
+        return monthsShort[dateObject.month()] + " " + dateObject.format("DD")
 
     }
 
@@ -128,25 +128,26 @@ export class Group extends React.Component<any, any> {
                         <ListItem key={expense.id}
                                   sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <ListItemAvatar sx={{flexGrow: 1}}>
-                                <Avatar>
-                                    <Chip
-                                        sx={{
-                                            height: 'auto',
-                                            '& .MuiChip-label': {
-                                                display: 'block',
-                                                whiteSpace: 'normal',
-                                            },
-                                        }}
-                                        variant="outlined"
-                                        label={this.displayDate(expense.date)}
-                                    />
+                                <Avatar
+                                    variant="rounded"
+                                    sx={{
+                                    flexGrow: 1,
+                                    height: 'auto',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    whiteSpace: 'normal',
+                                    paddingRight: 1,
+                                    paddingLeft:1
+                                    }}>
+                                    {this.displayDate(expense.date)}
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
                                 disableTypography={true}
-                                primary={<Typography variant={"h4"}>{expense.name}</Typography>}
+                                primary={<Typography paddingLeft={1} variant={"h4"}>{expense.name}</Typography>}
                                 secondary={
-                                    <Typography variant={"body1"}>
+                                    <Typography paddingLeft={1} variant={"body1"}>
                                         {this.displaySecondaryText(expense)}
                                     </Typography>
                                 }
@@ -156,6 +157,7 @@ export class Group extends React.Component<any, any> {
                                 disableTypography={true}
                                 primary={
                                     <Typography
+                                        paddingLeft={3}
                                         variant={"body2"}
                                         textAlign={"right"}
                                         color={expense.paidBy.id == userStore.currentUser.id
@@ -175,7 +177,7 @@ export class Group extends React.Component<any, any> {
                                             : Theme.palette.error.main
                                         }
                                     >
-                                        $ {expense.owed.toFixed(2)}
+                                        ${expense.owed.toFixed(2)}
                                     </Typography>
                                 }
                             />
