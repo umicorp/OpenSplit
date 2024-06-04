@@ -1,21 +1,18 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Button, Chip, Modal, Typography} from "@mui/material";
+import {Button, Chip, Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
-import {ExpenseType, UserType} from "../store/Types";
+import {ExpenseType} from "../store/Types";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import ListItem from "@mui/material/ListItem";
 import List from "@mui/material/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import FolderIcon from "@mui/icons-material/Folder";
 import {Theme} from "../theme/Theme";
 import {uppercaseName} from "../helpers/Common";
-import {group} from "../../server/controllers/Group";
 import dayjs from "dayjs";
-import updateLocale from "dayjs/plugin/updateLocale";
 
 @inject("rootStore")
 @observer
@@ -65,7 +62,7 @@ export class Group extends React.Component<any, any> {
 
     displaySecondaryText = (expense: ExpenseType) : string => {
         if (expense.settleUp){
-            const {userStore, groupStore} = this.props.rootStore;
+            const {groupStore} = this.props.rootStore;
             const usersInGroup = groupStore.currentGroupUsers;
             const usersToBePaid: string[] = []
             for (const user of usersInGroup) {
@@ -132,7 +129,6 @@ export class Group extends React.Component<any, any> {
                                   sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <ListItemAvatar sx={{flexGrow: 1}}>
                                 <Avatar>
-                                    {/*<FolderIcon/>*/}
                                     <Chip
                                         sx={{
                                             height: 'auto',
@@ -186,7 +182,10 @@ export class Group extends React.Component<any, any> {
                         </ListItem>
                     ))}
                 </List>
-                <Button onClick={() => console.log(this.props.rootStore)}>TEST</Button>
+                {process.env.NODE_ENV == "production"
+                ? ""
+                : <Button onClick={() => console.log(this.props.rootStore)}>TEST</Button>
+                }
             </Box>
 
         );

@@ -23,7 +23,7 @@ export class Account extends React.Component<any, any> {
     render(): ReactNode {
         const { userStore } = this.props.rootStore;
         return (
-            <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
+            <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", padding:"1rem"}}>
                 <FormControl fullWidth>
                     <InputLabel id="user-label">Current User</InputLabel>
                     <Select
