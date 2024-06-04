@@ -127,7 +127,7 @@ export class ExpenseModal extends React.Component<any, any> {
                                 name="name"
                                 variant="outlined"
                                 onChange={this.handleChange}
-                                margin="normal">
+                                >
                             </TextField>
                             <TextField
                                 name="totalamount"
@@ -141,7 +141,7 @@ export class ExpenseModal extends React.Component<any, any> {
                                 onChange={this.handleChangeAmount}
                             />
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker name="date" maxDate={dayjs()} onChange={this.handleDateChange} />
+                                <DatePicker name="date" maxDate={dayjs()} defaultValue={dayjs(new Date())} onChange={this.handleDateChange} sx={{marginTop:"1rem"}}  />
                             </LocalizationProvider>
                             <Button type="submit" disabled={this.state.amountError} >Submit</Button>
                         </FormControl>

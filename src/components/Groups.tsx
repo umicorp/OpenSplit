@@ -86,8 +86,10 @@ export class Groups extends React.Component<any, any> {
                     ))}
                 </List>
                 }
-                <Button onClick={() => console.log(this.props)}>TEST</Button>
-            </Box>
+                {process.env.NODE_ENV == "production"
+                    ? ""
+                    : <Button onClick={() => console.log(this.props.rootStore)}>TEST</Button>
+                }            </Box>
         );
     }
 }

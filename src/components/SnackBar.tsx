@@ -26,7 +26,8 @@ export class GenericSnackbar extends React.Component<any, any> {
                 autoHideDuration={uiStore.isGenericSnackbarDuration}
                 onClose={uiStore.closeGenericSnackbar}
                 message={uiStore.isGenericSnackbarMessage}
-            />
+                anchorOrigin={{ vertical:"top", horizontal:"center" }}
+                    />
         </div>
     );
 }
