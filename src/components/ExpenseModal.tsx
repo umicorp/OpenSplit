@@ -132,6 +132,7 @@ export class ExpenseModal extends React.Component<any, any> {
                             <TextField
                                 name="totalamount"
                                 required
+                                inputProps={{ inputMode: 'numeric' }}
                                 label="You Paid"
                                 error={this.state.amountError}
                                 helperText={this.state.amountError ? "Please Enter a Number" : ""}
