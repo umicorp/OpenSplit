@@ -1,8 +1,6 @@
 import {action, makeAutoObservable, observable} from "mobx";
 import {persist} from "mobx-persist";
 import {RootStore} from "./RootStore";
-import {GenericSnackbar} from "../components/SnackBar";
-import * as buffer from "node:buffer";
 
 export class UIStore {
     private rootStore: RootStore;
@@ -23,6 +21,7 @@ export class UIStore {
     @persist
     @observable
     public isGenericSnackbarMessage = ""
+
     @persist
     @observable
     public isGenericSnackbarDuration = 1000
@@ -38,6 +37,14 @@ export class UIStore {
     @persist
     @observable
     public header = ""
+
+    @persist
+    @observable
+    public isConfirmBoxOpen = false
+
+    @persist
+    @observable
+    public isConfirmBoxMessage = ""
 
 
     constructor(rootStore: RootStore) {
@@ -106,5 +113,16 @@ export class UIStore {
     @action
     closeUserGroupModal = (): void => {
         this.isUserGroupModalOpen = false;
+    }
+
+    @action
+    openConfirmBox = (message:string): void => {
+        this.isConfirmBoxOpen = true;
+        this.isConfirmBoxMessage = message
+    }
+
+    @action
+    closeConfirmBox = (): void => {
+        this.isConfirmBoxOpen = false;
     }
 }

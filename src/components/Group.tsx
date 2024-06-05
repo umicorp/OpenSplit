@@ -23,8 +23,9 @@ export class Group extends React.Component<any, any> {
 
     settleUp = () => {
         const {groupStore, uiStore} = this.props.rootStore;
-        console.log(groupStore.userGroupBalance)
+
         if (groupStore.userGroupBalance >= 0) {
+            uiStore.openConfirmBox("Test")
             uiStore.openGenericSnackbar(`You do not owe a balance`);
 
         } else{
