@@ -15,6 +15,8 @@ import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import {UserGroupType, UserType} from "../store/Types";
 import ListItemButton from "@mui/material/ListItemButton";
+import PullToRefresh from "react-simple-pull-to-refresh";
+import {delay} from "../helpers/Common";
 
 @inject("rootStore")
 @observer
@@ -44,10 +46,15 @@ export class Groups extends React.Component<any, any> {
         return users.join(" / ")
     }
 
-
+    pullToRefreshAction = async () =>{
+        const { groupStore } = this.props.rootStore;
+        await delay(200);
+        await groupStore.getGroupsAPI();
+    }
     render(): ReactNode {
         const { groupStore, userStore } = this.props.rootStore;
         return (
+            <PullToRefresh onRefresh={this.pullToRefreshAction} >
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
                 { groupStore.allGroups.length == 0
                     ? <Typography variant="h6">You have no groups. Create some using the + button.</Typography>
@@ -90,6 +97,7 @@ export class Groups extends React.Component<any, any> {
                     ? ""
                     : <Button onClick={() => console.log(this.props.rootStore)}>TEST</Button>
                 }            </Box>
+                </PullToRefresh>
         );
     }
 }
