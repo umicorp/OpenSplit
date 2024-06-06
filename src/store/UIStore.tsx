@@ -75,7 +75,7 @@ export class UIStore {
         this.isExpenseModalOpen = false;
     }
     @action
-    openGenericSnackbar = (message:string, duration = 1000): void => {
+    openGenericSnackbar = (message:string, duration = 2000): void => {
         this.isGenericSnackbarOpen = true;
         this.isGenericSnackbarMessage = message
         this.isGenericSnackbarDuration = duration
