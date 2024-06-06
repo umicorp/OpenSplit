@@ -11,8 +11,9 @@ import List from "@mui/material/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import {Theme} from "../theme/Theme";
-import {uppercaseName} from "../helpers/Common";
+import {delay, uppercaseName} from "../helpers/Common";
 import dayjs from "dayjs";
+import PullToRefresh from "react-simple-pull-to-refresh";
 
 @inject("rootStore")
 @observer
@@ -114,10 +115,20 @@ export class Group extends React.Component<any, any> {
 
     }
 
+    pullToRefreshAction = async () =>{
+        const { groupStore, userStore } = this.props.rootStore;
+        const userId = userStore.currentUser.id
+
+        const groupId = groupStore.currentGroup.id
+        await delay(200);
+        await groupStore.getGroupExpensesAPI(userId, groupId)
+    }
+
     render(): ReactNode {
         const {groupStore, userStore} = this.props.rootStore;
 
         return (
+            <PullToRefresh onRefresh={this.pullToRefreshAction} >
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
                 <Box sx={{flexGrow: 1, display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                 <Button variant="contained" href="#contained-buttons" onClick={this.settleUp}>
@@ -198,7 +209,8 @@ export class Group extends React.Component<any, any> {
                 : <Button onClick={() => console.log(this.props.rootStore)}>TEST</Button>
                 }
             </Box>
+            </PullToRefresh>
 
-        );
+                );
     }
 }

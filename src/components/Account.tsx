@@ -6,7 +6,6 @@ import {RootStoreProps} from "../store/RootStore";
 import {UserType} from "../store/Types";
 import Box from "@mui/material/Box";
 
-
 @inject("rootStore")
 @observer
 export class Account extends React.Component<any, any> {
