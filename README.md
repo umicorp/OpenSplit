@@ -1,10 +1,17 @@
 # Getting Started 
 
-Clone of splitwise. This projects goal is:
+Clone of SplitWise. This projects goal is:
 
 * Feature parity with splitwise
 * Deployable with docker
 
+Checkout `unraid-compose.yaml` as an example of how to run this app in your local environment.
+I find this app works well when you bookmark the app to your mobile phone's homepage. This seems to load
+the app in webview mode, it acts like a native app rather than a site. I've only tested this on IOS. Android testing
+and feedback welcome!
+
+
+# Development
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 Since then the ``npm eject`` command has been run removing the create-a-react-app tooling. 
 
