@@ -120,6 +120,7 @@ export class Group extends React.Component<any, any> {
         const userId = userStore.currentUser.id
 
         const groupId = groupStore.currentGroup.id
+        // added to make user experience better for pull down to refresh
         await delay(200);
         await groupStore.getGroupExpensesAPI(userId, groupId)
     }

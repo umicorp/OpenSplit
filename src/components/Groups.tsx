@@ -13,16 +13,20 @@ import {Link} from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import {UserGroupType, UserType} from "../store/Types";
+import {GroupType, UserGroupType, UserType} from "../store/Types";
 import ListItemButton from "@mui/material/ListItemButton";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import {delay} from "../helpers/Common";
+import {group} from "../../server/controllers/Group";
 
 @inject("rootStore")
 @observer
 export class Groups extends React.Component<any, any> {
     constructor(props: RootStoreProps) {
         super(props);
+        this.state = {
+            groupIdToDelete: 0,
+        };
     }
 
     componentDidMount() {
@@ -44,6 +48,23 @@ export class Groups extends React.Component<any, any> {
         const group = groupStore.allGroups.filter((userGroup: UserGroupType) => userGroup.group.id == groupId)
         const users = group[0].users.map((user: UserType) => user?.name.toUpperCase()[0] + user?.name.slice(1))
         return users.join(" / ")
+    }
+
+    deleteGroupConfirm = () => {
+        const { groupStore, uiStore } = this.props.rootStore;
+        groupStore.deleteGroup(this.state.groupIdToDelete)
+        uiStore.exitConfirmBox()
+
+    }
+
+    deleteGroupAction = (group: GroupType) => {
+        const { groupStore, uiStore } = this.props.rootStore;
+        this.setState(() => ({
+            groupIdToDelete: group.id,
+        }));
+        uiStore.openConfirmBox(`Do you want to delete ${group.name}?`,
+            `This will delete all expenses in the group`,
+            this.deleteGroupConfirm)
     }
 
     pullToRefreshAction = async () =>{
@@ -68,7 +89,7 @@ export class Groups extends React.Component<any, any> {
                                     edge="end"
                                     aria-label="delete"
                                     component="a"
-                                    onClick={() => groupStore.deleteGroup(group["group"].id)}>
+                                    onClick={() => this.deleteGroupAction(group["group"])}>
 
                                 <DeleteIcon/>
                                 </IconButton>
