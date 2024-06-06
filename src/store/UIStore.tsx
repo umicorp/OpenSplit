@@ -1,8 +1,6 @@
 import {action, makeAutoObservable, observable} from "mobx";
 import {persist} from "mobx-persist";
 import {RootStore} from "./RootStore";
-import {GenericSnackbar} from "../components/SnackBar";
-import * as buffer from "node:buffer";
 
 export class UIStore {
     private rootStore: RootStore;
@@ -23,6 +21,7 @@ export class UIStore {
     @persist
     @observable
     public isGenericSnackbarMessage = ""
+
     @persist
     @observable
     public isGenericSnackbarDuration = 1000
@@ -33,12 +32,26 @@ export class UIStore {
 
     @persist
     @observable
-    public isUserGroupModalOpen = false
+    public isUserGroupModalOpen = false;
 
     @persist
     @observable
-    public header = ""
+    public header = "";
 
+    @persist
+    @observable
+    public isConfirmBoxOpen = false;
+
+    @persist
+    @observable
+    public isConfirmBoxMessage = "";
+
+    @persist
+    @observable
+    public isConfirmBoxTitle = "";
+
+    @observable
+    public confirmAction: () => void = () => {const placeholder = "placeholder"}
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
@@ -62,7 +75,7 @@ export class UIStore {
         this.isExpenseModalOpen = false;
     }
     @action
-    openGenericSnackbar = (message:string, duration = 1000): void => {
+    openGenericSnackbar = (message:string, duration = 2000): void => {
         this.isGenericSnackbarOpen = true;
         this.isGenericSnackbarMessage = message
         this.isGenericSnackbarDuration = duration
@@ -107,4 +120,18 @@ export class UIStore {
     closeUserGroupModal = (): void => {
         this.isUserGroupModalOpen = false;
     }
+
+    @action
+    openConfirmBox = (title:string, message:string, action: () => void): void => {
+        this.isConfirmBoxOpen = true;
+        this.isConfirmBoxMessage = message
+        this.isConfirmBoxTitle = title
+        this.confirmAction = action
+    }
+
+    @action
+    exitConfirmBox = (): void => {
+        this.isConfirmBoxOpen = false;
+    }
+
 }

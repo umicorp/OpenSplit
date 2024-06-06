@@ -10,6 +10,7 @@ import {GroupModal} from "./GroupModal";
 import {UserModal} from "./UserModal";
 import {UserGroupModal} from "./UserGroupModal";
 import {GenericSnackbar} from "./SnackBar";
+import {ConfirmBox} from "./Confirm";
 
 @inject("rootStore")
 @observer
@@ -39,6 +40,7 @@ export class ContainerPage extends React.Component<any, any> {
                 <UserModal />
                 <UserGroupModal/>
                 <GenericSnackbar/>
+                <ConfirmBox/>
                 <Box flexGrow={10} m={2} sx={{overflowY:"scroll"}}>
                     {this.props.children}
                 </Box>
