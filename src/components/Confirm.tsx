@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import {RootStoreProps} from "../store/RootStore";
 import {ReactNode} from "react";
 import {inject, observer} from "mobx-react";
+import Box from "@mui/material/Box";
 
 @inject("rootStore")
 @observer
@@ -25,14 +26,13 @@ export class ConfirmBox extends React.Component<any, any> {
     render(): ReactNode {
         const {uiStore} = this.props.rootStore;
         return (
-            <div>
-                <Dialog open={uiStore.isConfirmBoxOpen}>
-                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                        Modal title
+                <Dialog fullWidth maxWidth="md" open={uiStore.isConfirmBoxOpen}>
+                <DialogTitle variant="h5">
+                    {uiStore.isConfirmBoxTitle}
                     </DialogTitle>
                     <IconButton
                         aria-label="close"
-                        onClick={uiStore.closeConfirmBox}
+                        onClick={uiStore.exitConfirmBox}
                         sx={{
                             position: 'absolute',
                             right: 8,
@@ -42,17 +42,16 @@ export class ConfirmBox extends React.Component<any, any> {
                         <CloseIcon />
                     </IconButton>
                     <DialogContent dividers>
-                        <Typography gutterBottom>
-                            Settle up? {uiStore.isConfirmBoxMessage}
+                        <Typography gutterBottom variant="h6">
+                            {uiStore.isConfirmBoxMessage}
                         </Typography>
                     </DialogContent>
                     <DialogActions>
-                        <Button autoFocus onClick={uiStore.closeConfirmBox}>
+                        <Button autoFocus onClick={uiStore.confirmAction}>
                             Confirm
                         </Button>
                     </DialogActions>
                 </Dialog>
-            </div>
         );
     }
 }

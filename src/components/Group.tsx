@@ -25,12 +25,12 @@ export class Group extends React.Component<any, any> {
         const {groupStore, uiStore} = this.props.rootStore;
 
         if (groupStore.userGroupBalance >= 0) {
-            uiStore.openConfirmBox("Test")
             uiStore.openGenericSnackbar(`You do not owe a balance`);
 
         } else{
-            const settleUpToCreate = this.buildSettleUp()
-            groupStore.addExpenseAPI(settleUpToCreate);
+            uiStore.openConfirmBox(`Do you want to Settle up?`,
+                `Settle up balance of ${Math.abs(groupStore.userGroupBalance)}`,
+                this.createExpense)
 
         }
     }
@@ -61,6 +61,14 @@ export class Group extends React.Component<any, any> {
 
     }
 
+    createExpense  = () => {
+        const {groupStore, uiStore} = this.props.rootStore;
+        const settleUpToCreate = this.buildSettleUp()
+        groupStore.addExpenseAPI(settleUpToCreate)
+        uiStore.exitConfirmBox()
+    }
+
+
     displaySecondaryText = (expense: ExpenseType) : string => {
         if (expense.settleUp){
             const {groupStore} = this.props.rootStore;
@@ -71,7 +79,7 @@ export class Group extends React.Component<any, any> {
                     usersToBePaid.push(uppercaseName(user.name))
                 }
             }
-            const display = `${uppercaseName(expense.paidBy.name)} paid \n $${usersToBePaid}`
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n ${usersToBePaid}`
             return display
         } else {
             const display = `${uppercaseName(expense.paidBy.name)} paid \n $${expense.totalAmount}`

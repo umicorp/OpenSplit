@@ -32,20 +32,26 @@ export class UIStore {
 
     @persist
     @observable
-    public isUserGroupModalOpen = false
+    public isUserGroupModalOpen = false;
 
     @persist
     @observable
-    public header = ""
+    public header = "";
 
     @persist
     @observable
-    public isConfirmBoxOpen = false
+    public isConfirmBoxOpen = false;
 
     @persist
     @observable
-    public isConfirmBoxMessage = ""
+    public isConfirmBoxMessage = "";
 
+    @persist
+    @observable
+    public isConfirmBoxTitle = "";
+
+    @observable
+    public confirmAction: () => void = () => {const placeholder = "placeholder"}
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
@@ -116,13 +122,16 @@ export class UIStore {
     }
 
     @action
-    openConfirmBox = (message:string): void => {
+    openConfirmBox = (title:string, message:string, action: () => void): void => {
         this.isConfirmBoxOpen = true;
         this.isConfirmBoxMessage = message
+        this.isConfirmBoxTitle = title
+        this.confirmAction = action
     }
 
     @action
-    closeConfirmBox = (): void => {
+    exitConfirmBox = (): void => {
         this.isConfirmBoxOpen = false;
     }
+
 }

@@ -171,8 +171,13 @@ export default class GroupStore {
     @action
     private addExpenseAction = (expense: ExpenseType): void => {
         this.groupExpenses.push(expense)
-        console.log("Expense data submitted:", expense);
-        this.rootStore.uiStore?.openGenericSnackbar(`Expense Created`);
+        if (expense.settleUp) {
+            this.rootStore.uiStore?.openGenericSnackbar(`Settled up!`);
+        } else {
+            this.rootStore.uiStore?.openGenericSnackbar(`Expense Created`);
+
+        }
+
         if (this.rootStore.userStore) {
             if(this.rootStore.userStore?.currentUser && this.rootStore.groupStore?.currentGroup) {
                 this.calculateCurrentUserBalance(this.rootStore.userStore.currentUser.id)
