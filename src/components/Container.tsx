@@ -20,7 +20,8 @@ export class ContainerPage extends React.Component<any, any> {
     }
 
     render(): ReactNode {
-        const { uiStore } = this.props.rootStore;
+        const {uiStore} = this.props.rootStore;
+        const isGroupPage = this.props.location.pathname.startsWith("/groups/")
         return (
             <Box
                 height={"100vh"}
@@ -28,20 +29,23 @@ export class ContainerPage extends React.Component<any, any> {
                 display={"flex"}
                 flexDirection={"column"}
             >
-                <AppBar position="static">
-                    <Toolbar>
-                        <Typography align="center" variant="h1" component="div" sx={{ flexGrow: 1, paddingBottom: "0.25rem", paddingTop: "0.75rem"}}>
-                            { uiStore.header }
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <ExpenseModal />
-                <GroupModal />
-                <UserModal />
+                {!isGroupPage
+                    && <AppBar position="static">
+                            <Toolbar>
+                                <Typography align="center" variant="h1"
+                                            component="div" sx={{flexGrow: 1, paddingBottom: "0.25rem"}}>
+                                    {uiStore.header}
+                                </Typography>
+                            </Toolbar>
+                        </AppBar>
+                }
+                <ExpenseModal/>
+                <GroupModal/>
+                <UserModal/>
                 <UserGroupModal/>
                 <GenericSnackbar/>
                 <ConfirmBox/>
-                <Box flexGrow={10} m={2} sx={{overflowY:"scroll"}}>
+                <Box flexGrow={10} m={2} sx={{overflowY: "scroll"}}>
                     {this.props.children}
                 </Box>
                 <Paper elevation={3}>
