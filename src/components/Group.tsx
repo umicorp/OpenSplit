@@ -5,7 +5,6 @@ import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import {ExpenseType} from "../store/Types";
 import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
 import ListItem from "@mui/material/ListItem";
 import List from "@mui/material/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -14,6 +13,7 @@ import {Theme} from "../theme/Theme";
 import {delay, uppercaseName} from "../helpers/Common";
 import dayjs from "dayjs";
 import PullToRefresh from "react-simple-pull-to-refresh";
+import {DateChip} from "./DateChip";
 
 @inject("rootStore")
 @observer
@@ -104,17 +104,6 @@ export class Group extends React.Component<any, any> {
         }
     }
 
-    displayDate = (date:string) => {
-
-        const monthsShort = [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        ]
-        const dateObject = dayjs(date, 'YYYY-MM-DD')
-        return monthsShort[dateObject.month()] + " " + dateObject.format("DD")
-
-    }
-
     pullToRefreshAction = async () =>{
         const { groupStore, userStore } = this.props.rootStore;
         const userId = userStore.currentUser.id
@@ -149,27 +138,14 @@ export class Group extends React.Component<any, any> {
                         <ListItem key={expense.id}
                                   sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <ListItemAvatar sx={{flexGrow: 1}}>
-                                <Avatar
-                                    variant="rounded"
-                                    sx={{
-                                    flexGrow: 1,
-                                    height: 'auto',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    whiteSpace: 'normal',
-                                    paddingRight: 1,
-                                    paddingLeft:1
-                                    }}>
-                                    {this.displayDate(expense.date)}
-                                </Avatar>
+                                <DateChip date={expense.date} />
                             </ListItemAvatar>
                             <ListItemText
                                 disableTypography={true}
                                 primary={<Typography paddingLeft={1} variant={"h4"}>{expense.name}</Typography>}
                                 secondary={
                                     <Typography paddingLeft={1} variant={"body1"}>
-                                        {this.displaySecondaryText(expense)}
+                                    {this.displaySecondaryText(expense)}
                                     </Typography>
                                 }
                                 sx={{flexGrow: 10}}
