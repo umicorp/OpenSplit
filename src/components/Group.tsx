@@ -5,7 +5,6 @@ import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import {ExpenseType} from "../store/Types";
 import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
 import ListItem from "@mui/material/ListItem";
 import List from "@mui/material/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
