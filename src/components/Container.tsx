@@ -20,7 +20,11 @@ export class ContainerPage extends React.Component<any, any> {
     }
 
     render(): ReactNode {
-        const { uiStore } = this.props.rootStore;
+        const {uiStore} = this.props.rootStore;
+        const isGroupPage = this.props.location.pathname.startsWith("/groups/")
+        const contentHeight = isGroupPage
+            ? `calc(100% - 4rem)`
+            : `calc(100% - 7.5rem)`
         return (
             <Box
                 height={"100vh"}
@@ -28,24 +32,27 @@ export class ContainerPage extends React.Component<any, any> {
                 display={"flex"}
                 flexDirection={"column"}
             >
-                <AppBar position="static">
-                    <Toolbar>
-                        <Typography align="center" variant="h1" component="div" sx={{ flexGrow: 1, paddingBottom: "0.25rem", paddingTop: "0.75rem"}}>
-                            { uiStore.header }
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <ExpenseModal />
-                <GroupModal />
-                <UserModal />
+                {!isGroupPage
+                    && <AppBar position="static" sx={{minHeight: "3.5rem", maxHeight:"3.5rem"}}>
+                            <Toolbar>
+                                <Typography align="center" variant="h1"
+                                            component="div" sx={{paddingBottom: "0.25rem", margin: "0 auto"}}>
+                                    {uiStore.header}
+                                </Typography>
+                            </Toolbar>
+                        </AppBar>
+                }
+                <ExpenseModal/>
+                <GroupModal/>
+                <UserModal/>
                 <UserGroupModal/>
                 <GenericSnackbar/>
                 <ConfirmBox/>
-                <Box flexGrow={10} m={2} sx={{overflowY:"scroll"}}>
+                <Box sx={{maxHeight: contentHeight, minHeight: contentHeight, padding: "0.5rem 0.5rem 0 0.5rem"}}>
                     {this.props.children}
                 </Box>
-                <Paper elevation={3}>
-                    <NavigationBar {...this.props} />
+                <Paper elevation={3} sx={{minHeight: "fit-content", maxHeight: "fit-content"}}>
+                    <NavigationBar {...this.props}/>
                 </Paper>
             </Box>
         );

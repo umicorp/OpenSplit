@@ -19,7 +19,10 @@ if [ -z "${prod}" ]; then
   docker-compose build
 else
   echo "Prod Build"
+#  docker build --platform linux/amd64  .
+
   docker build --platform linux/amd64 -t ghcr.io/umicorp/opensplit:latest .
+#  echo $CR_PAT | docker login ghcr.io -u umizoom --password-stdin
   docker image push ghcr.io/umicorp/opensplit:latest
 fi
 

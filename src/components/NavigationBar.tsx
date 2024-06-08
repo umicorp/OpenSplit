@@ -135,7 +135,7 @@ export class NavigationBar extends React.Component<any, any> {
                 <BottomNavigation
                     showLabels
                     value={this.props.location.pathname}
-                    sx={{margin: "0.5rem"}}
+                    sx={{minHeight: "4rem", maxHeight: "4rem"}}
                 >
                     <BottomNavigationAction
                         label="Groups"
