@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Button, Paper, Typography} from "@mui/material";
+import {Button, ListItemButton, Paper, Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import {ExpenseType} from "../store/Types";
@@ -115,6 +115,10 @@ export class Group extends React.Component<any, any> {
         await groupStore.getGroupExpensesAPI(userId, groupId);
     }
 
+    test = (e:ExpenseType) => {
+        window.alert(e.name)
+    }
+
     render(): ReactNode {
         const {groupStore, userStore} = this.props.rootStore;
 
@@ -157,6 +161,7 @@ export class Group extends React.Component<any, any> {
                         {groupStore.groupExpenses.map((expense: ExpenseType) => (
                             <ListItem key={expense.id}
                                       sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                                <ListItemButton onClick={() => {this.test(expense)}}>
                                 <ListItemAvatar sx={{flexGrow: 1}}>
                                     <DateChip date={expense.date}/>
                                 </ListItemAvatar>
@@ -198,6 +203,7 @@ export class Group extends React.Component<any, any> {
                                         </Typography>
                                     }
                                 />
+                                </ListItemButton>
                             </ListItem>
                         ))}
                     </List>

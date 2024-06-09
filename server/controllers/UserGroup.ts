@@ -149,8 +149,8 @@ const deleteExpense = async (req, res) => {
     const expenseFound = await Expense.findByPk(expenseId);
 
     // @ts-ignore
-    await expenseFound.destroy();
-    res.send({message:"Expense Deleted"});
+    const data = await expenseFound.destroy();
+    res.status(200).send(data);
 
 };
 
