@@ -23,10 +23,10 @@ export class DateChip extends React.Component<any, any> {
             }}
             >
                 <Typography style={{marginRight: "auto", marginLeft: "auto"}}>
-                    {dayjs(this.props.date, 'YYYY-MM-DD').format("MMM")}
+                    {dayjs(this.props.date, "YYYY-MM-DD").format("MMM")}
                 </Typography>
                 <Typography style={{marginRight: "auto", marginLeft: "auto"}}>
-                    {dayjs(this.props.date, 'YYYY-MM-DD').format("DD")}
+                    {dayjs(this.props.date, "YYYY-MM-DD").format("DD")}
                 </Typography>
             </Box>
         );

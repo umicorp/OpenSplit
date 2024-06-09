@@ -2,7 +2,7 @@ import {inject, observer} from "mobx-react";
 import * as React from "react";
 import {ReactNode} from "react";
 import {RootStoreProps} from "../store/RootStore";
-import {Box, Button, FormControl, FormLabel, InputAdornment, Modal, TextField} from "@mui/material";
+import {Box, Button, FormControl, FormLabel, Modal, TextField} from "@mui/material";
 import {ExpenseType, UserAmountsType} from "../store/Types";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
@@ -48,7 +48,7 @@ export class ExpenseModal extends React.Component<any, any> {
         }));
     }
     handleDateChange = (event: any): void => {
-        const date = event.$d.toISOString().split('T', 1)[0]
+        const date = event.$d.toISOString().split("T", 1)[0];
         this.setState((state: any) => ({
             ...this.state, ["date"]: date
         }));
@@ -57,7 +57,7 @@ export class ExpenseModal extends React.Component<any, any> {
     handleChangeAmount = (event: any): void => {
         const {name, value} = event.target;
         const decimalNumber = /^\d*\.?\d{1,2}$/;
-        const validateValue = value.match(decimalNumber)
+        const validateValue = value.match(decimalNumber);
 
         if (validateValue){
             // clear error message
@@ -73,7 +73,7 @@ export class ExpenseModal extends React.Component<any, any> {
         }
     }
 
-    buildExpense = (): any => {
+    buildExpense = (): ExpenseType => {
         const {userStore, groupStore} = this.props.rootStore;
         const divideBy = groupStore.currentGroupUsers.length;
         const usersInGroup = groupStore.currentGroupUsers;
@@ -132,7 +132,7 @@ export class ExpenseModal extends React.Component<any, any> {
                             <TextField
                                 name="totalamount"
                                 required
-                                inputProps={{ inputMode: 'decimal' }}
+                                inputProps={{ inputMode: "decimal" }}
                                 label="You Paid"
                                 error={this.state.amountError}
                                 helperText={this.state.amountError ? "Please Enter a Number" : ""}

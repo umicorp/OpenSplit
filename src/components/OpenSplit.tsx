@@ -4,8 +4,8 @@ import {AppRouter} from "../router/AppRouter";
 import {RootStore} from "../store/RootStore";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {Theme} from "../theme/Theme";
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 interface OpenSplitProps {
     rootStore: RootStore

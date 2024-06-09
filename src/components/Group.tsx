@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Button, Chip, Paper, Typography} from "@mui/material";
+import {Button, Paper, Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import {ExpenseType} from "../store/Types";
@@ -26,12 +26,12 @@ export class Group extends React.Component<any, any> {
         const {groupStore, uiStore} = this.props.rootStore;
 
         if (groupStore.userGroupBalance >= 0) {
-            uiStore.openGenericSnackbar(`You do not owe a balance`);
+            uiStore.openGenericSnackbar("You do not owe a balance");
 
         } else {
-            uiStore.openConfirmBox(`Do you want to Settle up?`,
+            uiStore.openConfirmBox("Do you want to Settle up?",
                 `Settle up balance of ${Math.abs(groupStore.userGroupBalance)}`,
-                this.createExpense)
+                this.createExpense);
 
         }
     }
@@ -41,7 +41,7 @@ export class Group extends React.Component<any, any> {
         const divideBy = groupStore.currentGroupUsers.length;
         const usersInGroup = groupStore.currentGroupUsers;
         const currentDate = dayjs();
-        const today = currentDate.toISOString().split('T', 1)[0]
+        const today = currentDate.toISOString().split("T", 1)[0];
 
         const settleExpense: ExpenseType = {
             id: 0,
@@ -67,9 +67,9 @@ export class Group extends React.Component<any, any> {
 
     createExpense = () => {
         const {groupStore, uiStore} = this.props.rootStore;
-        const settleUpToCreate = this.buildSettleUp()
-        groupStore.addExpenseAPI(settleUpToCreate)
-        uiStore.exitConfirmBox()
+        const settleUpToCreate = this.buildSettleUp();
+        groupStore.addExpenseAPI(settleUpToCreate);
+        uiStore.exitConfirmBox();
     }
 
 
@@ -77,134 +77,134 @@ export class Group extends React.Component<any, any> {
         if (expense.settleUp) {
             const {groupStore} = this.props.rootStore;
             const usersInGroup = groupStore.currentGroupUsers;
-            const usersToBePaid: string[] = []
+            const usersToBePaid: string[] = [];
             for (const user of usersInGroup) {
                 if (expense.paidBy.id != user.id) {
-                    usersToBePaid.push(uppercaseName(user.name))
+                    usersToBePaid.push(uppercaseName(user.name));
                 }
             }
-            const display = `${uppercaseName(expense.paidBy.name)} paid \n ${usersToBePaid}`
-            return display
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n ${usersToBePaid}`;
+            return display;
         } else {
-            const display = `${uppercaseName(expense.paidBy.name)} paid \n $${expense.totalAmount}`
-            return display
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n $${expense.totalAmount}`;
+            return display;
 
         }
     }
     displayAction = (expense: ExpenseType) => {
         const {userStore} = this.props.rootStore;
         if (expense.settleUp && expense.paidBy.id == userStore.currentUser.id) {
-            return "you paid"
+            return "you paid";
         } else if (expense.settleUp) {
-            return uppercaseName(expense.paidBy.name) + " paid"
+            return uppercaseName(expense.paidBy.name) + " paid";
         } else if (expense.paidBy.id == userStore.currentUser.id) {
-            return "you are owed"
+            return "you are owed";
 
         } else {
-            return "you borrowed"
+            return "you borrowed";
         }
     }
 
     pullToRefreshAction = async () => {
         const {groupStore, userStore} = this.props.rootStore;
-        const userId = userStore.currentUser.id
+        const userId = userStore.currentUser.id;
 
-        const groupId = groupStore.currentGroup.id
+        const groupId = groupStore.currentGroup.id;
         // added to make user experience better for pull down to refresh
         await delay(200);
-        await groupStore.getGroupExpensesAPI(userId, groupId)
+        await groupStore.getGroupExpensesAPI(userId, groupId);
     }
 
     render(): ReactNode {
         const {groupStore, userStore} = this.props.rootStore;
 
         return (
-            <PullToRefresh onRefresh={this.pullToRefreshAction}>
-                <Box sx={{height: "inherit"}}>
-                    <Paper elevation={1} sx={{backgroundColor: "#e6e6e6", borderRadius: "1rem", maxHeight: "8rem", minHeight: "8rem"}}>
-                        <Typography sx={{fontSize: "2rem", paddingTop: "1.5rem", paddingLeft: "1.5rem"}} color={Theme.palette.primary.main}>
-                            {groupStore.currentGroup.name}
+            <Box sx={{height: "100%"}}>
+                <Paper elevation={1} sx={{backgroundColor: "#e6e6e6", borderRadius: "1rem", maxHeight: "8rem", minHeight: "8rem"}}>
+                    <Typography sx={{fontSize: "2rem", paddingTop: "1.5rem", paddingLeft: "1.5rem"}} color={Theme.palette.primary.main}>
+                        {groupStore.currentGroup.name}
+                    </Typography>
+                    {
+                        groupStore.userGroupBalance > 0 &&
+                        <Typography sx={{paddingLeft: "1.5rem", paddingTop: "0.25rem"}} variant="h6" color={Theme.palette.success.main}>
+                            You are owed ${Math.abs(groupStore.userGroupBalance).toFixed(2)}
                         </Typography>
-                        {
-                            groupStore.userGroupBalance > 0 &&
-                            <Typography sx={{paddingLeft: "1.5rem", paddingTop: "0.25rem"}} variant="h6" color={Theme.palette.success.main}>
-                                You are owed ${Math.abs(groupStore.userGroupBalance).toFixed(2)}
-                            </Typography>
-                        }
-                        {
-                            groupStore.userGroupBalance == 0 &&
-                            <Typography sx={{paddingLeft: "1.5rem", paddingTop: "0.25rem"}} variant="h6" color={Theme.palette.text.primary}>
-                                All Settled Up!
-                            </Typography>
-                        }
-                        {
-                            groupStore.userGroupBalance < 0 &&
-                            <Typography sx={{paddingLeft: "1.5rem", paddingTop: "0.25rem"}} variant="h6" color={Theme.palette.error.main}>
-                                You owe ${Math.abs(groupStore.userGroupBalance).toFixed(2)}
-                            </Typography>
-                        }
-                    </Paper>
-                    <Box sx={{direction:"rtl", margin: "-1rem 1rem 1rem 1rem", display: "flex", flexDirection: "row", maxWidth: "40rem", overflowX: "scroll"}}>
-                        <Button sx={{maxWidth: "fit-content", minHeight: "2rem", maxHeight: "2rem", mx:"0.25rem"}} variant="contained" href="#contained-buttons" onClick={this.settleUp}>
-                            Settle up
-                        </Button>
-                        {process.env.NODE_ENV != "production" &&
-                            <Button variant="contained" sx={{maxWidth: "fit-content", minHeight: "2rem", maxHeight: "2rem", mx:"0.25rem"}} onClick={() => console.log(this.props.rootStore)}>TEST</Button>
-                        }
-                    </Box>
-
-                    <Paper sx={{backgroundColor: "#f0f0f0", borderRadius: "1rem", maxHeight: `calc(100% - 11rem)`, overflowY: "scroll"}}>
-                        <List>
-                            {groupStore.groupExpenses.map((expense: ExpenseType) => (
-                                <ListItem key={expense.id}
-                                          sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                                    <ListItemAvatar sx={{flexGrow: 1}}>
-                                        <DateChip date={expense.date}/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        disableTypography={true}
-                                        primary={<Typography paddingLeft={1} variant={"h4"}>{expense.name}</Typography>}
-                                        secondary={
-                                            <Typography paddingLeft={1} variant={"body1"}>
-                                                {this.displaySecondaryText(expense)}
-                                            </Typography>
-                                        }
-                                        sx={{flexGrow: 10}}
-                                    />
-                                    <ListItemText
-                                        disableTypography={true}
-                                        primary={
-                                            <Typography
-                                                paddingLeft={3}
-                                                variant={"body2"}
-                                                textAlign={"right"}
-                                                color={expense.paidBy.id == userStore.currentUser.id
-                                                    ? Theme.palette.success.main
-                                                    : Theme.palette.error.main
-                                                }
-                                            >
-                                                {this.displayAction(expense)}
-                                            </Typography>
-                                        }
-                                        secondary={
-                                            <Typography
-                                                variant={"h5"}
-                                                textAlign={"right"}
-                                                color={expense.paidBy.id == userStore.currentUser.id
-                                                    ? Theme.palette.success.main
-                                                    : Theme.palette.error.main
-                                                }
-                                            >
-                                                ${expense.owed.toFixed(2)}
-                                            </Typography>
-                                        }
-                                    />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Paper>
+                    }
+                    {
+                        groupStore.userGroupBalance == 0 &&
+                        <Typography sx={{paddingLeft: "1.5rem", paddingTop: "0.25rem"}} variant="h6" color={Theme.palette.text.primary}>
+                            All Settled Up!
+                        </Typography>
+                    }
+                    {
+                        groupStore.userGroupBalance < 0 &&
+                        <Typography sx={{paddingLeft: "1.5rem", paddingTop: "0.25rem"}} variant="h6" color={Theme.palette.error.main}>
+                            You owe ${Math.abs(groupStore.userGroupBalance).toFixed(2)}
+                        </Typography>
+                    }
+                </Paper>
+                <Box sx={{direction:"rtl", margin: "-1rem 1rem 1rem 1rem", display: "flex", flexDirection: "row", maxWidth: "40rem", overflowX: "scroll"}}>
+                    <Button sx={{maxWidth: "fit-content", minHeight: "2rem", maxHeight: "2rem", mx:"0.25rem"}} variant="contained" href="#contained-buttons" onClick={this.settleUp}>
+                        Settle up
+                    </Button>
+                    {process.env.NODE_ENV != "production" &&
+                        <Button variant="contained" sx={{maxWidth: "fit-content", minHeight: "2rem", maxHeight: "2rem", mx:"0.25rem"}} onClick={() => console.log(this.props.rootStore)}>TEST</Button>
+                    }
                 </Box>
-            </PullToRefresh>
+                <Paper sx={{backgroundColor: "#f0f0f0", borderRadius: "1rem", maxHeight: `calc(100% - 11rem)`, overflowY: "scroll"}}>
+                    <PullToRefresh onRefresh={this.pullToRefreshAction}>
+                    <List>
+                        {groupStore.groupExpenses.map((expense: ExpenseType) => (
+                            <ListItem key={expense.id}
+                                      sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                                <ListItemAvatar sx={{flexGrow: 1}}>
+                                    <DateChip date={expense.date}/>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    disableTypography={true}
+                                    primary={<Typography paddingLeft={1} variant={"h4"}>{expense.name}</Typography>}
+                                    secondary={
+                                        <Typography paddingLeft={1} variant={"body1"}>
+                                            {this.displaySecondaryText(expense)}
+                                        </Typography>
+                                    }
+                                    sx={{flexGrow: 10}}
+                                />
+                                <ListItemText
+                                    disableTypography={true}
+                                    primary={
+                                        <Typography
+                                            paddingLeft={3}
+                                            variant={"body2"}
+                                            textAlign={"right"}
+                                            color={expense.paidBy.id == userStore.currentUser.id
+                                                ? Theme.palette.success.main
+                                                : Theme.palette.error.main
+                                            }
+                                        >
+                                            {this.displayAction(expense)}
+                                        </Typography>
+                                    }
+                                    secondary={
+                                        <Typography
+                                            variant={"h5"}
+                                            textAlign={"right"}
+                                            color={expense.paidBy.id == userStore.currentUser.id
+                                                ? Theme.palette.success.main
+                                                : Theme.palette.error.main
+                                            }
+                                        >
+                                            ${expense.owed.toFixed(2)}
+                                        </Typography>
+                                    }
+                                />
+                            </ListItem>
+                        ))}
+                    </List>
+                    </PullToRefresh>
+                </Paper>
+            </Box>
+
 
         );
     }

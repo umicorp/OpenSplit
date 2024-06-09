@@ -51,7 +51,7 @@ export class UIStore {
     public isConfirmBoxTitle = "";
 
     @observable
-    public confirmAction: () => void = () => {const placeholder = "placeholder"}
+    public confirmAction: () => void = () => {const placeholder = "placeholder"};
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
@@ -77,8 +77,8 @@ export class UIStore {
     @action
     openGenericSnackbar = (message:string, duration = 2000): void => {
         this.isGenericSnackbarOpen = true;
-        this.isGenericSnackbarMessage = message
-        this.isGenericSnackbarDuration = duration
+        this.isGenericSnackbarMessage = message;
+        this.isGenericSnackbarDuration = duration;
     }
 
     @action
@@ -124,9 +124,9 @@ export class UIStore {
     @action
     openConfirmBox = (title:string, message:string, action: () => void): void => {
         this.isConfirmBoxOpen = true;
-        this.isConfirmBoxMessage = message
-        this.isConfirmBoxTitle = title
-        this.confirmAction = action
+        this.isConfirmBoxMessage = message;
+        this.isConfirmBoxTitle = title;
+        this.confirmAction = action;
     }
 
     @action

@@ -21,10 +21,10 @@ export class ContainerPage extends React.Component<any, any> {
 
     render(): ReactNode {
         const {uiStore} = this.props.rootStore;
-        const isGroupPage = this.props.location.pathname.startsWith("/groups/")
+        const isGroupPage = this.props.location.pathname.startsWith("/groups/");
         const contentHeight = isGroupPage
             ? `calc(100% - 4rem)`
-            : `calc(100% - 7.5rem)`
+            : `calc(100% - 7.5rem)`;
         return (
             <Box
                 height={"100vh"}
