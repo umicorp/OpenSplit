@@ -11,7 +11,7 @@ export class Home extends React.Component<any,any> {
     }
 
     componentDidMount() {
-        const { uiStore, groupStore } = this.props.rootStore;
+        const { uiStore } = this.props.rootStore;
         uiStore.setHeader("OpenSplit");
     }
 

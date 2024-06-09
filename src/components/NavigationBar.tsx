@@ -41,7 +41,7 @@ export class NavigationBar extends React.Component<any, any> {
     handleExpenseModalOpen = (): void => {
         const {uiStore, groupStore} = this.props.rootStore;
         if (groupStore.currentGroupUsers.length < 2) {
-            uiStore.openGenericSnackbar("A Group must have at least 2 users to add an Expense", 2500)
+            uiStore.openGenericSnackbar("A Group must have at least 2 users to add an Expense", 2500);
         } else {
             uiStore.openExpenseModal();
             this.handleMenuClose();
@@ -67,8 +67,8 @@ export class NavigationBar extends React.Component<any, any> {
     }
 
     renderExpense = (): any => {
-        const location = window.location.href
-        const inGroup = location.includes("groups/")
+        const location = window.location.href;
+        const inGroup = location.includes("groups/");
         if (inGroup) {
             return (
                 <Menu
@@ -93,13 +93,13 @@ export class NavigationBar extends React.Component<any, any> {
                         Add Expense
                     </MenuItem>
                 </Menu>
-            )
+            );
         }
     }
 
     renderDefaultMenu = () => {
-        const location = window.location.href
-        const inGroup = location.includes("groups/")
+        const location = window.location.href;
+        const inGroup = location.includes("groups/");
         if (!inGroup) {
             return (
                 <Menu
@@ -124,7 +124,7 @@ export class NavigationBar extends React.Component<any, any> {
                         Create User
                     </MenuItem>
                 </Menu>
-            )
+            );
         }
     }
 

@@ -30,14 +30,14 @@ export class Groups extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        const { uiStore, groupStore } = this.props.rootStore;
+        const { uiStore } = this.props.rootStore;
         uiStore.setHeader("Groups");
     }
 
     loadGroupExpenses = (groupId: number) => {
         const { groupStore, userStore, uiStore } = this.props.rootStore;
         if (userStore.currentUser == null) {
-            uiStore.openGenericSnackbar(`Select a current User via Account icon`);
+            uiStore.openGenericSnackbar("Select a current User via Account icon");
         } else {
             groupStore.setCurrentGroup(groupId, userStore.currentUser.id);
         }
@@ -45,15 +45,15 @@ export class Groups extends React.Component<any, any> {
 
     displayUsers = (groupId: number) => {
         const { groupStore } = this.props.rootStore;
-        const group = groupStore.allGroups.filter((userGroup: UserGroupType) => userGroup.group.id == groupId)
-        const users = group[0].users.map((user: UserType) => user?.name.toUpperCase()[0] + user?.name.slice(1))
-        return users.join(" / ")
+        const group = groupStore.allGroups.filter((userGroup: UserGroupType) => userGroup.group.id == groupId);
+        const users = group[0].users.map((user: UserType) => user?.name.toUpperCase()[0] + user?.name.slice(1));
+        return users.join(" / ");
     }
 
     deleteGroupConfirm = () => {
         const { groupStore, uiStore } = this.props.rootStore;
-        groupStore.deleteGroup(this.state.groupIdToDelete)
-        uiStore.exitConfirmBox()
+        groupStore.deleteGroup(this.state.groupIdToDelete);
+        uiStore.exitConfirmBox();
 
     }
 
@@ -63,8 +63,8 @@ export class Groups extends React.Component<any, any> {
             groupIdToDelete: group.id,
         }));
         uiStore.openConfirmBox(`Do you want to delete ${group.name}?`,
-            `This will delete all expenses in the group`,
-            this.deleteGroupConfirm)
+            "This will delete all expenses in the group",
+            this.deleteGroupConfirm);
     }
 
     pullToRefreshAction = async () =>{

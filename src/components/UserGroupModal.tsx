@@ -2,7 +2,7 @@ import {inject, observer} from "mobx-react";
 import * as React from "react";
 import {RootStoreProps} from "../store/RootStore";
 import {ReactNode} from "react";
-import {Button, FormControl, FormLabel, MenuItem, Modal, NativeSelect, Select} from "@mui/material";
+import {Button, FormControl, FormLabel, MenuItem, Modal, Select} from "@mui/material";
 import Box from "@mui/material/Box";
 import {UserType} from "../store/Types";
 
@@ -23,9 +23,9 @@ export class UserGroupModal extends React.Component<any, any> {
     }
 
     handleSubmit = (event: any): void => {
-        const { uiStore, userStore } = this.props.rootStore;
+        const { uiStore } = this.props.rootStore;
         event.preventDefault(); // Prevents the default form submission behaviour
-        this.addUserToGroup()
+        this.addUserToGroup();
         console.log("Form data submitted:", this.state);
         uiStore.closeUserGroupModal();
     }
@@ -40,7 +40,7 @@ export class UserGroupModal extends React.Component<any, any> {
 
     addUserToGroup = (): void => {
         const { groupStore } = this.props.rootStore;
-        groupStore.addUserToGroupAPI(this.state.userToAdd, this.state.groupToAdd)
+        groupStore.addUserToGroupAPI(this.state.userToAdd, this.state.groupToAdd);
     }
 
     render(): ReactNode {

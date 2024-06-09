@@ -49,7 +49,7 @@ export class UserStore {
     public getUsersAPI = (): void => {
         axios.get(`${window._env_.BACKEND_ADDRESS}/api/users/`)
             .then(({ data }:{ data: UserType[] }) => {
-                this.getUsersAction(data)
+                this.getUsersAction(data);
             })
             .catch(error => {
                 console.error(error);
@@ -58,15 +58,15 @@ export class UserStore {
 
     @action
     public createUserAction = (data: UserType): void => {
-        this.users.push(data)
-        this.rootStore.uiStore?.openGenericSnackbar(`User Created`);
+        this.users.push(data);
+        this.rootStore.uiStore?.openGenericSnackbar("User Created");
     }
 
     @action
     public createUserAPI = (user: string): void => {
         axios.post(`${window._env_.BACKEND_ADDRESS}/api/users/`,{"username": user})
             .then(({ data }: { data: UserType }) => {
-                this.createUserAction(data)
+                this.createUserAction(data);
             })
             .catch(error => {
                 console.error(error);

@@ -4,6 +4,7 @@ import {RootStore} from "./RootStore";
 import {persist} from "mobx-persist";
 import {ExpenseType, GroupType, UserGroupType, UserType} from "./Types";
 import dayjs from "dayjs";
+import {promises} from "node:dns";
 
 
 export default class GroupStore {
@@ -47,15 +48,15 @@ export default class GroupStore {
     }
 
     @action
-    public getGroupsAction = (groups: UserGroupType[]) => {
-        this.allGroups = groups
+    public getGroupsAction = (groups: UserGroupType[]): void => {
+        this.allGroups = groups;
     }
 
     @action
     public getGroupsAPI = (): void => {
         axios.get(`${window._env_.BACKEND_ADDRESS}/api/groups`)
             .then(({ data }: { data: UserGroupType[] }) => {
-                this.getGroupsAction(data)
+                this.getGroupsAction(data);
             })
             .catch(error => {
                 console.error(error);
@@ -67,7 +68,7 @@ export default class GroupStore {
         axios.post(`${window._env_.BACKEND_ADDRESS}/api/groups`,{"name": name})
             .then(({ data }) => {
                 this.allGroups = data;
-                this.rootStore.uiStore?.openGenericSnackbar(`Created`);
+                this.rootStore.uiStore?.openGenericSnackbar("Created");
 
             })
             .catch(error => {
@@ -80,7 +81,7 @@ export default class GroupStore {
         axios.delete(`${window._env_.BACKEND_ADDRESS}/api/groups/${id}`)
             .then(({ data }) => {
                 this.allGroups = data;
-                this.rootStore.uiStore?.openGenericSnackbar(`Deleted`);
+                this.rootStore.uiStore?.openGenericSnackbar("Deleted");
             })
             .catch(error => {
                 console.error(error);
@@ -89,11 +90,11 @@ export default class GroupStore {
 
     @action
     public setCurrentGroup = (groupId: number, userId: number): void => {
-        const userGroups: UserGroupType[] = this.allGroups.filter((userGroup) => userGroup.group.id == groupId)
-        this.currentGroup = userGroups[0].group
-        this.rootStore.uiStore?.setHeader(userGroups[0].group.name)
-        this.getCurrentGroupUsersAPI(groupId)
-        this.getGroupExpensesAPI(userId, groupId)
+        const userGroups: UserGroupType[] = this.allGroups.filter((userGroup) => userGroup.group.id == groupId);
+        this.currentGroup = userGroups[0].group;
+        this.rootStore.uiStore?.setHeader(userGroups[0].group.name);
+        this.getCurrentGroupUsersAPI(groupId);
+        this.getGroupExpensesAPI(userId, groupId);
     }
 
     @action
@@ -105,7 +106,7 @@ export default class GroupStore {
     public getCurrentGroupUsersAPI = (groupId: number): void =>{
         axios.get(`${window._env_.BACKEND_ADDRESS}/api/usergroup/${groupId}`)
             .then(({ data }:  {data: UserType[]}) => {
-                this.getCurrentGroupUsersAction(data)
+                this.getCurrentGroupUsersAction(data);
             })
             .catch(error => {
                 console.error(error);
@@ -115,9 +116,7 @@ export default class GroupStore {
     @action
     public getGroupExpensesAction = (data: ExpenseType[]): void => {
         // sort in expenses from latest
-
         this.groupExpenses = data.sort((a,b) => dayjs(b.date).format("D") == dayjs(a.date).format("D") ? b.id - a.id : dayjs(b.date).unix() - dayjs(a.date).unix() );
-        console.log(this.groupExpenses)
     }
 
     @action
@@ -129,7 +128,7 @@ export default class GroupStore {
             }
         })
             .then(({ data }: {data: ExpenseType[]}) => {
-                this.getGroupExpensesAction(data)
+                this.getGroupExpensesAction(data);
                 this.calculateCurrentUserBalance(userId);
             })
             .catch(error => {
@@ -144,24 +143,24 @@ export default class GroupStore {
             if (userId === expense.paidBy.id) {
                 userGroupBalance += expense.owed;
             } else if (userId != expense.paidBy.id ){
-                userGroupBalance -= expense.owed
+                userGroupBalance -= expense.owed;
             }
-        })
+        });
         this.userGroupBalance = userGroupBalance;
     }
 
     @action
     private addUserToGroupAction = (userGroups:UserGroupType[], groupId: number): void => {
-        this.allGroups = userGroups
-        this.getCurrentGroupUsersAPI(groupId)
-        this.rootStore.uiStore?.openGenericSnackbar(`User Added`);
+        this.allGroups = userGroups;
+        this.getCurrentGroupUsersAPI(groupId);
+        this.rootStore.uiStore?.openGenericSnackbar("User Added");
     }
 
     @action
     public addUserToGroupAPI = (userId: number, groupId: number): void => {
         axios.post(`${window._env_.BACKEND_ADDRESS}/api/usergroup`,{"userid": userId, "groupid": groupId})
             .then(({ data }: { data: UserGroupType[] }) => {
-                this.addUserToGroupAction(data, groupId)
+                this.addUserToGroupAction(data, groupId);
             })
             .catch(error => {
                 console.error(error);
@@ -170,20 +169,20 @@ export default class GroupStore {
 
     @action
     private addExpenseAction = (expense: ExpenseType): void => {
-        this.groupExpenses.push(expense)
+        this.groupExpenses.push(expense);
         if (expense.settleUp) {
-            this.rootStore.uiStore?.openGenericSnackbar(`Settled up!`);
+            this.rootStore.uiStore?.openGenericSnackbar("Settled up!");
         } else {
-            this.rootStore.uiStore?.openGenericSnackbar(`Expense Created`);
+            this.rootStore.uiStore?.openGenericSnackbar("Expense Created");
 
         }
 
         if (this.rootStore.userStore) {
             if(this.rootStore.userStore?.currentUser && this.rootStore.groupStore?.currentGroup) {
-                this.calculateCurrentUserBalance(this.rootStore.userStore.currentUser.id)
+                this.calculateCurrentUserBalance(this.rootStore.userStore.currentUser.id);
                 // TODO: Ask sheena why this line fixes the "you are owed" when adding a expense
                 //  When line is not there the full expense amount gets added to "you are owed". When its there only the actual amount owed is added to "you are owed"
-                this.getGroupExpensesAPI(this.rootStore.userStore.currentUser.id, this.rootStore.groupStore.currentGroup.id)
+                this.getGroupExpensesAPI(this.rootStore.userStore.currentUser.id, this.rootStore.groupStore.currentGroup.id);
 
             }
         }

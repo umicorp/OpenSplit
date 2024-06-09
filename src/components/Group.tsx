@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Button, Chip, Paper, Typography} from "@mui/material";
+import {Button, Paper, Typography} from "@mui/material";
 import {inject, observer} from "mobx-react";
 import {RootStoreProps} from "../store/RootStore";
 import {ExpenseType} from "../store/Types";
@@ -26,12 +26,12 @@ export class Group extends React.Component<any, any> {
         const {groupStore, uiStore} = this.props.rootStore;
 
         if (groupStore.userGroupBalance >= 0) {
-            uiStore.openGenericSnackbar(`You do not owe a balance`);
+            uiStore.openGenericSnackbar("You do not owe a balance");
 
         } else {
-            uiStore.openConfirmBox(`Do you want to Settle up?`,
+            uiStore.openConfirmBox("Do you want to Settle up?",
                 `Settle up balance of ${Math.abs(groupStore.userGroupBalance)}`,
-                this.createExpense)
+                this.createExpense);
 
         }
     }
@@ -41,7 +41,7 @@ export class Group extends React.Component<any, any> {
         const divideBy = groupStore.currentGroupUsers.length;
         const usersInGroup = groupStore.currentGroupUsers;
         const currentDate = dayjs();
-        const today = currentDate.toISOString().split('T', 1)[0]
+        const today = currentDate.toISOString().split("T", 1)[0];
 
         const settleExpense: ExpenseType = {
             id: 0,
@@ -67,9 +67,9 @@ export class Group extends React.Component<any, any> {
 
     createExpense = () => {
         const {groupStore, uiStore} = this.props.rootStore;
-        const settleUpToCreate = this.buildSettleUp()
-        groupStore.addExpenseAPI(settleUpToCreate)
-        uiStore.exitConfirmBox()
+        const settleUpToCreate = this.buildSettleUp();
+        groupStore.addExpenseAPI(settleUpToCreate);
+        uiStore.exitConfirmBox();
     }
 
 
@@ -77,42 +77,42 @@ export class Group extends React.Component<any, any> {
         if (expense.settleUp) {
             const {groupStore} = this.props.rootStore;
             const usersInGroup = groupStore.currentGroupUsers;
-            const usersToBePaid: string[] = []
+            const usersToBePaid: string[] = [];
             for (const user of usersInGroup) {
                 if (expense.paidBy.id != user.id) {
-                    usersToBePaid.push(uppercaseName(user.name))
+                    usersToBePaid.push(uppercaseName(user.name));
                 }
             }
-            const display = `${uppercaseName(expense.paidBy.name)} paid \n ${usersToBePaid}`
-            return display
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n ${usersToBePaid}`;
+            return display;
         } else {
-            const display = `${uppercaseName(expense.paidBy.name)} paid \n $${expense.totalAmount}`
-            return display
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n $${expense.totalAmount}`;
+            return display;
 
         }
     }
     displayAction = (expense: ExpenseType) => {
         const {userStore} = this.props.rootStore;
         if (expense.settleUp && expense.paidBy.id == userStore.currentUser.id) {
-            return "you paid"
+            return "you paid";
         } else if (expense.settleUp) {
-            return uppercaseName(expense.paidBy.name) + " paid"
+            return uppercaseName(expense.paidBy.name) + " paid";
         } else if (expense.paidBy.id == userStore.currentUser.id) {
-            return "you are owed"
+            return "you are owed";
 
         } else {
-            return "you borrowed"
+            return "you borrowed";
         }
     }
 
     pullToRefreshAction = async () => {
         const {groupStore, userStore} = this.props.rootStore;
-        const userId = userStore.currentUser.id
+        const userId = userStore.currentUser.id;
 
-        const groupId = groupStore.currentGroup.id
+        const groupId = groupStore.currentGroup.id;
         // added to make user experience better for pull down to refresh
         await delay(200);
-        await groupStore.getGroupExpensesAPI(userId, groupId)
+        await groupStore.getGroupExpensesAPI(userId, groupId);
     }
 
     render(): ReactNode {

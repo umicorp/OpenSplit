@@ -1,6 +1,5 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
+import * as React from "react";
+import Snackbar from "@mui/material/Snackbar";
 import {RootStoreProps} from "../store/RootStore";
 import {ReactNode} from "react";
 import {inject, observer} from "mobx-react";
