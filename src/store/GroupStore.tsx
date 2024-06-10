@@ -137,6 +137,7 @@ export default class GroupStore {
     }
 
     @action
+// TODO: Find out a better way to deal with this.
     public calculateCurrentUserBalance = ( userId: number | undefined | null): void => {
         let userGroupBalance = 0;
         this.groupExpenses.forEach((expense: ExpenseType) => {
