@@ -137,7 +137,8 @@ export default class GroupStore {
     }
 
     @action
-    public calculateCurrentUserBalance = ( userId: number): void => {
+// TODO: Find out a better way to deal with this.
+    public calculateCurrentUserBalance = ( userId: number | undefined | null): void => {
         let userGroupBalance = 0;
         this.groupExpenses.forEach((expense: ExpenseType) => {
             if (userId === expense.paidBy.id) {
@@ -193,5 +194,19 @@ export default class GroupStore {
         axios.post(`${window._env_.BACKEND_ADDRESS}/api/expense`, expense)
             .then(() => this.addExpenseAction(expense))
             .catch((error) => console.log(error));
+    }
+
+    @action
+    public deleteExpense = (id: number): void => {
+        axios.delete(`${window._env_.BACKEND_ADDRESS}/api/expense/${id}`)
+            .then(({ data }) => {
+                this.groupExpenses = this.groupExpenses.filter((expense) => expense.id !== data.id);
+                const currentUser = this.rootStore.userStore?.currentUser
+                this.calculateCurrentUserBalance(currentUser?.id)
+                this.rootStore.uiStore?.openGenericSnackbar("Deleted");
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 }
