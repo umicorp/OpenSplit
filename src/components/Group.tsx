@@ -14,12 +14,16 @@ import {delay, uppercaseName} from "../helpers/Common";
 import dayjs from "dayjs";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import {DateChip} from "./DateChip";
+import {Expense} from "../../server/models/Model";
 
 @inject("rootStore")
 @observer
 export class Group extends React.Component<any, any> {
     constructor(props: RootStoreProps) {
         super(props);
+        this.state = {
+            ExpenseToDelete: null,
+        };
     }
 
     settleUp = () => {
@@ -115,8 +119,24 @@ export class Group extends React.Component<any, any> {
         await groupStore.getGroupExpensesAPI(userId, groupId);
     }
 
-    test = (e:ExpenseType) => {
-        window.alert(e.name)
+    confirmDeleteExpense = (expense:ExpenseType) => {
+        const {uiStore} = this.props.rootStore;
+        this.setState(() => ({
+            ExpenseToDelete: expense,
+        }));
+        const confirmTitle = expense.settleUp ? "Delete Settle up record?" : "Delete Expense?";
+        const confirmMessage = expense.settleUp ? "This action will recalculate amount owed" : `${expense.name}`
+        uiStore.openConfirmBox(confirmTitle,
+                confirmMessage,
+            this.deleteExpense);
+    }
+
+    deleteExpense = (expense: ExpenseType) => {
+        const {groupStore, uiStore} = this.props.rootStore;
+        uiStore.openConfirmBox("Delete Expense?",
+            `${expense.name}`,
+            groupStore.deleteExpense(this.state.ExpenseToDelete.id));
+        uiStore.exitConfirmBox();
     }
 
     render(): ReactNode {
@@ -155,13 +175,16 @@ export class Group extends React.Component<any, any> {
                         <Button variant="contained" sx={{maxWidth: "fit-content", minHeight: "2rem", maxHeight: "2rem", mx:"0.25rem"}} onClick={() => console.log(this.props.rootStore)}>TEST</Button>
                     }
                 </Box>
+                { groupStore.groupExpenses.length == 0
+                    ? <Typography textAlign={"center"}> Add Some Expenses To Get Started! </Typography>
+                    :
                 <Paper sx={{backgroundColor: "#f0f0f0", borderRadius: "1rem", maxHeight: `calc(100% - 11rem)`, overflowY: "scroll"}}>
                     <PullToRefresh onRefresh={this.pullToRefreshAction}>
                     <List>
                         {groupStore.groupExpenses.map((expense: ExpenseType) => (
                             <ListItem key={expense.id}
                                       sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                                <ListItemButton onClick={() => {this.test(expense)}}>
+                                <ListItemButton onClick={() => {this.confirmDeleteExpense(expense)}}>
                                 <ListItemAvatar sx={{flexGrow: 1}}>
                                     <DateChip date={expense.date}/>
                                 </ListItemAvatar>
@@ -209,6 +232,7 @@ export class Group extends React.Component<any, any> {
                     </List>
                     </PullToRefresh>
                 </Paper>
+                }
             </Box>
 
 

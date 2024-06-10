@@ -58,7 +58,7 @@ export class Groups extends React.Component<any, any> {
     }
 
     deleteGroupAction = (group: GroupType) => {
-        const { groupStore, uiStore } = this.props.rootStore;
+        const { uiStore } = this.props.rootStore;
         this.setState(() => ({
             groupIdToDelete: group.id,
         }));
