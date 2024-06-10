@@ -1,19 +1,34 @@
 # Getting Started 
 
-Clone of SplitWise. This projects goal is:
+This projects goal is:
 
-* Feature parity with splitwise
-* Deployable with docker
+* Feature parity with Splitwise, a popular expense tracking app.
+* Deployable with docker for local/self-hosting
+
 
 Checkout `unraid-compose.yaml` as an example of how to run this app in your local environment.
-I find this app works well when you bookmark the app to your mobile phone's homepage. This seems to load
-the app in webview mode, it acts like a native app rather than a site. I've only tested this on IOS. Android testing
-and feedback welcome!
+I find this app works well when you bookmark the app to your mobile phone's homepage. Since this is a progressive web app,
+it acts like a native app rather than a site when bookmarked to your home screen. 
+I've only tested this on IOS. Android testing and feedback welcome!
 
+A word of **caution**, this app is **should not** be exposed to the internet. At least for now.
+
+# Features
+
+* Local Users
+* Add expenses to groups
+* Settle up expenses, IE reset the expense counter
+
+## Limitations 
+
+* Right now all expenses are split evenly by the number of users in a group.
+* No user authentication
+* Backend and frontend need to be exposed on the local network
 
 # Development
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 Since then the ``npm eject`` command has been run removing the create-a-react-app tooling. 
+I plan to migrate it back to another framework for better dependency management in the future.
 
 ## Available Scripts
 
@@ -62,11 +77,14 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 ### Building for release
 
+The CI handles building and pushing the release to GHR. As of now the CI just builds for x86 machines.
+
+To build for arm and test the image locally, use the following script:
 ```
 ./release.sh                      
 ```
 
-### Tagging
+### Tagging notes
 
 Find latest image
 
@@ -82,5 +100,3 @@ Push that image, for now just x86
 ### Debugging 
 
 `` docker run -i -t open_split-1 bash``
-
-``Docker logs``
