@@ -33,8 +33,9 @@ export class Group extends React.Component<any, any> {
             uiStore.openGenericSnackbar("You do not owe a balance");
 
         } else {
+            const balance = Math.abs(groupStore.userGroupBalance).toFixed(2);
             uiStore.openConfirmBox("Do you want to Settle up?",
-                `Settle up balance of ${Math.abs(groupStore.userGroupBalance)}`,
+                `Settle up balance of ${balance}`,
                 this.createExpense);
 
         }
@@ -64,7 +65,6 @@ export class Group extends React.Component<any, any> {
                 amount: Number(Math.abs(groupStore.userGroupBalance).toFixed(2)) / divideBy
             });
         }
-        console.log("Settle up data submitted:", settleExpense);
         return settleExpense;
 
     }
