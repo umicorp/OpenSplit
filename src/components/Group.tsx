@@ -90,7 +90,7 @@ export class Group extends React.Component<any, any> {
             const display = `${uppercaseName(expense.paidBy.name)} paid \n ${usersToBePaid}`;
             return display;
         } else {
-            const display = `${uppercaseName(expense.paidBy.name)} paid \n $${expense.totalAmount}`;
+            const display = `${uppercaseName(expense.paidBy.name)} paid \n $${expense.totalAmount.toFixed(2)}`;
             return display;
 
         }
