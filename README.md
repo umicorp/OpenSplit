@@ -77,7 +77,7 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 ### Building for release
 
-The CI handles building and pushing the release to GHR. As of now the CI just builds for x86 machines.
+The CI handles building and pushing the release to GHR. As of now the CI builds for amd64 and arm64 machines.
 
 To build for arm and test the image locally, use the following script:
 ```
