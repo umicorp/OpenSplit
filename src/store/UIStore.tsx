@@ -50,6 +50,10 @@ export class UIStore {
     @observable
     public isConfirmBoxTitle = "";
 
+    @persist
+    @observable
+    public isAlert = false;
+
     @observable
     public confirmAction: () => void = () => {const placeholder = "placeholder"};
 
@@ -132,6 +136,16 @@ export class UIStore {
     @action
     exitConfirmBox = (): void => {
         this.isConfirmBoxOpen = false;
+    }
+
+    @action
+    openAlert = (): void => {
+        this.isAlert = true;
+    }
+
+    @action
+    closeAlert = (): void => {
+        this.isAlert = false;
     }
 
 }
