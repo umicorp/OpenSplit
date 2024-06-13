@@ -5,6 +5,7 @@ import {persist} from "mobx-persist";
 import {ExpenseType, GroupType, UserGroupType, UserType} from "./Types";
 import dayjs from "dayjs";
 import {promises} from "node:dns";
+import {Alert} from "@mui/material";
 
 
 export default class GroupStore {
@@ -57,9 +58,15 @@ export default class GroupStore {
         axios.get(`${window._env_.BACKEND_ADDRESS}/api/groups`)
             .then(({ data }: { data: UserGroupType[] }) => {
                 this.getGroupsAction(data);
+                this.rootStore.uiStore?.closeAlert();
             })
             .catch(error => {
                 console.error(error);
+                if (error.code === "ERR_NETWORK") {
+                    this.rootStore.uiStore?.openAlert()
+                }
+
+
             });
     }
 

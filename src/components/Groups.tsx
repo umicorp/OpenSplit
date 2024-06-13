@@ -18,6 +18,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import {delay} from "../helpers/Common";
 import {group} from "../../server/controllers/Group";
+import {AlertBar} from "./Alert";
 
 @inject("rootStore")
 @observer
@@ -73,8 +74,13 @@ export class Groups extends React.Component<any, any> {
         await groupStore.getGroupsAPI();
     }
     render(): ReactNode {
-        const { groupStore, userStore } = this.props.rootStore;
+        const { groupStore, userStore, uiStore } = this.props.rootStore;
         return (
+            <div>
+                {uiStore.isAlert
+                    ? <AlertBar title="Error" message="Backend Not Reachable" severity="error"></AlertBar>
+                    : ""
+                }
             <PullToRefresh onRefresh={this.pullToRefreshAction} >
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
                 { groupStore.allGroups.length == 0
@@ -119,6 +125,7 @@ export class Groups extends React.Component<any, any> {
                     : <Button onClick={() => console.log(this.props.rootStore)}>TEST</Button>
                 }            </Box>
                 </PullToRefresh>
+            </div>
         );
     }
 }
