@@ -64,7 +64,6 @@ export default class GroupStore {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
                     this.rootStore.uiStore?.openAlert()
-                    // this.rootStore.uiStore?.openGenericSnackbar("Can't connect to the backend");
                 }
 
 
