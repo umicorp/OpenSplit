@@ -54,7 +54,7 @@ export class UserStore {
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                                       this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
             });
     }
@@ -74,7 +74,7 @@ export class UserStore {
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                                       this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
             });
     }

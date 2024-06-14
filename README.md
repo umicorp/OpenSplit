@@ -5,15 +5,18 @@ This projects goal is:
 * Feature parity with Splitwise, a popular expense tracking app.
 * Deployable with docker for local/self-hosting
 
+## Running Locally
+Checkout `unraid-compose.yaml` as an example of how to run this app in your local environment. 
+Note the backend and frontend must both be reachable on your local LAN. You should be able to browse/curl both endpoints as a test.
 
-Checkout `unraid-compose.yaml` as an example of how to run this app in your local environment.
+
 I find this app works well when you bookmark the app to your mobile phone's homepage. Since this is a progressive web app,
 it acts like a native app rather than a site when bookmarked to your home screen. 
 I've only tested this on IOS. Android testing and feedback welcome!
 
-A word of **caution**, this app is **should not** be exposed to the internet. At least for now.
+A word of **caution**, this app **should not** be exposed to the internet. At least for now.
 
-# Features
+## Features
 
 * Local Users
 * Add expenses to groups
@@ -34,7 +37,7 @@ I plan to migrate it back to another framework for better dependency management 
 
 In the project directory, you can run:
 
-## `npm install`
+### `npm install`
 
 ### `npm start`
 
@@ -45,7 +48,7 @@ You may also see any lint errors in the console.
 
 ### `nodemon`
 
-Runs the Express backend server in development mode. Set ``NODE_ENV=production`` for a production build
+Runs the Express backend server in development mode.
 
 ### `npm test`
 
@@ -73,15 +76,15 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
 
-## Docker image
+## Docker image testing
 
-### Building for release
+### Test Building an image
 
 The CI handles building and pushing the release to GHR. As of now the CI builds for amd64 and arm64 machines.
 
 To build for arm and test the image locally, use the following script:
 ```
-./release.sh                      
+./release.sh
 ```
 
 ### Tagging notes
@@ -94,9 +97,10 @@ Tag that image
 
 ``docker image tag <Latest Image> ghcr.io/umicorp/opensplit:latest``
 
-Push that image, for now just x86
+Push that image, this would push just an arm64 image since the `release.sh` script does not build amd64, CI builds both.
+
 ``docker image push ghcr.io/umicorp/opensplit:latest ``
 
 ### Debugging 
 
-`` docker run -i -t open_split-1 bash``
+`` docker run -i -t opensplit bash``
