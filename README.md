@@ -101,6 +101,10 @@ Push that image, this would push just an arm64 image since the `release.sh` scri
 
 ``docker image push ghcr.io/umicorp/opensplit:latest ``
 
+Running Image
+
+``docker-compose up``
+
 ### Debugging 
 
-`` docker run -i -t opensplit bash``
+`` docker run -i -t opensplit-open_split bash``
