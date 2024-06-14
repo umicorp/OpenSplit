@@ -9,7 +9,6 @@ import {Theme} from "../theme/Theme";
 import dayjs from "dayjs";
 
 import {ExpenseList} from "./ExpenseList";
-import {AlertBar} from "./Alert";
 
 @inject("rootStore")
 @observer
@@ -73,14 +72,10 @@ export class Group extends React.Component<any, any> {
 
 
     render(): ReactNode {
-        const {groupStore, uiStore} = this.props.rootStore;
+        const {groupStore} = this.props.rootStore;
 
         return (
             <Box sx={{height: "100%"}}>
-                {uiStore.isAlert
-                    ? <AlertBar title="Error" message="Backend Not Reachable" severity="error"></AlertBar>
-                    : ""
-                }
                 <Paper elevation={1} sx={{backgroundColor: "#e6e6e6", borderRadius: "1rem", maxHeight: "8rem", minHeight: "8rem"}}>
                     <Typography sx={{fontSize: "2rem", paddingTop: "1.5rem", paddingLeft: "1.5rem"}} color={Theme.palette.primary.main}>
                         {groupStore.currentGroup.name}

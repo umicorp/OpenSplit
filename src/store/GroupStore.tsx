@@ -4,8 +4,6 @@ import {RootStore} from "./RootStore";
 import {persist} from "mobx-persist";
 import {ExpenseType, GroupType, UserGroupType, UserType} from "./Types";
 import dayjs from "dayjs";
-import {promises} from "node:dns";
-import {Alert} from "@mui/material";
 
 
 export default class GroupStore {
@@ -58,12 +56,11 @@ export default class GroupStore {
         axios.get(`${window._env_.BACKEND_ADDRESS}/api/groups`)
             .then(({ data }: { data: UserGroupType[] }) => {
                 this.getGroupsAction(data);
-                this.rootStore.uiStore?.closeAlert();
             })
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openAlert()
+                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
                 }
 
 
@@ -75,11 +72,14 @@ export default class GroupStore {
         axios.post(`${window._env_.BACKEND_ADDRESS}/api/groups`,{"name": name})
             .then(({ data }) => {
                 this.allGroups = data;
-                this.rootStore.uiStore?.openGenericSnackbar("Created");
+                this.rootStore.uiStore?.openGenericSnackbar("Group Created");
 
             })
             .catch(error => {
                 console.error(error);
+                if (error.code === "ERR_NETWORK") {
+                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                }
             });
     }
 
@@ -88,10 +88,13 @@ export default class GroupStore {
         axios.delete(`${window._env_.BACKEND_ADDRESS}/api/groups/${id}`)
             .then(({ data }) => {
                 this.allGroups = data;
-                this.rootStore.uiStore?.openGenericSnackbar("Deleted");
+                this.rootStore.uiStore?.openGenericSnackbar("Group Deleted");
             })
             .catch(error => {
                 console.error(error);
+                if (error.code === "ERR_NETWORK") {
+                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                }
             });
     }
 
@@ -117,6 +120,9 @@ export default class GroupStore {
             })
             .catch(error => {
                 console.error(error);
+                if (error.code === "ERR_NETWORK") {
+                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                }
             });
     }
 
@@ -140,6 +146,9 @@ export default class GroupStore {
             })
             .catch(error => {
                 console.error(error);
+                if (error.code === "ERR_NETWORK") {
+                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                }
             });
     }
 
@@ -172,6 +181,9 @@ export default class GroupStore {
             })
             .catch(error => {
                 console.error(error);
+                if (error.code === "ERR_NETWORK") {
+                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                }
             });
     }
 
@@ -200,7 +212,12 @@ export default class GroupStore {
     public addExpenseAPI = (expense: ExpenseType): void => {
         axios.post(`${window._env_.BACKEND_ADDRESS}/api/expense`, expense)
             .then(() => this.addExpenseAction(expense))
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                console.log(error)
+                if (error.code === "ERR_NETWORK") {
+                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                }
+            });
     }
 
     @action
@@ -214,6 +231,9 @@ export default class GroupStore {
             })
             .catch(error => {
                 console.error(error);
+                if (error.code === "ERR_NETWORK") {
+                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                }
             });
     }
 }

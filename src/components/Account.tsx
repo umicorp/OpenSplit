@@ -5,7 +5,6 @@ import {ReactNode} from "react";
 import {RootStoreProps} from "../store/RootStore";
 import {UserType} from "../store/Types";
 import Box from "@mui/material/Box";
-import {AlertBar} from "./Alert";
 
 @inject("rootStore")
 @observer
@@ -21,13 +20,9 @@ export class Account extends React.Component<any, any> {
     }
 
     render(): ReactNode {
-        const { userStore, uiStore } = this.props.rootStore;
+        const { userStore } = this.props.rootStore;
         return (
             <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", padding:"1rem"}}>
-                {uiStore.isAlert
-                    ? <AlertBar title="Error" message="Backend Not Reachable" severity="error"></AlertBar>
-                    : ""
-                }
                 <FormControl fullWidth >
                     <InputLabel id="user-label">Current User</InputLabel>
                     <Select
