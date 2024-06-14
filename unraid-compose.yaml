@@ -1,12 +1,11 @@
 services:
   opensplit:
     container_name: opensplit
-    image: ghcr.io/umicorp/opensplit:latest
-
+    image: ghcr.io/umicorp/opensplit:latest # supports both arm64 and amd64
     volumes:
-      - /mnt/user/appdata/opensplit:/app/database # host:container Do not change the app path
-    ports:
-      - "4000:3000" # Frontend host:container
-      - "4001:3001" # Backend host:container
+      - /mnt/user/appdata/opensplit:/app/database # host:container. Do not change the container path
+    ports: # Note the Frontend host and Backend host will be the same host. The frontend server and backend server run in the same container.
+      - "4000:3000" # Frontend host port:container port. Do not change the container port
+      - "4001:3001" # Backend host port:container port. Do not change the container port
     environment:
-      - BACKEND_ADDRESS=https://opbackend.lab.umaidabbasi.com:443 # If using a reverse proxy on the frontend, the backend must also be behind the proxy
+      - BACKEND_ADDRESS=https://opbackend.lab.umaidabbasi.com:443 # If using a reverse proxy on the frontend, the backend must also be behind the proxy.

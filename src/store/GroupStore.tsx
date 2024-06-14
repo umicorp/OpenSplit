@@ -60,7 +60,7 @@ export default class GroupStore {
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                    this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
 
 
@@ -78,7 +78,7 @@ export default class GroupStore {
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                                       this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
             });
     }
@@ -93,7 +93,7 @@ export default class GroupStore {
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                                       this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
             });
     }
@@ -121,7 +121,7 @@ export default class GroupStore {
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                                       this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
             });
     }
@@ -147,7 +147,7 @@ export default class GroupStore {
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                                       this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
             });
     }
@@ -182,7 +182,7 @@ export default class GroupStore {
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                    this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
             });
     }
@@ -215,7 +215,7 @@ export default class GroupStore {
             .catch((error) => {
                 console.log(error)
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                                       this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
             });
     }
@@ -232,7 +232,7 @@ export default class GroupStore {
             .catch(error => {
                 console.error(error);
                 if (error.code === "ERR_NETWORK") {
-                    this.rootStore.uiStore?.openGenericSnackbar("Server Unreachable", 5000, "error" );
+                                       this.rootStore.uiStore?.openGenericSnackbar(`Server ${window._env_.BACKEND_ADDRESS} is Unreachable`, 5000, "error" );
                 }
             });
     }
