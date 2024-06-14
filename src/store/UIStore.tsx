@@ -28,6 +28,10 @@ export class UIStore {
 
     @persist
     @observable
+    public isGenericSnackbarSeverity = "success";
+
+    @persist
+    @observable
     public isUserModalOpen = false
 
     @persist
@@ -50,9 +54,6 @@ export class UIStore {
     @observable
     public isConfirmBoxTitle = "";
 
-    @persist
-    @observable
-    public isAlert = false;
 
     @observable
     public confirmAction: () => void = () => {const placeholder = "placeholder"};
@@ -79,10 +80,11 @@ export class UIStore {
         this.isExpenseModalOpen = false;
     }
     @action
-    openGenericSnackbar = (message:string, duration = 2000): void => {
+    openGenericSnackbar = (message:string, duration = 2000, severity="success"): void => {
         this.isGenericSnackbarOpen = true;
         this.isGenericSnackbarMessage = message;
         this.isGenericSnackbarDuration = duration;
+        this.isGenericSnackbarSeverity = severity;
     }
 
     @action
@@ -138,14 +140,5 @@ export class UIStore {
         this.isConfirmBoxOpen = false;
     }
 
-    @action
-    openAlert = (): void => {
-        this.isAlert = true;
-    }
-
-    @action
-    closeAlert = (): void => {
-        this.isAlert = false;
-    }
 
 }
